@@ -1,3 +1,6 @@
 [submodule "serial-token-ring"]
 	path = serial-token-ring
 	url = https://github.com/thetianshuhuang/serial-token-ring
+[submodule "tests/lab-6-erick-and-tianshu"]
+	path = tests/lab-6-erick-and-tianshu
+	url = https://github.com/EE319K-Sp18/lab-6-erick-and-tianshu
