@@ -50,3 +50,18 @@ eagle.epf
 
 # file locks introduced since 7.x
 *.lck
+
+# Keil
+*.htm
+*.map
+*.uvgui*
+*.axf
+*.bak
+*.o
+*.d
+*.uvopt
+*.dep
+*.map
+*.crf
+*.lnp
+!texas.o
