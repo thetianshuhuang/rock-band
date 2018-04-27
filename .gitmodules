@@ -1,0 +1,3 @@
+[submodule "serial-token-ring"]
+	path = serial-token-ring
+	url = https://github.com/thetianshuhuang/serial-token-ring
