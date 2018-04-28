@@ -3,7 +3,7 @@
  *
  * FIFO queues for UART TX and RX
  */
- 
+ /*
 #include "fifo.h"
 
 // ----------fifoInit----------
@@ -53,3 +53,4 @@ uint8_t fifoGet(FIFO_QUEUE *fifo, char *datapt) {
     fifo->size -= 1;
     return(1);
 }
+*/

@@ -3,7 +3,7 @@
  *
  * UART driver for the TM4C
  */
- 
+ /*
 #include "uart.h"
 #include "../tm4c123gh6pm.h"
  
@@ -71,3 +71,4 @@ void UART1_Handler(void) {
     // Acknowledge TX interrupt
     < add this block>
 }
+*/

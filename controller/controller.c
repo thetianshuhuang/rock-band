@@ -5,7 +5,7 @@
  * Analog: PE2
  * Digital: PE1, PD1-D3
  */
- 
+ /*
  #include "controller.h"
 
 
@@ -61,3 +61,4 @@ uint16_t controllerRead(void) {
     output |= < some sort of ADC read, idk how interrupts should be structured yet>
     return(output)
 }
+*/

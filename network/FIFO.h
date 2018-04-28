@@ -3,7 +3,7 @@
  *
  * FIFO queues for UART TX and RX
  */
-
+/*
 #ifndef FIFO_H
 #define FIFO_H
 
@@ -49,3 +49,4 @@ uint8_t fifoPut(FIFO_QUEUE *fifo, char data);
 uint8_t fifoGet(FIFO_QUEUE *fifo, char *datapt);
 
 #endif
+*/
