@@ -7,6 +7,9 @@
  */
 
 #include "controller.h"
+#include "../tm4c123gh6pm.h"
+
+
 #define ADC_SAMPLE_RATE 1000000
 
 // ----------controllerInit----------
@@ -57,7 +60,7 @@ void controllerInit(void) {
     TIMER0_IMR_R = 0x000000001;         // Enable interrupt
     NVIC_PRI4_R = (NVIC_SYS_PRI3_R & 0x00FFFFFF) | 0x40000000;
                                         // Set priority to the same as the main timer
-    NVIC_ENO_R = 1<<19;                 // Enable IRQ 19 in NVIC
+    NVIC_EN0_R = 1<<19;                 // Enable IRQ 19 in NVIC
     TIMER0_CTL_R = 0x00000001;          // Enable timer
 }
 
@@ -77,9 +80,8 @@ void Timer0A_Handler(void) {
     // Set mailbox
     adcMailbox = ADC0_SSFIFO3_R & 0xFFF;
     // Clear sample complete flag
-    ADC_RIS_R = 0x08;    
+    ADC0_ISC_R = 0x08;    
 }
-
 
 
 // ----------controllerRead----------

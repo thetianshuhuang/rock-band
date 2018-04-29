@@ -9,11 +9,8 @@
  
 #ifndef NETWORK_H
 #define NETWORK_H
- 
-#include "../serial-token-ring/C/c_client.h"
-#include "../tm4c123gh6pm.h"
-#include "fifo.h"
-#include "uart.h"
+
+#include <stdint.h>
 
 #define GAME_ID 0x42
 

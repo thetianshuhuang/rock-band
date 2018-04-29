@@ -1,16 +1,25 @@
 /*
- * uart.h
+ * uart.c
  *
  * UART driver for the TM4C
  */
 
 #include "uart.h"
 #include "../tm4c123gh6pm.h"
- 
+#include "c_client.h"
+#include "fifo.h"
+
+#define UART_TXFF   0x0020      // UART TX not full
+#define UART_RXFF   0x0040      // UART RX not full
+#define UART_TXRIS  0x0020      // UART TX interrupt flag
+#define UART_RXRIS  0x0010      // UART RX interrupt flag
+#define UART_TXIC   0x0020      // UART TX interrupt acknowledge
+#define UART_RXIC   0x0010      // UART RX interrupt acknowledge
+#define UART_TXIM   0x0020      // UART TX interrupt enable
+
 // FIFO queues
-FIFO_QUEUE rxFifo;
 FIFO_QUEUE txFifo;
- 
+
  
 // ----------uartInit----------
 // Initialize UART
@@ -21,7 +30,6 @@ FIFO_QUEUE txFifo;
     SYSCTL_RCGCGPIO_R |= 0x0004;    // Port C
     
     // Create fifo queues
-    fifoInit(&rxFifo);
     fifoInit(&txFifo);
      
     // Disable UART during init
@@ -51,28 +59,50 @@ FIFO_QUEUE txFifo;
     GPIO_PORTC_DEN_R |= 0x30;       // Enable digital
     GPIO_PORTC_AMSEL_R &= ~0x30;    // Disable analog
 }
- 
 
-// uartWrite
 
-// uartRead
+// ----------writeToHardware----------
+// Write software TX FIFO to hardware FIFO
+void writeToHardware(void) {
+    char datapt;
+    while(((UART1_FR_R & UART_TXFF) == 0) && (txFifo.size > 0)) {
+        fifoGet(&txFifo, &datapt);
+        UART1_DR_R = datapt;
+    }
+}
+
+
+// ----------uartWrite----------
+// Write a single byte to UART
+// Parameters:
+//      uint8_t data: input byte
+void uartWrite(uint8_t data) {
+    while(txFifo.size >= _FIFO_SIZE){};
+    UART1_IM_R &= ~UART_TXIM;
+    fifoPut(&txFifo, data);
+    UART1_IM_R |= UART_TXIM;
+}
+
 
 // ----------UART1_Handler----------
 // Handler for UART1 interrupt
 void UART1_Handler(void) {
     
-    // Acknowledge RX interrupt
-    UART1_ICR_R = 0x10;
-    while((UART1_FR_R & 0x10) == 0) {
-        // Empty RX hardware fifo
-        fifoPut(&rxFifo, UART1_DR_R);
-    }
-    
     // Acknowledge TX interrupt
-    // < add this block>
-        
-    // Update networking
-    // < add this block>
-    // - call updateClient
-    // - write data to core game
+    if(UART1_RIS_R & UART_TXRIS) {
+        UART1_ICR_R = UART_TXIC;
+        writeToHardware();
+        if(txFifo.size == 0) {
+            UART0_IM_R &= ~UART_TXIM;
+        }
+    }
+
+    // Acknowledge RX interrupt
+    if(UART1_RIS_R & UART_RXRIS) {
+        UART1_ICR_R = UART_RXIC;
+        while((UART1_FR_R & 0x10) == 0) {
+            // Update network with recieved bytes
+            updateNetwork(UART1_DR_R);
+        }
+    }
 }

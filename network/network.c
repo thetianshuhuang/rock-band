@@ -9,6 +9,9 @@
  
 #include "network.h"
 #include "uart.h"
+#include "c_client.h"
+#include "../tm4c123gh6pm.h"
+#include "fifo.h"
 
 
 // ----------getAddress----------
@@ -46,14 +49,14 @@ uint8_t getAddress(void) {
 // Initialize the network
 // Gets the network address from PC6, PC7, PD6, PD7
 void networkInit(void) {
-    // ipConfig(getAddress(), &uartRead, &uartWrite);
+    ipConfig(getAddress(), &uartWrite);
 }
 
 
 // ----------discoverPeers----------
 // Run peer discovery
 void discoverPeers(void) {
-    char message[1];
+    uint8_t message[1];
     message[0] = GAME_ID;
     sendMessage(0x00, message, 1);
 }

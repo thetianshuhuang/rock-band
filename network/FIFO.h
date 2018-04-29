@@ -17,7 +17,7 @@ typedef struct fifo_struct_t {
     char buffer[_FIFO_SIZE];    // Data buffer
     uint8_t putIndex;           // Head index
     uint8_t getIndex;           // Tail index
-    uint8_t size;               // Size
+    uint16_t size;               // Size
 } FIFO_QUEUE;
 
 
