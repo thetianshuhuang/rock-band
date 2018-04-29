@@ -3,7 +3,7 @@
  *
  * UART driver for the TM4C
  */
- 
+
 #include "uart.h"
 #include "../tm4c123gh6pm.h"
  
@@ -37,7 +37,7 @@ FIFO_QUEUE txFifo;
     UART1_CTL_R |= 0x0301;
    
     // Set up interrupts
-    UART1_IM_R |= 0x10; <---------------- add tx interrupt here
+    UART1_IM_R |= 0x10; // <---------------- add tx interrupt here
     // Interrupts at 1/2 full ([5,4,3] = 010)
     UART1_IFLS_R |= 0x10;
     UART1_IFLS_R &= ~0x28;
@@ -69,10 +69,10 @@ void UART1_Handler(void) {
     }
     
     // Acknowledge TX interrupt
-    < add this block>
+    // < add this block>
         
     // Update networking
-    < add this block>
-    - call updateClient
-    - write data to core game
+    // < add this block>
+    // - call updateClient
+    // - write data to core game
 }

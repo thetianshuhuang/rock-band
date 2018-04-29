@@ -4,17 +4,14 @@
  * UART driver for the TM4C
  */
  
- #ifndef UART_H
- #define UART_H
+#ifndef UART_H
+#define UART_H
  
- #include "fifo.h"
+#include "fifo.h"
  
  
 // ----------uartInit----------
 // Initialize UART
- void uartInit(void);
+void uartInit(void);
 
- 
- 
- 
- #endif
+#endif

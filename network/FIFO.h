@@ -10,7 +10,6 @@
 #include <stdint.h>
 
 // Set FIFO size
-#ifndef _FIFO_SIZE
 #define _FIFO_SIZE 256
 
 // FIFO Data

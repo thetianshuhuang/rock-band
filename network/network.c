@@ -19,7 +19,7 @@
 uint8_t getAddress(void) {
 
     // Enable ports C and D
-    SYSCTL_RCGC_GPIO_R |= 0x0C;
+    SYSCTL_RCGCGPIO_R |= 0x0C;
     __asm{NOP};
     __asm{NOP};
 
@@ -46,14 +46,14 @@ uint8_t getAddress(void) {
 // Initialize the network
 // Gets the network address from PC6, PC7, PD6, PD7
 void networkInit(void) {
-    ipConfig(getAddress(), &uartRead, &uartWrite);
+    // ipConfig(getAddress(), &uartRead, &uartWrite);
 }
 
 
 // ----------discoverPeers----------
 // Run peer discovery
 void discoverPeers(void) {
-    uint8_t[1] message = {GAME_ID};
+    char message[1];
+    message[0] = GAME_ID;
     sendMessage(0x00, message, 1);
 }
-

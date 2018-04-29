@@ -3,7 +3,7 @@
  *
  * FIFO queues for UART TX and RX
  */
- 
+
 #include "fifo.h"
 
 // ----------fifoInit----------

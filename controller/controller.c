@@ -5,8 +5,8 @@
  * Analog: PE2
  * Digital: PE1, PD1-D3
  */
- 
- #include "controller.h"
+
+#include "controller.h"
 
 // ----------controllerInit----------
 // Initialize controller
@@ -33,7 +33,7 @@ void controllerInit(void) {
     GPIO_PORTE_AMSEL_R |= 0x04;
     
     // IDK WHAT ANY OF THIS DOES
-    make this part work
+    // make this part work
     ADC0_PC_R = 0x01;               // configure 125kHz ADC conversion speed
     ADC0_SSPRI_R = 0x0123;          // set priorities
     ADC0_ACTSS_R &= ~0x08;        // disable sample sequencer 3

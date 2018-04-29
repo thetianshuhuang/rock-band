@@ -29,6 +29,4 @@ uint8_t peers[16];
 // Run peer discovery
 void discoverPeers(void);
 
-
 #endif
- 
