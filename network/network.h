@@ -12,8 +12,6 @@
 
 #include <stdint.h>
 
-#define GAME_ID 0x42
-
 
 // ----------networkInit----------
 // Initialize the network

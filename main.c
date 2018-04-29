@@ -2,6 +2,7 @@
  *Insert a header here
  *
  */
+#define GAME_ID 0x42
 
 /************************************/
 #define AUDIO_TEST

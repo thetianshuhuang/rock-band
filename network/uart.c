@@ -8,7 +8,10 @@
 #include "../tm4c123gh6pm.h"
 #include "c_client.h"
 #include "fifo.h"
+#include "../game/core.h"
 
+
+// Register Bit Values
 #define UART_TXFF   0x0020      // UART TX not full
 #define UART_RXFF   0x0040      // UART RX not full
 #define UART_TXRIS  0x0020      // UART TX interrupt flag
@@ -16,6 +19,11 @@
 #define UART_TXIC   0x0020      // UART TX interrupt acknowledge
 #define UART_RXIC   0x0010      // UART RX interrupt acknowledge
 #define UART_TXIM   0x0020      // UART TX interrupt enable
+
+// Game ID ifndef for testing
+#ifndef GAME_ID
+#define GAME_ID 0x42
+#endif
 
 // FIFO queues
 FIFO_QUEUE txFifo;
@@ -105,9 +113,9 @@ void UART1_Handler(void) {
         while((UART1_FR_R & 0x10) == 0) {
             // Update network with recieved bytes
             currentBuffer = updateNetwork(UART1_DR_R);
-            if(currentBuffer[0] != 0) {
-                // set some sort of flag
-                // 
+            if((currentBuffer[0] != 0) && (currentBuffer[4] == GAME_ID)) {
+                // Update game
+                updateGame(currentBuffer);
             }
         }
     }
