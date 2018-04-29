@@ -572,6 +572,31 @@
             </File>
           </Files>
         </Group>
+        <Group>
+          <GroupName>Menu</GroupName>
+          <Files>
+            <File>
+              <FileName>menu.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\menu\menu.h</FilePath>
+            </File>
+            <File>
+              <FileName>menu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\menu\menu.c</FilePath>
+            </File>
+            <File>
+              <FileName>menu_defs.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\menu\menu_defs.c</FilePath>
+            </File>
+            <File>
+              <FileName>menu_defs.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\menu\menu_defs.h</FilePath>
+            </File>
+          </Files>
+        </Group>
       </Groups>
     </Target>
   </Targets>
