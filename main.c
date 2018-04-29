@@ -1,9 +1,7 @@
 /*
-Insert a header here
-
-*/
-
-// Serial Token Ring Client
+ *Insert a header here
+ *
+ */
 
 int main() {
     

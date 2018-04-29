@@ -53,9 +53,9 @@ FIFO_QUEUE txFifo;
 }
  
 
-// fifoWrite
+// uartWrite
 
-// fifoRead
+// uartRead
 
 // ----------UART1_Handler----------
 // Handler for UART1 interrupt
@@ -70,4 +70,9 @@ void UART1_Handler(void) {
     
     // Acknowledge TX interrupt
     < add this block>
+        
+    // Update networking
+    < add this block>
+    - call updateClient
+    - write data to core game
 }
