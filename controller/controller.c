@@ -17,8 +17,12 @@
 void controllerInit(void) {
     // Turn on clocks for port A, E
     SYSCTL_RCGCGPIO_R |= 0x11;
-    __asm{NOP};
-    __asm{NOP};
+    __asm{
+			NOP
+			NOP
+			NOP
+			NOP
+		};
     // PE0, PE1, PD1-D3 digital
     GPIO_PORTD_AMSEL_R &= ~0x0E;
     GPIO_PORTD_DIR_R &= ~0x0E;
@@ -41,6 +45,12 @@ void controllerInit(void) {
     
     // Configure ADC0
     SYSCTL_RCGCADC_R |= 0x01;   // Activate ADC0
+		__asm{
+			NOP
+			NOP
+			NOP
+			NOP
+		};
     ADC0_PC_R = 0x00;           // 1M (80 clocks) conversion speed
     ADC0_SSPRI_R = 0x0123;      // set priorities
     ADC0_ACTSS_R &= ~0x08;      // disable sample sequencer 3

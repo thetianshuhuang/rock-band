@@ -22,6 +22,7 @@
 #include "display/ff.h"
 #include "PLL.h"
 #include "display/ST7735.h"
+#include "controller/controller.h"
 
 #ifdef AUDIO_TEST
 #include "audio/dac.h"
@@ -71,6 +72,7 @@ int main() {
 	 NVIC_ST_CURRENT_R=0; // any write to current clears it
 	 NVIC_SYS_PRI3_R=(NVIC_SYS_PRI3_R & 0X00FFFFFF) | 0X20000000; // priority 1
 	 NVIC_ST_CTRL_R = 0X0007; // enable systick with clock and interrups
+	 controllerInit();
    void EnableInterrupts(void);
 	 MountFresult = f_mount(&g_sFatFs, "", 0);
    while(1)
