@@ -51,7 +51,7 @@ void controllerInit(void) {
 			NOP
 			NOP
 		};
-    ADC0_PC_R = 0x00;           // 1M (80 clocks) conversion speed
+    ADC0_PC_R = 0x07;           // 1M (80 clocks) conversion speed
     ADC0_SSPRI_R = 0x0123;      // set priorities
     ADC0_ACTSS_R &= ~0x08;      // disable sample sequencer 3
     ADC0_EMUX_R &= ~0xF000;     // seq3 is set to software trigger
