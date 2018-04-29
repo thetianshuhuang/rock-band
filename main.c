@@ -18,10 +18,10 @@
 #include <stdint.h>
 #include "tm4c123gh6pm.h"
 #include "TExaS.h"
-#include "diskio.h"
-#include "ff.h"
+#include "display/diskio.h"
+#include "display/ff.h"
 #include "PLL.h"
-#include "ST7735.h"
+#include "display/ST7735.h"
 
 const char inFilename[] = "song.txt";   // 8 characters or fewer
 int button_count = 10000;

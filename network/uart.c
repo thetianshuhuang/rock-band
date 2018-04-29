@@ -107,6 +107,7 @@ void UART1_Handler(void) {
             currentBuffer = updateNetwork(UART1_DR_R);
             if(currentBuffer[0] != 0) {
                 // set some sort of flag
+                // 
             }
         }
     }
