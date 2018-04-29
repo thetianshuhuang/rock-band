@@ -20,13 +20,13 @@
 #define UART_RXIC   0x0010      // UART RX interrupt acknowledge
 #define UART_TXIM   0x0020      // UART TX interrupt enable
 
+// FIFO queues
+FIFO_QUEUE txFifo;
+
 // Game ID ifndef for testing
 #ifndef GAME_ID
 #define GAME_ID 0x42
 #endif
-
-// FIFO queues
-FIFO_QUEUE txFifo;
 
  
 // ----------uartInit----------

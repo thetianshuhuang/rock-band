@@ -78,7 +78,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include "ST7735.h"
-#include "../inc/tm4c123gh6pm.h"
+#include "../tm4c123gh6pm.h"
 
 #define SDC_CS_PB0 1
 #define SDC_CS_PD7 0

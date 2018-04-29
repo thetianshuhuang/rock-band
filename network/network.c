@@ -13,6 +13,10 @@
 #include "../tm4c123gh6pm.h"
 #include "fifo.h"
 
+// Game ID ifndef for testing
+#ifndef GAME_ID
+#define GAME_ID 0x42
+#endif
 
 // ----------getAddress----------
 // Initialize the network

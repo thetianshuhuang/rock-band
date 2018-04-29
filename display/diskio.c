@@ -14,7 +14,7 @@
 // Feb 22, 2016
 // added PB0 as a choice for SDC CS
 #include <stdint.h>
-#include "../inc/tm4c123gh6pm.h"
+#include "../tm4c123gh6pm.h"
 #include "integer.h"
 #include "diskio.h"
 #define SDC_CS_PB0 0
