@@ -433,21 +433,6 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>Serial Token Ring</GroupName>
-          <Files>
-            <File>
-              <FileName>c_client.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\serial-token-ring\C\c_client.c</FilePath>
-            </File>
-            <File>
-              <FileName>c_client.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\serial-token-ring\C\c_client.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
           <GroupName>Network</GroupName>
           <Files>
             <File>
@@ -480,6 +465,16 @@
               <FileType>5</FileType>
               <FilePath>.\network\uart.h</FilePath>
             </File>
+            <File>
+              <FileName>c_client.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\network\c_client.c</FilePath>
+            </File>
+            <File>
+              <FileName>c_client.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\network\c_client.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -509,6 +504,71 @@
               <FileName>controller.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\controller\controller.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Game</GroupName>
+          <Files>
+            <File>
+              <FileName>core.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\game\core.h</FilePath>
+            </File>
+            <File>
+              <FileName>core.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\game\core.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Display</GroupName>
+          <Files>
+            <File>
+              <FileName>diskio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\display\diskio.c</FilePath>
+            </File>
+            <File>
+              <FileName>diskio.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\display\diskio.h</FilePath>
+            </File>
+            <File>
+              <FileName>ff.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\display\ff.c</FilePath>
+            </File>
+            <File>
+              <FileName>ff.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\display\ff.h</FilePath>
+            </File>
+            <File>
+              <FileName>ffconf.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\display\ffconf.h</FilePath>
+            </File>
+            <File>
+              <FileName>integer.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\display\integer.h</FilePath>
+            </File>
+            <File>
+              <FileName>SDCFile.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\display\SDCFile.c</FilePath>
+            </File>
+            <File>
+              <FileName>ST7735.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\display\ST7735.c</FilePath>
+            </File>
+            <File>
+              <FileName>ST7735.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\display\ST7735.h</FilePath>
             </File>
           </Files>
         </Group>
