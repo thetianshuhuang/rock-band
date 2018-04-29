@@ -57,7 +57,8 @@ int main() {
 
 #ifdef AUDIO_TEST
 int main() {
-	 TExaS_Init();    // bus clock at 80 MHz
+	 //TExaS_Init();    // bus clock at 80 MHz
+	 PLL_Init(Bus80MHz);
    DACInit();
 	 NVIC_ST_CTRL_R=0; // during the setup disable SysTick
 	 #ifdef FOURTY
@@ -76,7 +77,7 @@ int main() {
    void EnableInterrupts(void);
 	 MountFresult = f_mount(&g_sFatFs, "", 0);
    while(1)
-		 ;
+		;
 }
 #endif
 

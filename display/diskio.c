@@ -57,6 +57,7 @@
 
 // PE0 output used for SDC CS
 #define SDC_CS           (*((volatile uint32_t *)0x40024004))
+//#define SDC_CS           (*((volatile uint32_t *)0x4005C00))
 #define SDC_CS_LOW       0           // CS controlled by software
 #define SDC_CS_HIGH      0x01
 void CS_Init(void){
@@ -179,8 +180,10 @@ static BYTE CardType;      /* Card type flags */
 static void init_spi(void){
   SPIxENABLE();    /* Enable SPI function */
   CS_HIGH();       /* Set CS# high */
-
+  //DisableInterrupts();
+	//Timer1 = 10;
   for (Timer1 = 10; Timer1; ) ;  /* 10ms */
+	//EnableInterrupts();
 }
 
 
@@ -652,10 +655,10 @@ void Timer6_Init(void){
   NVIC_EN2_R = 0x10000000;         // 9) enable interrupt 92 in NVIC
   TIMER5_CTL_R = 0x00000001;       // 10) enable timer5A
 }
-/*
+
 // Executed every 1 ms
 void Timer5A_Handler(void){
   TIMER5_ICR_R = 0x00000001;       // acknowledge timer5A timeout
   disk_timerproc();
 }
-*/
+
