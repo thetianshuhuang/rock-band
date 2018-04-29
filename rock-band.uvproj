@@ -427,6 +427,56 @@
             </File>
           </Files>
         </Group>
+        <Group>
+          <GroupName>Serial Token Ring</GroupName>
+          <Files>
+            <File>
+              <FileName>c_client.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\serial-token-ring\C\c_client.c</FilePath>
+            </File>
+            <File>
+              <FileName>c_client.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\serial-token-ring\C\c_client.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Network</GroupName>
+          <Files>
+            <File>
+              <FileName>network.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\network\network.h</FilePath>
+            </File>
+            <File>
+              <FileName>fifo.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\network\fifo.c</FilePath>
+            </File>
+            <File>
+              <FileName>fifo.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\network\fifo.h</FilePath>
+            </File>
+            <File>
+              <FileName>network.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\network\network.c</FilePath>
+            </File>
+            <File>
+              <FileName>uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\network\uart.c</FilePath>
+            </File>
+            <File>
+              <FileName>uart.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\network\uart.h</FilePath>
+            </File>
+          </Files>
+        </Group>
       </Groups>
     </Target>
   </Targets>
