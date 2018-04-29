@@ -87,6 +87,9 @@ void uartWrite(uint8_t data) {
 // Handler for UART1 interrupt
 void UART1_Handler(void) {
     
+    // Output of updateNetwork
+    uint8_t* currentBuffer;
+
     // Acknowledge TX interrupt
     if(UART1_RIS_R & UART_TXRIS) {
         UART1_ICR_R = UART_TXIC;
@@ -101,7 +104,10 @@ void UART1_Handler(void) {
         UART1_ICR_R = UART_RXIC;
         while((UART1_FR_R & 0x10) == 0) {
             // Update network with recieved bytes
-            updateNetwork(UART1_DR_R);
+            currentBuffer = updateNetwork(UART1_DR_R);
+            if(currentBuffer[0] != 0) {
+                // set some sort of flag
+            }
         }
     }
 }

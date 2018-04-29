@@ -17,6 +17,8 @@
 struct ipInfo {
 	uint8_t deviceAddress;
 	void(*sendFunction)(uint8_t);
+    uint8_t* packetBuffer;
+    uint8_t bufferSize;
 };
 
 
@@ -24,9 +26,12 @@ struct ipInfo {
 // Configure the token ring network
 // Parameters:
 // 		(uint8_t) device address (7-bit only)
-//		void(*sendFunction)(char*)	send function; user defined
+//		void(*sendFunction)(char*):	send function; user defined
 // Returns: none
-void ipConfig(uint8_t deviceAddress, void(*sendFunction)(uint8_t));
+void ipConfig(
+    uint8_t deviceAddress,
+    void(*sendFunction)(uint8_t)
+);
 
 
 // ----------sendMessage------------
