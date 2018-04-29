@@ -102,9 +102,9 @@ void CS_Init(void){
 // SSIClk = PIOSC / (CPSDVSR * (1 + SCR)) = 16 MHz/CPSDVSR
 // 40 for   400,000 bps slow mode, used during initialization
 // 2  for 8,000,000 bps fast mode, used during disk I/O
-void Timer5_Init(void);
+void Timer6_Init(void);
 void SSI0_Init(uint32_t CPSDVSR){
-  Timer5_Init();                        // initialize Timer5 for 1 ms interrupts
+  Timer6_Init();                        // initialize Timer5 for 1 ms interrupts
   CS_Init();                            // initialize whichever GPIO pin is CS for the SD card
   // initialize Port A
   SYSCTL_RCGCGPIO_R |= 0x01;            // activate clock for Port A
@@ -668,7 +668,7 @@ void disk_timerproc (void)
 }
 
 
-void Timer5_Init(void){
+void Timer6_Init(void){
   SYSCTL_RCGCTIMER_R |= 0x20;
   while((SYSCTL_PRTIMER_R&0x20) == 0){};
   TIMER5_CTL_R = 0x00000000;       // 1) disable timer5 during setup
@@ -684,8 +684,10 @@ void Timer5_Init(void){
   NVIC_EN2_R = 0x10000000;         // 9) enable interrupt 92 in NVIC
   TIMER5_CTL_R = 0x00000001;       // 10) enable timer5A
 }
+/*
 // Executed every 1 ms
 void Timer5A_Handler(void){
   TIMER5_ICR_R = 0x00000001;       // acknowledge timer5A timeout
   disk_timerproc();
 }
+*/
