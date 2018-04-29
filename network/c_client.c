@@ -59,6 +59,8 @@ uint8_t sendByte(uint8_t input) {
 }
 
 
+// Flag to make sure sendMessage can't be interrupted
+uint8_t sending;
 // ----------ipConfig----------
 // Configure the token ring network
 // Parameters:
@@ -69,6 +71,7 @@ uint8_t sendByte(uint8_t input) {
 void ipConfig(uint8_t deviceAddress, void(*sendFunction)(uint8_t)) {
 	configuration.deviceAddress = deviceAddress;
 	configuration.sendFunction = sendFunction;
+    sending = 0;
 }
 
 
@@ -80,29 +83,28 @@ void ipConfig(uint8_t deviceAddress, void(*sendFunction)(uint8_t)) {
 //		(uint8_t) length of message
 // Returns: none
 void sendMessage(uint8_t destination, uint8_t* message, uint8_t length) {
-
+    
+    // Set flag
+    sending = 1;
 	// Clear checksum
 	clearChecksum();
 
 	// Start message (don't update checksum)
 	configuration.sendFunction(0xAA);
-
 	// Send address
 	sendByte(configuration.deviceAddress);
 	sendByte(destination);
-
 	// Send size
 	sendByte(length);
-
 	// Send main message
 	for(uint8_t i = 0; i < length; i++) {
 		sendByte(message[i]);
 	}
-
 	// Send checksum (don't update checksum obviously)
 	configuration.sendFunction(currentCheckSum);
-
-	return;
+    
+    // Clear flag
+    sending = 0;
 }
 
 
@@ -156,6 +158,8 @@ uint8_t* updateNetwork(uint8_t rx) {
             if(recieveBuffer[1] != configuration.deviceAddress && recieveBuffer[2] !=
                configuration.deviceAddress)
             {
+                // Spin until flag no longer set
+                while(sending == 1){}
                 configuration.sendFunction(0xAA);
                 for(uint8_t i = 1; i<=length; i++) {
                     configuration.sendFunction(recieveBuffer[i]);

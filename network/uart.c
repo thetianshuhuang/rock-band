@@ -44,11 +44,10 @@ FIFO_QUEUE txFifo;
     // Enable UART1 (RXE[9], TXE[8], UARTEN[0])
     UART1_CTL_R |= 0x0301;
    
-    // Set up interrupts
-    UART1_IM_R |= 0x10; // <---------------- add tx interrupt here
-    // Interrupts at 1/2 full ([5,4,3] = 010)
-    UART1_IFLS_R |= 0x10;
-    UART1_IFLS_R &= ~0x28;
+    // Set up interrupts (TXIM[5] and RXIM[4])
+    UART1_IM_R |= 0x30;
+    // Interrupts at 1/8 full for RX, 1/2 full for TX
+    UART1_IFLS_R = (UART1_IFLS_R & ~0x3F) | 0x02;
     // Priority
     NVIC_PRI1_R = (NVIC_PRI1_R & 0xFFFF00FF) | 0x00004000;
     NVIC_EN0_R = NVIC_EN0_INT6;

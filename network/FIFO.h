@@ -10,13 +10,13 @@
 #include <stdint.h>
 
 // Set FIFO size
-#define _FIFO_SIZE 256
+#define _FIFO_SIZE 512
 
 // FIFO Data
 typedef struct fifo_struct_t {
     char buffer[_FIFO_SIZE];    // Data buffer
-    uint8_t putIndex;           // Head index
-    uint8_t getIndex;           // Tail index
+    uint16_t putIndex;           // Head index
+    uint16_t getIndex;           // Tail index
     uint16_t size;               // Size
 } FIFO_QUEUE;
 
