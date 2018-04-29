@@ -50,6 +50,10 @@ int main() {
 }
 #endif
 
+/************************************/
+//MAKE SURE TO INIT CONTROLLER BEFORE SD!!!!!
+/************************************/
+
 #ifdef AUDIO_TEST
 int main() {
 	 TExaS_Init();    // bus clock at 80 MHz

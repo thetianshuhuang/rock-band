@@ -19,16 +19,19 @@ void controllerInit(void) {
     SYSCTL_RCGCGPIO_R |= 0x11;
     __asm{NOP};
     __asm{NOP};
-    // PE1, PD1-D3 digital
+    // PE0, PE1, PD1-D3 digital
     GPIO_PORTD_AMSEL_R &= ~0x0E;
     GPIO_PORTD_DIR_R &= ~0x0E;
     GPIO_PORTD_AFSEL_R &= ~0x0E;
     GPIO_PORTD_DEN_R |= 0x0E;
     
-    GPIO_PORTE_AMSEL_R &= ~0x02;
-    GPIO_PORTE_DIR_R &= ~0x02;
-    GPIO_PORTE_AFSEL_R &= ~0x02;
-    GPIO_PORTE_DEN_R |= 0x02;
+    GPIO_PORTE_AMSEL_R &= ~0x03;
+    GPIO_PORTE_DIR_R &= ~0x03;
+    GPIO_PORTE_AFSEL_R &= ~0x03;
+		GPIO_PORTE_AFSEL_R &= ~0x01;          // disable alt funct on PE0
+    GPIO_PORTE_DR4R_R |= 0x01;            // 4mA drive on PE0
+    GPIO_PORTE_PUR_R |= 0x01;             // enable weak pullup on PE0
+    GPIO_PORTE_DEN_R |= 0x03;
     
     // PE2 analog
     GPIO_PORTE_DIR_R |= 0x04;

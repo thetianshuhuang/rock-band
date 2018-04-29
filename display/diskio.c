@@ -17,10 +17,10 @@
 #include "../tm4c123gh6pm.h"
 #include "integer.h"
 #include "diskio.h"
-#define SDC_CS_PB0 0
-#define SDC_CS_PD7 1
+#define SDC_CS_PE0 1
+#define SDC_CS_PD7 0
 
-// SDC CS is PD7 or PB0 , TFT CS is PA3
+// SDC CS is PD7 or PE0 , TFT CS is PA3
 // to change CS to another GPIO, change SDC_CS and CS_Init
 // **********ST7735 TFT and SDC*******************
 // ST7735
@@ -54,47 +54,15 @@
 #define TFT_CS           (*((volatile uint32_t *)0x40004020))
 #define TFT_CS_LOW       0 // CS controlled by software PA3
 #define TFT_CS_HIGH      0x08
-#if SDC_CS_PD7
-// PD7 output used for SDC CS
-#define SDC_CS           (*((volatile uint32_t *)0x40007200))
-#define SDC_CS_LOW       0           // CS controlled by software
-#define SDC_CS_HIGH      0x80
-void CS_Init(void){
-  SYSCTL_RCGCGPIO_R |= 0x08;            // activate clock for Port D
-  while((SYSCTL_PRGPIO_R&0x08) == 0){}; // allow time for clock to stabilize
-  GPIO_PORTD_LOCK_R = 0x4C4F434B;       // unlock GPIO Port D
-  GPIO_PORTD_CR_R = 0xFF;               // allow changes to PD7-0
-  // only PD7 needs to be unlocked, other bits can't be locked
-  GPIO_PORTD_DIR_R |= 0x80;             // make PD7 out
-  GPIO_PORTD_AFSEL_R &= ~0x80;          // disable alt funct on PD7
-  GPIO_PORTD_DR4R_R |= 0x80;            // 4mA drive on outputs
-  GPIO_PORTD_PUR_R |= 0x80;             // enable weak pullup on PD7
-  GPIO_PORTD_DEN_R |= 0x80;             // enable digital I/O on PD7
-                                        // configure PD7 as GPIO
-  GPIO_PORTD_PCTL_R = (GPIO_PORTD_PCTL_R&0x0FFFFFFF)+0x00000000;
-  GPIO_PORTD_AMSEL_R &= ~0x80;          // disable analog functionality on PD7
-  SDC_CS = SDC_CS_HIGH;
-}
-#endif
-// PB0 output used for SDC CS
-#if SDC_CS_PB0
-#define SDC_CS           (*((volatile uint32_t *)0x40005004))
+
+// PE0 output used for SDC CS
+#define SDC_CS           (*((volatile uint32_t *)0x40024004))
 #define SDC_CS_LOW       0           // CS controlled by software
 #define SDC_CS_HIGH      0x01
 void CS_Init(void){
-  SYSCTL_RCGCGPIO_R |= 0x02;            // activate clock for Port B
-  while((SYSCTL_PRGPIO_R&0x02) == 0){}; // allow time for clock to stabilize
-  GPIO_PORTB_DIR_R |= 0x01;             // make PB0 out
-  GPIO_PORTB_AFSEL_R &= ~0x01;          // disable alt funct on PB0
-  GPIO_PORTB_DR4R_R |= 0x01;            // 4mA drive on outputs
-  GPIO_PORTB_PUR_R |= 0x01;             // enable weak pullup on PB0
-  GPIO_PORTB_DEN_R |= 0x01;             // enable digital I/O on PB0
-                                        // configure PB0 as GPIO
-  GPIO_PORTB_PCTL_R = (GPIO_PORTB_PCTL_R&0xFFFFFFF0)+0x00000000;
-  GPIO_PORTB_AMSEL_R &= ~0x01;          // disable analog functionality on PB0
   SDC_CS = SDC_CS_HIGH;
 }
-#endif
+
 //********SSI0_Init*****************
 // Initialize SSI0 interface to SDC
 // inputs:  clock divider to set clock frequency
