@@ -82,7 +82,6 @@ void SysTick_Handler(void){
 		if(i < 5654016){
 			Fresult = f_open(&Handle, inFilename, FA_READ);
 			Fresult = f_read(&Handle, &c, 2, &successfulreads);
-      Fresult = f_close(&Handle);
 			DACOut(c);
 			#ifdef FOURTY
 			i++;
@@ -96,4 +95,5 @@ void SysTick_Handler(void){
 	  }
 		else
 			i=0;
+			Fresult = f_close(&Handle);
 	}
