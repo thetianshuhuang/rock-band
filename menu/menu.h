@@ -9,7 +9,7 @@
 #include <stdint.h>
 
 
-#define CHAR_WIDTH 30
+#define CHAR_WIDTH 18
 #define CHAR_HEIGHT 4
 
 // Menu item

@@ -25,7 +25,7 @@ void song1(void) {
 MENU_SCREEN songSelect = {
     "Song Select", 3,
     {
-        {"Rock You Like a Hurricane", &song1},
+        {"Rock You Like[...]", &song1},
         {"Placeholder 2", 0},
         {"Placeholder 3", 0}
     }

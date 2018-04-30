@@ -9,9 +9,9 @@
 
 #define TEXT_WHITE  0xFFFF
 #define TEXT_GREEN  0x07E0
-#define TEXT_BLUE   0x001F
-#define TEXT_YELLOW 0xFFE0
-#define TEXT_RED    0xF800
+#define TEXT_BLUE   0xF800
+#define TEXT_YELLOW 0x07FF
+#define TEXT_RED    0x001F
 
 const uint16_t menuColors[4] = {TEXT_GREEN, TEXT_BLUE, TEXT_YELLOW, TEXT_RED};
 
