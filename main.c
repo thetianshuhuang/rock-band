@@ -35,7 +35,7 @@ int main() {
     controllerInit();
     // displayMenu(&songSelect);
     while(1){
-        initGame("song.bw");
+        initGame("song3.bw");
     };
 }
 

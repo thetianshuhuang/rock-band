@@ -1,8 +1,8 @@
 from scipy.io import wavfile
 import struct
 
-song = wavfile.read("Scorpions - Rock You Like A Hurricane (44.1kHz).wav")
-target = open("song-441khz.ebw", "wb")
+song = wavfile.read("The Police - Message in a Bottle (44.1kHz).wav")
+target = open("song_out.bw", "wb")
 
 for i in song[1]:
     val = int((int(i[0]) + int(i[1])) / 512 + 128)

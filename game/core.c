@@ -24,10 +24,11 @@ void initGame(const char* songName) {
         playerStates[i].currentOffset = 0;
     }
     
-    // Start song
-    startSong(songName, &(playerStates[0].tick));
     // Start timer0 (ADC and SD)
     TIMER0_CTL_R = 0x00000001;
+
+    // Start song
+    startSong(songName, &(playerStates[0].tick));
 }
 
 

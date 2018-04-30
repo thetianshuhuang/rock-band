@@ -47,7 +47,9 @@ void audioInit(void) {
     // Initialize DAC
     DACInit();
     // Initialize SD card filesystem
-    mountStatus = f_mount(&sdFileSystem, "", 0);
+    do {
+        mountStatus = f_mount(&sdFileSystem, "", 0);
+    } while(mountStatus != 0);
 }
 
 
@@ -67,7 +69,9 @@ void startSong(const char* songName, uint32_t* songCounter) {
     GPIO_PORTF_AMSEL_R &= ~0x0C;
     
     // Open song and load the first sector
-    openStatus = f_open(&handle, songName, FA_READ);
+    do {
+        openStatus = f_open(&handle, songName, FA_READ);
+    } while(openStatus != 0);
     fifoInit(&audioQueue);
     readSector();
     // Link current index
@@ -111,7 +115,9 @@ void readSector(void) {
     uint8_t readByte;
     for(uint16_t i = 0; (i < 512) && (audioQueue.size < 2048); i++) {
         readStatus = f_read(&handle, &readByte, 1, &successfulreads);
-        fifoPut(&audioQueue, readByte);
+        if(readStatus == 0) {
+            fifoPut(&audioQueue, readByte);
+        }
     }
 }
 
@@ -120,8 +126,12 @@ void readSector(void) {
 // Execute a song update
 void updateSong() {
     char data;
-    fifoGet(&audioQueue, &data);
-    DACOut(data);
+    if(fifoGet(&audioQueue, &data)) {
+        DACOut(data);
+    }
+    else {
+        GPIO_PORTF_DATA_R ^= 0x04;
+    }
     // Increment counter
     *currentIndex += DIVIDER;
 }
