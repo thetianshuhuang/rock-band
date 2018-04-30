@@ -24,7 +24,7 @@
 #endif
 
 const char* testSongName = "song.txt";
-uint32_t songIndex;
+uint32_t songIndex = 0;
 
 
 int main() {

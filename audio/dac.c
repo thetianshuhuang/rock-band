@@ -9,7 +9,7 @@
 // ----------dacInit----------
 // Initialize 8-bit DAC ports
 void DACInit(void) {
-    // Turn on port A
+    // Turn on port B
     SYSCTL_RCGCGPIO_R |= 0x02;
     __asm{NOP};
     __asm{NOP};
