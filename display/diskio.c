@@ -181,7 +181,7 @@ static void init_spi(void){
   SPIxENABLE();    /* Enable SPI function */
   CS_HIGH();       /* Set CS# high */
   //DisableInterrupts();
-	//Timer1 = 10;
+  //Timer1 = 10;
   for (Timer1 = 10; Timer1; ) ;  /* 10ms */
 	//EnableInterrupts();
 }

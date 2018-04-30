@@ -26,9 +26,10 @@ void controllerInit(void) {
     GPIO_PORTD_DEN_R |= 0x0E;
     
     GPIO_PORTE_AMSEL_R &= ~0x03;
-    GPIO_PORTE_DIR_R |= 0x03;
+    GPIO_PORTE_DIR_R |= 0x02;
+    GPIO_PORTE_DIR_R &= ~0x01;
     GPIO_PORTE_AFSEL_R &= ~0x03;
-		GPIO_PORTE_AFSEL_R &= ~0x01;          // disable alt funct on PE0
+    GPIO_PORTE_AFSEL_R &= ~0x01;          // disable alt funct on PE0
     GPIO_PORTE_DR4R_R |= 0x01;            // 4mA drive on PE0
     GPIO_PORTE_PUR_R |= 0x01;             // enable weak pullup on PE0
     GPIO_PORTE_DEN_R |= 0x03;
@@ -50,11 +51,11 @@ void controllerInit(void) {
 			NOP
 		};
     ADC0_PC_R = 0x07;           // 1M (80 clocks) conversion speed
-    //ADC0_SSPRI_R = 0x0123;      // set priorities
+    ADC0_SSPRI_R = 0x0123;      // set priorities
     ADC0_ACTSS_R &= ~0x08;      // disable sample sequencer 3
     ADC0_EMUX_R &= ~0xF000;     // seq3 is set to software trigger
     ADC0_SSMUX3_R &= ~0x0F;     // Clear SS3 field
-    ADC0_SSMUX3_R = 0x05;       // set channel to Ain5 (PE2)
+    ADC0_SSMUX3_R = 0x01;       // set channel to Ain1 (PE2)
     ADC0_SSCTL3_R = 0x06;
     ADC0_SAC_R = 0x03;
     ADC0_IM_R &= ~0x08;         // disable ss3 interrupts

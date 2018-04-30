@@ -420,17 +420,20 @@
               <FileType>5</FileType>
               <FilePath>.\tm4c123gh6pm.h</FilePath>
             </File>
+            <File>
+              <FileName>PLL.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\PLL.c</FilePath>
+            </File>
+            <File>
+              <FileName>PLL.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\PLL.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
           <GroupName>Object code</GroupName>
-          <Files>
-            <File>
-              <FileName>texas.o</FileName>
-              <FileType>3</FileType>
-              <FilePath>.\texas.o</FilePath>
-            </File>
-          </Files>
         </Group>
         <Group>
           <GroupName>Network</GroupName>
@@ -554,11 +557,6 @@
               <FileName>integer.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\display\integer.h</FilePath>
-            </File>
-            <File>
-              <FileName>SDCFile.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\display\SDCFile.c</FilePath>
             </File>
             <File>
               <FileName>ST7735.c</FileName>

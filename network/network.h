@@ -19,7 +19,6 @@
 void networkInit(void);
 
 
-uint8_t peers[16];
 // ----------discoverPeers----------
 // Run peer discovery
 void discoverPeers(void);

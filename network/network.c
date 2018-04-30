@@ -12,11 +12,18 @@
 #include "c_client.h"
 #include "../tm4c123gh6pm.h"
 #include "fifo.h"
+#include "../display/ST7735.h"
 
 // Game ID ifndef for testing
 #ifndef GAME_ID
 #define GAME_ID 0x42
 #endif
+
+
+// Peer tracking
+uint8_t peers[16];
+uint8_t numPeers;
+
 
 // ----------getAddress----------
 // Initialize the network
@@ -54,13 +61,58 @@ uint8_t getAddress(void) {
 // Gets the network address from PC6, PC7, PD6, PD7
 void networkInit(void) {
     ipConfig(getAddress(), &uartWrite);
+    numPeers = 0;
+}
+
+
+// ----------outHex----------
+// Helper function to print out a one byte hex value
+// Parameters:
+//      uint8_t data: hex value
+const char hexString[16] = "0123456789ABCEDF";
+void outHex(uint8_t data) {
+    ST7735_OutChar(hexString[(data & 0xF0) >> 4]);
+    ST7735_OutChar(hexString[data & 0x0F]);
 }
 
 
 // ----------discoverPeers----------
 // Run peer discovery
 void discoverPeers(void) {
-    uint8_t message[1];
-    message[0] = GAME_ID;
-    sendMessage(0x00, message, 1);
+    
+    // Clear screen
+    ST7735_FillScreen(0);
+    ST7735_SetTextColor(0x0000);
+    ST7735_SetCursor(0,0);
+    
+    // Show IP address
+    ST7735_OutString("Your IP:");
+    ST7735_SetCursor(1,8);
+    outHex(getAddress());
+    
+    // Show start message
+    ST7735_SetCursor(0,0);
+    ST7735_OutString("Press red to start");
+    
+    // Show lobby
+    ST7735_SetCursor(2,0);
+    ST7735_OutString("Current Lobby");
+    for(int i = 0; controllerRead() & 0x1000; i++) {
+        // Clear previous members
+        for(uint8_t i = 0; i < 16; i++) {
+            ST7735_SetCursor(i + 4, 0);
+            ST7735_OutString("  ");
+        }
+        // Draw members
+        for(uint8_t i = 0; i < numPeers; i++) {
+            ST7735_SetCursor(i+2, 0);
+            outHex(peers[i]);
+        }
+        // Send broadcast once every 255 loops
+        if(i == 0) {
+            uint8_t message[1];
+            message[0] = GAME_ID;
+            sendMessage(0x00, message, 1);
+        }
+    }
 }
