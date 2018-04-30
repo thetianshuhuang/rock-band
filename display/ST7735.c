@@ -80,8 +80,8 @@
 #include "ST7735.h"
 #include "../tm4c123gh6pm.h"
 
-#define SDC_CS_PB0 0
-#define SDC_CS_PD7 1
+#define SDC_CS_PB0 1
+#define SDC_CS_PD7 0
 
 // SDC CS is PD7 or PB0 , TFT CS is PA3
 // to change CS to another GPIO, change SDC_CS and CS_Init
@@ -139,7 +139,6 @@ void SDC_CS_Init(void){
   SDC_CS = SDC_CS_HIGH;
 }
 #endif
-/*
 // PB0 output used for SDC CS
 #if SDC_CS_PB0
 #define SDC_CS           (*((volatile uint32_t *)0x40005004))
@@ -159,7 +158,6 @@ void SDC_CS_Init(void){
   SDC_CS = SDC_CS_HIGH;
 }
 #endif
-*/
 // 16 rows (0 to 15) and 21 characters (0 to 20)
 // Requires (11 + size*size*6*8) bytes of transmission for each character
 uint32_t StX=0; // position along the horizonal axis 0 to 20

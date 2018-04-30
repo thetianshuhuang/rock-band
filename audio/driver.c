@@ -5,7 +5,6 @@
  * Plays raw hex-string audio files from an SD card
  */
 
-
 #include "dac.h"
 #include "../display/ff.h"
 #include "../display/diskio.h"
@@ -48,9 +47,7 @@ void audioInit(void) {
     // Initialize DAC
     DACInit();
     // Initialize SD card filesystem
-    do {
-        mountStatus = f_mount(&sdFileSystem, "", 0);
-    } while(mountStatus != 0);
+    mountStatus = f_mount(&sdFileSystem, "", 0);
 }
 
 
@@ -77,9 +74,7 @@ void startSong(const char* songName, uint32_t* songCounter) {
     NVIC_ST_CTRL_R = 0x0007;
     
     // Open song
-    do {
-        openStatus = f_open(&handle, songName, FA_READ);
-    } while(openStatus != 0);
+    openStatus = f_open(&handle, songName, FA_READ);
     // Link current index
     currentIndex = songCounter;
     
