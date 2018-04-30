@@ -22,7 +22,7 @@
 #define AUDIO_PERIOD 0x716;
 #else
 #define DIVIDER 1
-#define AUDIO_PERIOD 0xE2C;
+#define AUDIO_PERIOD 0x716;
 #endif
 
 
@@ -35,7 +35,7 @@ FIL handle;
 // not sure what this does either
 UINT successfulreads;
 // Data to be read from the SD card
-uint8_t readBytes[2];
+uint8_t readByte[1];
 // Current index
 uint32_t *currentIndex;
 
@@ -108,9 +108,9 @@ uint8_t charToHex(uint8_t input) {
 void sdRead(void) {
     if((readStatus == 0) && (audioQueue.size < 2048)) {
         GPIO_PORTF_DATA_R ^= 0x08;
-        readStatus = f_read(&handle, &readBytes, 2, &successfulreads);
+        readStatus = f_read(&handle, &readByte, 1, &successfulreads);
 
-        fifoPut(&audioQueue, charToHex(readBytes[0]) << 4 | charToHex(readBytes[1]));
+        fifoPut(&audioQueue, readByte[0]);
         GPIO_PORTF_DATA_R ^= 0x08;
 
     }

@@ -19,7 +19,7 @@
 #define GAME_ID 0x42
 #endif
 
-const char* testSongName = "song.txt";
+const char* testSongName = "song.bw";
 uint32_t songIndex = 0;
 
 

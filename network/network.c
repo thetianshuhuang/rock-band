@@ -13,6 +13,7 @@
 #include "../tm4c123gh6pm.h"
 #include "fifo.h"
 #include "../display/ST7735.h"
+#include "../controller/controller.h"
 
 // Game ID ifndef for testing
 #ifndef GAME_ID
