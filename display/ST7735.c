@@ -80,8 +80,8 @@
 #include "ST7735.h"
 #include "../tm4c123gh6pm.h"
 
-#define SDC_CS_PB0 1
-#define SDC_CS_PD7 0
+#define SDC_CS_PB0 0
+#define SDC_CS_PD7 1
 
 // SDC CS is PD7 or PB0 , TFT CS is PA3
 // to change CS to another GPIO, change SDC_CS and CS_Init
