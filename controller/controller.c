@@ -12,27 +12,32 @@
 
 #define ADC_SAMPLE_RATE 1000000
 
+
+// ----------waitFourNops----------
+// Helper function that just NOPs four times
+void waitFourNops() {
+    __asm{NOP};
+    __asm{NOP};
+    __asm{NOP};
+    __asm{NOP};
+}
+
 // ----------controllerInit----------
 // Initialize controller
 void controllerInit(void) {
-    // Turn on clocks for port A, D, E
+    // Turn on clocks for port D, E
     SYSCTL_RCGCGPIO_R |= 0x19;
-    while((SYSCTL_RCGCGPIO_R&0x19) != 0x19)
-			;
-    // PE0, PE1, PD1-D3 digital
+    waitFourNops();
+    // PE1, PD1-D3 digital
     GPIO_PORTD_AMSEL_R &= ~0x0E;
     GPIO_PORTD_DIR_R &= ~0x0E;
     GPIO_PORTD_AFSEL_R &= ~0x0E;
     GPIO_PORTD_DEN_R |= 0x0E;
     
-    GPIO_PORTE_AMSEL_R &= ~0x03;
+    GPIO_PORTE_AMSEL_R &= ~0x02;
     GPIO_PORTE_DIR_R |= 0x02;
-    GPIO_PORTE_DIR_R &= ~0x01;
-    GPIO_PORTE_AFSEL_R &= ~0x03;
-    GPIO_PORTE_AFSEL_R &= ~0x01;          // disable alt funct on PE0
-    GPIO_PORTE_DR4R_R |= 0x01;            // 4mA drive on PE0
-    GPIO_PORTE_PUR_R |= 0x01;             // enable weak pullup on PE0
-    GPIO_PORTE_DEN_R |= 0x03;
+    GPIO_PORTE_AFSEL_R &= ~0x02;
+    GPIO_PORTE_DEN_R |= 0x02;
     
     // PE2 analog
     GPIO_PORTE_DIR_R |= 0x04;
@@ -42,14 +47,8 @@ void controllerInit(void) {
     
     // Configure ADC0
     SYSCTL_RCGCADC_R |= 0x01;   // Activate ADC0
-		while((SYSCTL_RCGCADC_R&0x01) != 0x01)
-			;
-		__asm{
-			NOP
-			NOP
-			NOP
-			NOP
-		};
+    waitFourNops();
+    waitFourNops();
     ADC0_PC_R = 0x07;           // 1M (80 clocks) conversion speed
     ADC0_SSPRI_R = 0x0123;      // set priorities
     ADC0_ACTSS_R &= ~0x08;      // disable sample sequencer 3
