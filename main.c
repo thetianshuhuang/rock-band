@@ -11,7 +11,6 @@
 #define NETWORK_H
 #define FIFO_H
 #define CONTROLLER_H
-#define DIVIDER 4
 
 #include <stdint.h>
 #include "tm4c123gh6pm.h"

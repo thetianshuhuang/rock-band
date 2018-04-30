@@ -13,15 +13,15 @@
 
 // Set audio period
 // Divider specifies the audio refresh rate as a fraction of 44.1kHz
-#if DIVIDER == 4
+#if DIVIDER == 1
 #define AUDIO_PERIOD 0x1C58;
 #elif DIVIDER == 2
 #define AUDIO_PERIOD 0xE2C;
-#elif DIVIDER == 1
+#elif DIVIDER == 4
 #define AUDIO_PERIOD 0x716;
 #else
 #define DIVIDER 1
-#define AUDIO_PERIOD 0x716;
+#define AUDIO_PERIOD 0x1C58;
 #endif
 
 
