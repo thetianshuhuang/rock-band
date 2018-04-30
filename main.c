@@ -33,8 +33,9 @@ int main() {
     ST7735_InitR(INITR_REDTAB);
     audioInit();
     controllerInit();
-    displayMenu(&songSelect);
+    // displayMenu(&songSelect);
     while(1){
+        initGame("song.bw");
     };
 }
 

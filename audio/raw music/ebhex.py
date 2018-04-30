@@ -1,15 +1,23 @@
 from scipy.io import wavfile
 import struct
 
-song = wavfile.read("song-441khz.wav")
+song = wavfile.read("Scorpions - Rock You Like A Hurricane (44.1kHz).wav")
 target = open("song-441khz.ebw", "wb")
 
 for i in song[1]:
+    val = int((int(i[0]) + int(i[1])) / 512 + 128)
+    if(val > 255):
+        print(val)
+        print("Integer overflow")
+        val = 255
+    if(val < 0):
+        print(val)
+        print("Integer underflow")
+        val = 0
+    
     target.write(
         struct.pack(
-            'B',
-            int((i[0] + i[1]) / 256 + 128))
-    );
+            'B', val))
 
 target.close();
 
