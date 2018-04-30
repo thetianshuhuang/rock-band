@@ -7,7 +7,6 @@
  
 #ifndef DRIVER_H
 #define DRIVER_H
-#include "../network/fifo.h" 
 
 // ----------audioInit----------
 // Initialize audio driver
@@ -31,6 +30,9 @@ void endSong(void);
 // Execute a song update
 void updateSong(void);
 
-void sdRead(void);
+
+// ----------readSector----------
+// Read at most one sector from the SD card into the audio queue
+void readSector(void);
 
 #endif

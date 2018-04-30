@@ -13,6 +13,11 @@
 #include "audio/driver.h"
 #include "network/fifo.h"
 #include "display/ff.h"
+#include "controller/controller.h"
+#include "game/core.h"
+#include "menu/menu.h"
+#include "menu/menu_defs.h"
+#include "display/ST7735.h"
 
 // Game ID ifndef for testing
 #ifndef GAME_ID
@@ -25,10 +30,11 @@ uint32_t songIndex = 0;
 
 int main() {
 	PLL_Init(Bus80MHz);
+    ST7735_InitR(INITR_REDTAB);
     audioInit();
-    startSong(testSongName, &songIndex);
+    controllerInit();
+    displayMenu(&songSelect);
     while(1){
-        sdRead();
     };
 }
 

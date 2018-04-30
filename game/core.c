@@ -5,19 +5,29 @@
  */
 
 #include "core.h"
+#include "../audio/driver.h"
+#include "../tm4c123gh6pm.h"
+#include "../controller/controller.h"
 
 
 GAME_STATE playerStates[4];
 
 
 // ----------initGame----------
-// initialize game
-void initGame(void) {
+// initialize game (start song)
+// Parameters
+//      const char* songName: song name to play
+void initGame(const char* songName) {
     for(uint8_t i = 0; i < 4; i++) {
         playerStates[i].tick = 0;
         playerStates[i].score = 10000;
         playerStates[i].currentOffset = 0;
     }
+    
+    // Start song
+    startSong(songName, &(playerStates[0].tick));
+    // Start timer0 (ADC and SD)
+    TIMER0_CTL_R = 0x00000001;
 }
 
 
@@ -50,4 +60,16 @@ void updateGame(uint8_t* packet) {
         (uint32_t) packet[10] << 16 |
         (uint32_t) packet[11] << 8 |
         (uint32_t) packet[12];
+}
+
+
+// ----------Timer0A_Handler----------
+// Timer handler for ADC sampling and SD read
+void Timer0A_Handler(void) {
+    // Clear interrupt
+    TIMER0_ICR_R = TIMER_ICR_TATOCINT;
+    // Take ADC sample
+    sampleAdc();
+    // Read SD card
+    readSector();
 }

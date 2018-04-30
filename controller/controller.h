@@ -16,6 +16,12 @@
 // Initialize controller
 void controllerInit(void);
 
+
+// ----------sampleAdc--------
+// Take ADC sample and store to mailbox
+void sampleAdc(void);
+
+
 // ----------controllerRead----------
 // Read the controller state
 // Returns:

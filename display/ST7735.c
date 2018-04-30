@@ -213,9 +213,9 @@ uint16_t StTextColor = ST7735_YELLOW;
 #define TFT_CS                  (*((volatile uint32_t *)0x40004020))
 #define TFT_CS_LOW              0           // CS controlled by software
 #define TFT_CS_HIGH             0x08
-//#define SDC_CS                  (*((volatile uint32_t *)0x40007200))
-//#define SDC_CS_LOW              0           // CS controlled by software
-//#define SDC_CS_HIGH             0x80
+#define SDC_CS                  (*((volatile uint32_t *)0x40007200))
+#define SDC_CS_LOW              0           // CS controlled by software
+#define SDC_CS_HIGH             0x80
 #define DC                      (*((volatile uint32_t *)0x40004100))
 #define DC_COMMAND              0
 #define DC_DATA                 0x40
@@ -1727,7 +1727,7 @@ void ST7735_OutChar(char ch){
     ST7735_DrawString(0,StY,"                     ",StTextColor);
     return;
   }
-  ST7735_DrawCharS(StX*6,StY*10,ch,ST7735_YELLOW,ST7735_BLACK, 1);
+  ST7735_DrawCharS(StX*6,StY*10,ch,StTextColor,ST7735_BLACK, 1);
   StX++;
   if(StX>20){
     StX = 20;

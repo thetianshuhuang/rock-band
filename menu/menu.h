@@ -9,14 +9,13 @@
 #include <stdint.h>
 
 
-#define CHAR_WIDTH 20
+#define CHAR_WIDTH 30
 #define CHAR_HEIGHT 4
 
 // Menu item
 typedef struct menu_item_t {
     char name[CHAR_WIDTH];
     void (*function)(void);
-    uint8_t argument;
 } MENU_ITEM;
 
 // Menu screen

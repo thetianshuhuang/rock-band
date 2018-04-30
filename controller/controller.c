@@ -10,7 +10,7 @@
 #include "../tm4c123gh6pm.h"
 
 
-#define ADC_SAMPLE_RATE 1000000
+#define ADC_SAMPLE_RATE 500000
 
 
 // ----------waitFourNops----------
@@ -78,13 +78,9 @@ void controllerInit(void) {
 
 // Analog mailbox
 uint16_t adcMailbox;
-
-// ----------Timer0A_Handler----------
-// Timer handler for ADC sampling
-void Timer0A_Handler(void) {
-
-    // Clear interrupt
-    TIMER0_ICR_R = TIMER_ICR_TATOCINT;
+// ----------sampleAdc--------
+// Take ADC sample and store to mailbox
+void sampleAdc(void) {
     // Start sample
     ADC0_PSSI_R = 0x08;
     // Wait for conversion (~80 clocks)

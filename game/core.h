@@ -20,8 +20,10 @@ typedef struct game_state_t {
 
 
 // ----------initGame----------
-// initialize game
-void initGame(void);
+// initialize game (start song)
+// Parameters
+//      const char* songName: song name to play
+void initGame(const char* songName);
 
 
 // ----------updateGame----------

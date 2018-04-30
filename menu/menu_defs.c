@@ -6,21 +6,27 @@
 
 #include "menu_defs.h"
 #include "menu.h"
+#include "../game/core.h"
 
 
 MENU_SCREEN mainMenu = {
     "Main Menu", 2,
     {
-        {"Single Player", 0, 0},
-        {"Multiplayer", 0, 0},
+        {"Single Player", 0},
+        {"Multiplayer", 0},
     }
 };
+
+
+void song1(void) {
+    initGame("song.bw");
+}
 
 MENU_SCREEN songSelect = {
     "Song Select", 3,
     {
-        {"Placeholder 1", 0, 0},
-        {"Placeholder 2", 0, 1},
-        {"Placeholder 3", 0, 2}
+        {"Rock You Like a Hurricane", &song1},
+        {"Placeholder 2", 0},
+        {"Placeholder 3", 0}
     }
 };

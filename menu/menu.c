@@ -21,19 +21,19 @@ const uint16_t menuColors[4] = {TEXT_GREEN, TEXT_BLUE, TEXT_YELLOW, TEXT_RED};
 //      MENU_SCREEN *menu: menu to display
 void displayMenu(MENU_SCREEN *menu) {
     // Title text
-    ST7735_FillScreen(0);
-    ST7735_SetCursor(0,0);
     ST7735_SetTextColor(TEXT_WHITE);
+    ST7735_FillScreen(0);
+    ST7735_SetCursor(0, 0);
     ST7735_OutString(menu->title);
     // Options
     for(uint8_t i = 0; i < menu->number; i++) {
-        ST7735_SetCursor(i, 1);
+        ST7735_SetCursor(2, i + 1);
         ST7735_OutString(menu->options[i].name);
     }
     // Color select
     for(uint8_t i = 0; i < menu->number; i++) {
         ST7735_SetTextColor(menuColors[i]);
-        ST7735_SetCursor(i, 0);
+        ST7735_SetCursor(0, i + 1);
         ST7735_OutChar('>');
     }
     // Initialize null pointer

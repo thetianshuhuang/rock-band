@@ -6,6 +6,7 @@
  */
 
 #include "dac.h"
+#include "driver.h"
 #include "../display/ff.h"
 #include "../display/diskio.h"
 #include "../display/ST7735.h"
@@ -34,12 +35,11 @@ static FATFS sdFileSystem;
 FIL handle;
 // not sure what this does either
 UINT successfulreads;
-// Data to be read from the SD card
-uint8_t readByte[1];
 // Current index
 uint32_t *currentIndex;
-
+// Audio buffer
 FIFO_QUEUE audioQueue;
+
 
 // ----------audioInit----------
 // Initialize audio driver
@@ -66,19 +66,19 @@ void startSong(const char* songName, uint32_t* songCounter) {
     GPIO_PORTF_AFSEL_R &= ~0x0C;
     GPIO_PORTF_AMSEL_R &= ~0x0C;
     
+    // Open song and load the first sector
+    openStatus = f_open(&handle, songName, FA_READ);
+    fifoInit(&audioQueue);
+    readSector();
+    // Link current index
+    currentIndex = songCounter;
+    
     // Set up SysTick with priority 1, clock, and interrupts
     NVIC_ST_CTRL_R = 0;
     NVIC_ST_RELOAD_R = AUDIO_PERIOD;
     NVIC_ST_CURRENT_R = 0;
     NVIC_SYS_PRI3_R = (NVIC_SYS_PRI3_R & 0X00FFFFFF) | 0X20000000;
     NVIC_ST_CTRL_R = 0x0007;
-    
-    // Open song
-    openStatus = f_open(&handle, songName, FA_READ);
-    // Link current index
-    currentIndex = songCounter;
-    
-    fifoInit(&audioQueue);
 }
 
 
@@ -104,28 +104,24 @@ uint8_t charToHex(uint8_t input) {
     }
 }
 
-// ----------sdRead----------
-void sdRead(void) {
-    if((readStatus == 0) && (audioQueue.size < 2048)) {
-        GPIO_PORTF_DATA_R ^= 0x08;
+
+// ----------readSector----------
+// Read at most one sector from the SD card into the audio queue
+void readSector(void) {
+    uint8_t readByte;
+    for(uint16_t i = 0; (i < 512) && (audioQueue.size < 2048); i++) {
         readStatus = f_read(&handle, &readByte, 1, &successfulreads);
-
-        fifoPut(&audioQueue, readByte[0]);
-        GPIO_PORTF_DATA_R ^= 0x08;
-
+        fifoPut(&audioQueue, readByte);
     }
 }
+
 
 // ----------updateSong----------
 // Execute a song update
 void updateSong() {
-    
-    GPIO_PORTF_DATA_R ^= 0x04;
     char data;
     fifoGet(&audioQueue, &data);
     DACOut(data);
     // Increment counter
     *currentIndex += DIVIDER;
-    GPIO_PORTF_DATA_R ^= 0x04;
-
 }
