@@ -123,6 +123,7 @@
 
 #include "ff.h"      /* Declarations of FatFs API */
 #include "diskio.h"    /* Declarations of disk I/O functions */
+#include "../tm4c123gh6pm.h"
 
 
 
@@ -2567,7 +2568,7 @@ FRESULT f_open (
 
 
 
-
+// @@@@@@@@
 /*-----------------------------------------------------------------------*/
 /* Read File                                                             */
 /*-----------------------------------------------------------------------*/
@@ -2578,7 +2579,8 @@ FRESULT f_read (
   UINT btr,    /* Number of bytes to read */
   UINT* br    /* Pointer to number of bytes read */
 )
-{
+{    
+
   FRESULT res;
   DWORD clst, sect, remain;
   UINT rcnt, cc;
@@ -2597,8 +2599,12 @@ FRESULT f_read (
   if (btr > remain) btr = (UINT)remain;    /* Truncate btr by remaining bytes */
 
   for ( ;  btr;                /* Repeat until all data read */
-    rbuff += rcnt, fp->fptr += rcnt, *br += rcnt, btr -= rcnt) {
+    rbuff += rcnt, fp->fptr += rcnt, *br += rcnt, btr -= rcnt)
+  {
+    
+      // @@@@@@@@@@@@@@@@@@@@@@@@@@@
     if ((fp->fptr % SS(fp->fs)) == 0) {    /* On the sector boundary? */
+              
       csect = (BYTE)(fp->fptr / SS(fp->fs) & (fp->fs->csize - 1));  /* Sector offset in the cluster */
       if (!csect) {            /* On the cluster boundary? */
         if (fp->fptr == 0) {      /* On the top of the file? */
@@ -2650,6 +2656,7 @@ FRESULT f_read (
       }
 #endif
       fp->dsect = sect;
+
     }
     rcnt = SS(fp->fs) - ((UINT)fp->fptr % SS(fp->fs));  /* Get partial sector data from sector buffer */
     if (rcnt > btr) rcnt = btr;
@@ -2660,9 +2667,11 @@ FRESULT f_read (
 #else
     mem_cpy(rbuff, &fp->buf[fp->fptr % SS(fp->fs)], rcnt);  /* Pick partial sector */
 #endif
+
   }
 
   LEAVE_FF(fp->fs, FR_OK);
+
 }
 
 

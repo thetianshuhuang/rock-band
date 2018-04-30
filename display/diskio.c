@@ -663,7 +663,9 @@ void Timer6_Init(void){
 
 // Executed every 1 ms
 void Timer5A_Handler(void){
+
   TIMER5_ICR_R = 0x00000001;       // acknowledge timer5A timeout
   disk_timerproc();
+
 }
 

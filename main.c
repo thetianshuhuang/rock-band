@@ -7,16 +7,12 @@
 #define AUDIO_TEST
 /************************************/
 
-#define UART_H
-#define NETWORK_H
-#define FIFO_H
-#define CONTROLLER_H
-
 #include <stdint.h>
 #include "tm4c123gh6pm.h"
-#include "TExaS.h"
 #include "PLL.h"
 #include "audio/driver.h"
+#include "network/fifo.h"
+#include "display/ff.h"
 
 // Game ID ifndef for testing
 #ifndef GAME_ID
@@ -31,7 +27,9 @@ int main() {
 	PLL_Init(Bus80MHz);
     audioInit();
     startSong(testSongName, &songIndex);
-    while(1){};
+    while(1){
+        sdRead();
+    };
 }
 
 

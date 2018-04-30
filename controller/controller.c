@@ -82,6 +82,7 @@ uint16_t adcMailbox;
 // ----------Timer0A_Handler----------
 // Timer handler for ADC sampling
 void Timer0A_Handler(void) {
+
     // Clear interrupt
     TIMER0_ICR_R = TIMER_ICR_TATOCINT;
     // Start sample
@@ -101,6 +102,7 @@ void Timer0A_Handler(void) {
 //      uint16_t: packed controller state
 //          | button1 | button2 | button3 | button4| --strummer (12 bit) --|
 uint16_t controllerRead(void) {
+
     return(
         ((GPIO_PORTD_DATA_R & 0x0E) << 11) |
         ((GPIO_PORTE_DATA_R & 0x02) << 14) |
