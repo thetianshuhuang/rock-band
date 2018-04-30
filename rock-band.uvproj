@@ -493,6 +493,16 @@
               <FileType>5</FileType>
               <FilePath>.\audio\dac.h</FilePath>
             </File>
+            <File>
+              <FileName>driver.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\audio\driver.c</FilePath>
+            </File>
+            <File>
+              <FileName>driver.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\audio\driver.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
