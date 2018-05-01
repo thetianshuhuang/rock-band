@@ -16,11 +16,8 @@
 #include "menu/menu.h"
 #include "menu/menu_defs.h"
 #include "display/ST7735.h"
-<<<<<<< HEAD
 #include "display/splash.h"
 #include "display/guitar.h"
-=======
->>>>>>> parent of 9c6da3c... Committed main
 
 // Game ID ifndef for testing
 #ifndef GAME_ID
@@ -33,19 +30,12 @@ int main() {
     ST7735_InitR(INITR_REDTAB);
     controllerInit();
     audioInit();
-<<<<<<< HEAD
     displayMenu(&mainMenu);
     while(1){
 			//GPIO_PORTF_DATA_R ^= 0x04;
-      controller = controllerRead();
-			updatePickups(controller);
+        //controller = controllerRead();
+			//updatePickups(controller);
     };
-=======
-    displayMenu(&songSelect1);
-    // controller = controllerRead();
-    // initGame("song.bw");
-    while(1){};
->>>>>>> parent of 9c6da3c... Committed main
 }
 
 // ----------systick_Handler----------
