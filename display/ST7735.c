@@ -118,6 +118,8 @@
 #define TFT_CS_LOW       0 // CS controlled by software PA3
 #define TFT_CS_HIGH      0x08
 #if SDC_CS_PD7
+
+/*
 // PD7 output used for SDC CS
 #define SDC_CS           (*((volatile uint32_t *)0x40007200))
 #define SDC_CS_LOW       0           // CS controlled by software
@@ -138,6 +140,24 @@ void SDC_CS_Init(void){
   GPIO_PORTD_AMSEL_R &= ~0x80;          // disable analog functionality on PD7
   SDC_CS = SDC_CS_HIGH;
 }
+*/
+// PE0 output used for SDC CS
+#define SDC_CS           (*((volatile uint32_t *)0x40024004))
+#define SDC_CS_LOW       0           // CS controlled by software
+#define SDC_CS_HIGH      0x01
+void SDC_CS_Init(void){
+    SYSCTL_RCGCGPIO_R |= 0x10;  // Activate clock for port E
+    while((SYSCTL_PRGPIO_R & 0x10) == 0){};
+    GPIO_PORTE_DIR_R |= 0x01;   // Set as output
+    GPIO_PORTE_AFSEL_R &= ~0x01;
+    GPIO_PORTE_DR4R_R |= 0x01;
+    GPIO_PORTE_PUR_R |= 0x01;
+    GPIO_PORTE_DEN_R |= 0x01;
+    GPIO_PORTE_PCTL_R = (GPIO_PORTE_PCTL_R & 0x0FFFFFFF) + 0x00000000;
+    GPIO_PORTE_AMSEL_R &= ~0x01;  
+    SDC_CS = SDC_CS_HIGH;
+}
+
 #endif
 // PB0 output used for SDC CS
 #if SDC_CS_PB0
@@ -213,9 +233,9 @@ uint16_t StTextColor = ST7735_YELLOW;
 #define TFT_CS                  (*((volatile uint32_t *)0x40004020))
 #define TFT_CS_LOW              0           // CS controlled by software
 #define TFT_CS_HIGH             0x08
-#define SDC_CS                  (*((volatile uint32_t *)0x40007200))
+// #define SDC_CS                  (*((volatile uint32_t *)0x40007200))
 #define SDC_CS_LOW              0           // CS controlled by software
-#define SDC_CS_HIGH             0x80
+// #define SDC_CS_HIGH             0x80
 #define DC                      (*((volatile uint32_t *)0x40004100))
 #define DC_COMMAND              0
 #define DC_DATA                 0x40
