@@ -75,8 +75,13 @@ const uint16_t GreenPickup[] = {
 
 void drawGuitar(void){
 	ST7735_FillScreen(0);
-	ST7735_DrawBitmap(101,155, RedPickup,16,14);
-	ST7735_DrawBitmap(71,155, YellowPickup,16,14);
-	ST7735_DrawBitmap(41,155, BluePickup,16,14);
-	ST7735_DrawBitmap(11,155, GreenPickup,16,14);
+	ST7735_DrawBitmap(101, 155, RedPickup,16,14);
+	ST7735_DrawBitmap(71, 155, YellowPickup,16,14);
+	ST7735_DrawBitmap(41, 155, BluePickup,16,14);
+	ST7735_DrawBitmap(11, 155, GreenPickup,16,14);
+	ST7735_DrawCircle(101, 130, 0x001F);
+	ST7735_DrawCircle(71, 130, 0x07FF);
+	ST7735_DrawCircle(41, 130, 0xF800);
+	ST7735_DrawCircle(11, 130, 0x07E0);
+	ST7735_DrawLine(0, 0, 159, 159, 0xFFFF);
 }
