@@ -9,7 +9,7 @@
 
 #include <stdint.h>
 
-#define resolution 10
+#define resolution 19
 #define red 0x001F
 #define yellow 0x07FF
 #define blue 0xF800
