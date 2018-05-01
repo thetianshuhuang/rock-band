@@ -14,6 +14,15 @@
 GAME_STATE playerStates[4];
 
 
+// ----------selectInstrument----------
+// Set the player's current instrument
+// Parameters:
+//      enum instrument_t instrument: instrument to choose; GUITAR, BASS, or DRUMS
+void selectInstrument(enum instrument_t instrument) {
+    playerStates[0].instrument = instrument;
+}
+
+
 // ----------initGame----------
 // initialize game (start song)
 // Parameters
@@ -24,7 +33,7 @@ void initGame(const char* songName) {
         playerStates[i].score = 10000;
         playerStates[i].currentOffset = 0;
     }
-		// Start graphics
+	// Start graphics
     drawGuitar();
     // Start song
     startSong(songName, &(playerStates[0].tick));

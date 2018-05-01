@@ -81,14 +81,18 @@ void displayMenu(MENU_SCREEN *menu) {
     ST7735_OutString(menu->title);
     // Options
     for(uint8_t i = 0; i < menu->number; i++) {
-        ST7735_SetCursor(2, 3*i + 1);
+        ST7735_SetCursor(2, menu->height*i + 1);
         ST7735_OutString(menu->options[i].name);
         if(i + 1 < menu->number) {
-            ST7735_SetCursor(3, 3*i + 2);
-            ST7735_OutString(menu->options[i].description1);
-            ST7735_SetCursor(3, 3*i + 3);
-            ST7735_OutString(menu->options[i].description2);
-            vLine(13, 30*i + 20, 30*i + 38, TEXT_WHITE);
+            if(menu->height > 1) {
+                ST7735_SetCursor(3, menu->height * i + 2);
+                ST7735_OutString(menu->options[i].description1);
+            }
+            if(menu->height > 2) {
+                ST7735_SetCursor(3, menu->height * i + 3);
+                ST7735_OutString(menu->options[i].description2);
+            }
+            vLine(13, menu->height * 10 * i + 20, menu->height * 10 * i + (menu->height) * 10 + 8, TEXT_WHITE);
         }
     }    
     showInstructions();
@@ -105,29 +109,33 @@ void displayMenu(MENU_SCREEN *menu) {
         currentState = controllerRead();
         if((currentState & 0xF000 & ~previousState) && (ghettoDebouncer > 100000)) {
             ghettoDebouncer = 0;
-            drawSpecialChar(2, 30 * inputLine + 10, 5, TEXT_RED, 0x00);
-            // Up
+            drawSpecialChar(2, menu->height * 10 * inputLine + 10, 5, TEXT_RED, 0x00);
+            // Down
             if(currentState & 0x4000) {
                 if(inputLine + 1 < menu->number) {
                     inputLine += 1;
                 }
             }
-            // Down
+            // Up
             else if(currentState & 0x8000) {
                 if(inputLine > 0) {
                     inputLine -= 1;
                 }
             }
-            // Back
+            // Back (no back if null pointer passed)
             else if(currentState & 0x2000) {
-            
+                if(menu->backFunction != 0) {
+                    menu->backFunction();
+                }
+                break;
             }
             // Select
             else {
                 (menu->options)[inputLine].function();
                 break;
             }
-            drawSpecialChar(2, 30 * inputLine + 10, 0, TEXT_RED, 0x00);
+            // Draw new arrow
+            drawSpecialChar(2, menu->height * 10 * inputLine + 10, 0, TEXT_RED, 0x00);
         }
         previousState = currentState;
         ghettoDebouncer += 1;

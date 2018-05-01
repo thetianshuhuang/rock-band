@@ -12,6 +12,7 @@
 #define CHAR_WIDTH 18
 #define CHAR_HEIGHT 4
 
+
 // Menu item
 typedef struct menu_item_t {
     char name[CHAR_WIDTH];
@@ -20,11 +21,14 @@ typedef struct menu_item_t {
     void (*function)(void);
 } MENU_ITEM;
 
+
 // Menu screen
 typedef struct menu_screen_t {
     char title[CHAR_WIDTH];
     uint8_t number;
+    uint8_t height;
     MENU_ITEM options[CHAR_HEIGHT];
+    void (*backFunction)(void);
 } MENU_SCREEN;
 
 

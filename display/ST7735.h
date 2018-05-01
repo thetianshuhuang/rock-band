@@ -73,6 +73,7 @@
 // SCL  – (NC) I2C clock for ADXL345 accelerometer
 // SDO  – (NC) I2C alternate address for ADXL345 accelerometer
 // Backlight + - Light, backlight connected to +3.3 V
+#include <stdint.h>
 
 #ifndef _ST7735H_
 #define _ST7735H_
