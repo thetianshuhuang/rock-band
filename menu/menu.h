@@ -15,6 +15,8 @@
 // Menu item
 typedef struct menu_item_t {
     char name[CHAR_WIDTH];
+    char description1[CHAR_WIDTH];
+    char description2[CHAR_WIDTH];
     void (*function)(void);
 } MENU_ITEM;
 

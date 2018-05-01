@@ -24,7 +24,7 @@
 #define GAME_ID 0x42
 #endif
 
-const char* testSongName = "song.bw";
+const char* testSongName = "song3.bw";
 uint32_t songIndex = 0;
 
 
@@ -35,7 +35,7 @@ int main() {
     controllerInit();
     // displayMenu(&songSelect);
     while(1){
-        initGame("song3.bw");
+        initGame("song.bw");
     };
 }
 

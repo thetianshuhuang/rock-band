@@ -10,10 +10,10 @@
 
 
 MENU_SCREEN mainMenu = {
-    "Main Menu", 2,
+    "MAIN MENU", 2,
     {
-        {"Single Player", 0},
-        {"Multiplayer", 0},
+        {"Single Player", "placeholder", "placeholder", 0},
+        {"Multiplayer", "placeholder", "placeholder", 0},
     }
 };
 
@@ -23,10 +23,10 @@ void song1(void) {
 }
 
 MENU_SCREEN songSelect = {
-    "Song Select", 3,
+    "SONG SELECT", 3,
     {
-        {"Rock You Like[...]", &song1},
-        {"Placeholder 2", 0},
-        {"Placeholder 3", 0}
+        {"The Scorpions", "Rock You Like A", "Hurricane", &song1},
+        {"The Police", "Message in a", "bottle", 0},
+        {"Talking Heads", "Wild Wild Life", "", 0},
     }
 };

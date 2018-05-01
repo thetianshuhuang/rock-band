@@ -113,7 +113,7 @@ uint8_t charToHex(uint8_t input) {
 // Read at most one sector from the SD card into the audio queue
 void readSector(void) {
     uint8_t readByte;
-    for(uint16_t i = 0; (i < 512) && (audioQueue.size < 2048); i++) {
+    for(uint16_t i = 0; (i < 512) && (audioQueue.size < 8192); i++) {
         readStatus = f_read(&handle, &readByte, 1, &successfulreads);
         if(readStatus == 0) {
             fifoPut(&audioQueue, readByte);
@@ -127,10 +127,11 @@ void readSector(void) {
 void updateSong() {
     char data;
     if(fifoGet(&audioQueue, &data)) {
+        GPIO_PORTF_DATA_R &= ~0x04;
         DACOut(data);
     }
     else {
-        GPIO_PORTF_DATA_R ^= 0x04;
+        GPIO_PORTF_DATA_R |= 0x04;
     }
     // Increment counter
     *currentIndex += DIVIDER;

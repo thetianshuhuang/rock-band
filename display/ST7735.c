@@ -1254,7 +1254,8 @@ void ST7735_DrawCharS(int16_t x, int16_t y, char c, int16_t textColor, int16_t b
         else {  // big size
           ST7735_FillRect(x+(i*size), y+(j*size), size, size, textColor);
         }
-      } else if (bgColor != textColor) {
+      }
+      else if (bgColor != textColor) {
         if (size == 1) // default size
           ST7735_DrawPixel(x+i, y+j, bgColor);
         else {  // big size

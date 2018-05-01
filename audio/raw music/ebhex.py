@@ -1,9 +1,10 @@
 from scipy.io import wavfile
 import struct
 
-song = wavfile.read("The Police - Message in a Bottle (44.1kHz).wav")
+song = wavfile.read("Scorpions - Rock You Like A Hurricane (44.1kHz).wav")
 target = open("song_out.bw", "wb")
 
+val_previous = 128
 for i in song[1]:
     val = int((int(i[0]) + int(i[1])) / 512 + 128)
     if(val > 255):
@@ -14,10 +15,11 @@ for i in song[1]:
         print(val)
         print("Integer underflow")
         val = 0
-    
-    target.write(
-        struct.pack(
-            'B', val))
-
+    if(abs(val - val_previous) > 128):
+        print("Warning: large change")
+        print(val)
+        print(val_previous)
+    target.write(struct.pack('B', val))
+    val_previous = val
 target.close();
 
