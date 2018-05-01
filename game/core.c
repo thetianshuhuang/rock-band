@@ -10,6 +10,8 @@
 #include "../controller/controller.h"
 #include "../display/guitar.h"
 #include "../PLL.h"
+#include "../display/ST7735.h"
+#include "../display/splash.h"
 
 
 GAME_STATE playerStates[4];
@@ -84,6 +86,17 @@ void mainLoop(void) {
     
     // End song
     endSong();
+    
+    showSplash("back.pi");
+    ST7735_SetTextColor(0xFFFF);
+    ST7735_SetCursor(3, 2);
+    ST7735_OutString("Your Score:");
+    ST7735_SetCursor(3, 3);
+    ST7735_OutUDec(playerStates[0].score);
+    // Wait for input
+    while((controllerRead() & 0xF000) == 0){};
+
+
 }
 
 

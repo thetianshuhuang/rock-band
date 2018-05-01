@@ -8,6 +8,6 @@
 
 // --------showSplash--------
 // Show the splash screen
-void showSplash(void);
+void showSplash(char* image);
 
 #endif

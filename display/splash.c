@@ -22,7 +22,7 @@ UINT splashSuccess;
 
 // --------showSplash--------
 // Show the splash screen
-void showSplash(void) {
+void showSplash(char* image) {
     
     // Mount SD Card
     do {
@@ -30,7 +30,7 @@ void showSplash(void) {
     } while(splashStatus != 0);
     // Read file
     do {
-        splashStatus = f_open(&splashHandle, "splash.pi", FA_READ);
+        splashStatus = f_open(&splashHandle, image, FA_READ);
     } while(splashStatus != 0);
     // Show Image
     for(uint8_t i = 0; i < 160; i++) {
@@ -44,12 +44,4 @@ void showSplash(void) {
     }
     // Close file
     splashStatus = f_close(&splashHandle);
-    
-    // Write instructions
-    ST7735_SetTextColor(0xFFFF);
-    ST7735_SetCursor(3, 15);
-    ST7735_OutString("Press Any Button");
-
-    // Wait for input
-    while((controllerRead() & 0xF000) == 0){};
 }
