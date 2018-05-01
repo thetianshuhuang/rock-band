@@ -41,19 +41,20 @@ int main() {
 	  //initGame("miab.bw");
 	  //startSong("zzz.bw", &a);
 	 
+    drawGuitar();
     while(1){
-        initRedNote(&testRed);
+			initRedNote(&testRed);
 	    initYellowNote(&testYellow);
 	    initBlueNote(&testBlue);
 	    initGreenNote(&testGreen);
 			for(int i = 0; i < 10; i++)
-	    {  
-			  drawGuitar();
+	    { 
 		    animateNote(&testRed);
 			  animateNote(&testYellow);
 			  animateNote(&testBlue);
 			  animateNote(&testGreen);
-			  Delayms(50);
+				updatePickups(controllerRead());
+			  Delayms(12);
 	    }
     }
 }
