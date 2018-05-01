@@ -23,22 +23,29 @@
 #ifndef GAME_ID
 #define GAME_ID 0x42
 #endif
+
+Note test;
+
+uint32_t a;
 //
 uint16_t controller;
 int main() {
-	PLL_Init(Bus80MHz);
+	  PLL_Init(Bus80MHz);
     ST7735_InitR(INITR_REDTAB);
-    controllerInit();
-    audioInit();
-    displayMenu(&mainMenu);
+    //controllerInit();
+    //audioInit();
+    //displayMenu(&mainMenu);
+	  //initGame("miab.bw");
+	  //startSong("zzz.bw", &a);
+	  initRedNote(&test);
     while(1){
-        // Read SD card
-        readSector();
-
-			//GPIO_PORTF_DATA_R ^= 0x04;
-        controller = controllerRead();
-        updatePickups(controller);
-    };
+			 initRedNote(&test);
+			 for(int i = 0; i < 12; i++){
+				 drawGuitar();
+				 animateNote(&test);
+				 Delayms(500);
+			 }
+    }
 }
 
 // ----------systick_Handler----------

@@ -15,34 +15,12 @@
 #define blue 0xF800
 #define green 0x07E0
 
-typedef struct red_note_struct {
-    uint8_t x_path[resolution];
-	  uint8_t y_path[resolution];
+typedef struct {
+    uint8_t *x_path;
+	  uint8_t *y_path;
     uint16_t stage;
 		uint16_t color;
-} RedNote;
-
-typedef struct yellow_note_struct {
-    uint8_t x_path[resolution];
-	  uint8_t y_path[resolution];
-    uint16_t stage;
-	  uint16_t color;
-} YellowNote;
-
-typedef struct blue_note_struct {
-    uint8_t x_path[resolution];
-	  uint8_t y_path[resolution];
-    uint16_t stage;
-	  uint16_t color;
-} BlueNote;
-
-typedef struct green_note_struct {
-    uint8_t x_path[resolution];
-	  uint8_t y_path[resolution];
-    uint16_t stage;
-	  uint16_t color;
-} GreenNote;
-
+} Note;
 
 // ----------drawGuitar----------
 // initialize guitar graphics
@@ -51,6 +29,13 @@ typedef struct green_note_struct {
 void drawGuitar(void);
 
 void updatePickups(uint16_t controller);
+
+void initRedNote(Note *note);
+void initYellowNote(Note *note);
+void initBlueNote(Note *note);
+void initGreenNote(Note *note); 
+
+uint32_t animateNote(Note *note);
 
 
 #endif

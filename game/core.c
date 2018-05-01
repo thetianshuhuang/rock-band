@@ -34,7 +34,7 @@ void initGame(const char* songName) {
         playerStates[i].currentOffset = 0;
     }
 	// Start graphics
-    drawGuitar();
+    //drawGuitar();
     // Start song
     startSong(songName, &(playerStates[0].tick));
 }
