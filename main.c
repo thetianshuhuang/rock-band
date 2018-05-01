@@ -16,6 +16,7 @@
 #include "menu/menu.h"
 #include "menu/menu_defs.h"
 #include "display/ST7735.h"
+#include "display/splash.h"
 
 // Game ID ifndef for testing
 #ifndef GAME_ID
@@ -26,12 +27,14 @@ uint16_t controller;
 int main() {
 	PLL_Init(Bus80MHz);
     ST7735_InitR(INITR_REDTAB);
+    
     controllerInit();
     audioInit();
-    displayMenu(&songSelect1);
-    // controller = controllerRead();
-    // initGame("song.bw");
-    while(1){};
+    displayMenu(&mainMenu);
+    
+    while(1){
+        controller = controllerRead();
+    };
 }
 
 // ----------systick_Handler----------
