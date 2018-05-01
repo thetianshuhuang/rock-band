@@ -22,6 +22,13 @@ void controllerInit(void);
 void sampleAdc(void);
 
 
+// ----------checkPause--------
+// Check whether the game should be paused
+// Returns:
+//      1 for pause; 0 if no pause
+uint8_t checkPause(void);
+
+
 // ----------controllerRead----------
 // Read the controller state
 // Returns:

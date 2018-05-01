@@ -75,6 +75,14 @@ void controllerInit(void) {
                                         // Set priority to the same as the main timer
     NVIC_EN0_R = 1<<19;                 // Enable IRQ 19 in NVIC
     EndCritical(sr);
+
+    // PF0, PF4 inputs
+    SYSCTL_RCGCGPIO_R |= 0x20;
+    waitFourNops();
+    GPIO_PORTF_DIR_R &= ~0x11;
+    GPIO_PORTF_AFSEL_R &= ~0x11; 
+    GPIO_PORTF_DEN_R |= 0x11;
+    GPIO_PORTF_AMSEL_R &= ~0x11;
 }
 
 
@@ -91,6 +99,18 @@ void sampleAdc(void) {
     adcMailbox = ADC0_SSFIFO3_R & 0xFFF;
     // Clear sample complete flag
     ADC0_ISC_R = 0x08;
+}
+
+
+// ----------checkPause--------
+// Check whether the game should be paused
+// Returns:
+//      1 for pause; 0 if no pause
+uint8_t checkPause(void) {
+    if((GPIO_PORTF_DATA_R & 0x11) != 0) {
+        return(1);
+    }
+    return(0);
 }
 
 

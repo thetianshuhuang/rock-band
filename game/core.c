@@ -101,7 +101,11 @@ void mainLoop(void) {
             animateNote(&testGreen);
             updatePickups(controllerRead());
             Delayms(12);
-        }    
+            if(checkPause() != 0) {
+                playerStates[0].tick = 0xEFFFFFFF;
+                break;
+            }
+        }                
     }
     
     // End song
