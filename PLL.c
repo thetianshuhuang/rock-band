@@ -74,7 +74,7 @@ void PLL_Init(uint32_t freq){
 
 void Delayms(uint32_t ms)
 {
-	for(uint32_t i = ms*80000; i > 0; i++)
+	for(uint32_t i = ms*80000; i > 0; i--)
 		;	
 }
 
