@@ -121,7 +121,7 @@ uint8_t charToHex(uint8_t input) {
 // Read at most one sector from the SD card into the audio queue
 void readSector(void) {
     uint8_t readByte;
-    for(uint16_t i = 0; (i < 512) && (audioQueue.size < 10000); i++) {
+    for(uint16_t i = 0; (i < 512) && (audioQueue.size < 20000); i++) {
         readStatus = f_read(&handle, &readByte, 1, &successfulreads);
         if(readStatus == 0) {
             fifoPut(&audioQueue, readByte);
