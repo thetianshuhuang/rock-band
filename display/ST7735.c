@@ -1028,7 +1028,25 @@ void ST7735_DrawFastHLine(int16_t x, int16_t y, int16_t w, uint16_t color) {
 
 
 void ST7735_DrawLine(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color) {
-    // Update in subclasses if desired!
+    int16_t steep = abs(y1 - y0) > abs(x1 - x0);
+    if (steep) {
+				int16_t temp = x0;
+				x0 = y0;
+				y0 = temp;
+        temp = x1;
+				x1 = y1;
+				y1 = temp;
+    }
+
+    if (x0 > x1) {
+        int16_t temp = x0;
+				x0 = x1;
+				x1 = temp;
+        temp = y0;
+				y0 = y1;
+				y1 = temp;
+    }
+
     int16_t dx, dy;
     dx = x1 - x0;
     dy = abs(y1 - y0);
@@ -1043,13 +1061,18 @@ void ST7735_DrawLine(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t co
     }
 
     for (; x0<=x1; x0++) {
-        ST7735_DrawPixel(x0, y0, color);
+        if (steep) {
+            ST7735_DrawPixel(y0, x0, color);
+        } else {
+            ST7735_DrawPixel(x0, y0, color);
+        }
         err -= dy;
         if (err < 0) {
             y0 += ystep;
             err += dx;
         }
     }
+
 }
 
 //------------ST7735_FillScreen------------

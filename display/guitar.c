@@ -83,5 +83,5 @@ void drawGuitar(void){
 	ST7735_DrawCircle(71, 130, 0x07FF);
 	ST7735_DrawCircle(41, 130, 0xF800);
 	ST7735_DrawCircle(11, 130, 0x07E0);
-	ST7735_DrawLine(0, 0, 159, 159, 0xFFFF);
+	ST7735_DrawLine(0, 0, 20, 159, 0xFFFF);
 }
