@@ -157,8 +157,8 @@ void drawGuitar(void){
 	ST7735_DrawBitmap(42, 157, BluePickup,16,14);
 	ST7735_DrawBitmap(11, 157, GreenPickup,16,14);
 	//ST7735_DrawCircle(101, 130, 0x001F);
-	//ST7735_DrawCircle(71, 130, 0x07FF);
-	//ST7735_DrawCircle(41, 130, 0xF800);
+	ST7735_DrawCircle(74, 30, 0x07FF);
+	//ST7735_DrawCircle(51, 30, 0xF800);
 	//ST7735_DrawCircle(11, 130, 0x07E0);
 	ST7735_DrawLine(35, 0, 0, 160, 0xFFFF);
 	ST7735_DrawLine(49, 0, 34, 160, 0xFFFF);
@@ -177,7 +177,7 @@ void updatePickups(uint16_t controller)
     if(controller & 0x8000) {
         ST7735_DrawBitmap(11, 157, GreenPickupPressed,16,14);
     }
-        /*
+       
     if(controller&0x8000) //green
 		ST7735_DrawBitmap(11, 157, GreenPickupPressed,16,14);
 	else
@@ -196,5 +196,4 @@ void updatePickups(uint16_t controller)
 		ST7735_DrawBitmap(102, 157, RedPickupPressed,16,14);
 	else
 		ST7735_DrawBitmap(102, 157, RedPickup,16,14);	
-*/
 }
