@@ -15,5 +15,7 @@
 //      none
 void drawGuitar(void);
 
+void updatePickups(uint16_t controller);
+
 
 #endif

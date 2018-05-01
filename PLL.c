@@ -72,6 +72,11 @@ void PLL_Init(uint32_t freq){
   SYSCTL_RCC2_R &= ~SYSCTL_RCC2_BYPASS2;
 }
 
+void Delayms(uint32_t ms)
+{
+	for(uint32_t i = ms*80000; i > 0; i++)
+		;	
+}
 
 /*
 SYSDIV2  Divisor  Clock (MHz)

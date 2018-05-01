@@ -28,6 +28,7 @@
 
 // configure the system to get its clock from the PLL
 void PLL_Init(uint32_t freq);
+void Delayms(uint32_t ms);
 #define Bus80MHz     4
 #define Bus80_000MHz 4
 #define Bus66_667MHz 5
