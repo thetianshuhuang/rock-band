@@ -9,6 +9,7 @@
 #include "../tm4c123gh6pm.h"
 #include "../controller/controller.h"
 #include "../display/guitar.h"
+#include "../PLL.h"
 
 
 GAME_STATE playerStates[4];
@@ -27,14 +28,13 @@ void selectInstrument(enum instrument_t instrument) {
 // initialize game (start song)
 // Parameters
 //      const char* songName: song name to play
-void initGame(const char* songName) {
+//      uint32_t songLength: length of the song, in ticks (44.1kHz)
+void initGame(const char* songName, uint32_t songLength) {
     for(uint8_t i = 0; i < 4; i++) {
-        playerStates[i].tick = 0;
+        playerStates[i].tick = songLength;
         playerStates[i].score = 10000;
         playerStates[i].currentOffset = 0;
     }
-	// Start graphics
-    //drawGuitar();
     // Start song
     startSong(songName, &(playerStates[0].tick));
 }
@@ -53,6 +53,37 @@ uint8_t findId(uint8_t id) {
         }
     }
     return(0xFF);
+}
+
+
+Note testRed;
+Note testYellow;
+Note testBlue;
+Note testGreen;
+// ----------mainLoop----------
+// Main game loop
+void mainLoop(void) {
+    drawGuitar();
+
+    // Play until tick overflows
+    while(playerStates[0].tick < 0x8FFFFFFF) {
+        initRedNote(&testRed);
+        initYellowNote(&testYellow);
+        initBlueNote(&testBlue);
+        initGreenNote(&testGreen);
+        for(int i = 0; i < resolution; i++)
+        { 
+            animateNote(&testRed);
+            animateNote(&testYellow);
+            animateNote(&testBlue);
+            animateNote(&testGreen);
+            updatePickups(controllerRead());
+            Delayms(12);
+        }    
+    }
+    
+    // End song
+    endSong();
 }
 
 

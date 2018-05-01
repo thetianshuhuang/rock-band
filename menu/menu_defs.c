@@ -14,11 +14,11 @@ MENU_SCREEN songSelect1;
 MENU_SCREEN songSelect2;
 MENU_SCREEN instrumentSelect;
 
-void song1(void) {initGame("rylah.bw");}
-void song2(void) {initGame("miab.bw");}
-void song3(void) {initGame("wwl.bw");}
-void song4(void) {initGame("zzz.bw");}
-void song5(void) {initGame("hwr.bw");}
+void song1(void) {initGame("rylah.bw", 11043000);}
+void song2(void) {initGame("miab.bw", 12536000);}
+void song3(void) {initGame("wwl.bw", 9475000);}
+void song4(void) {initGame("zzz.bw", 8312000);}
+void song5(void) {initGame("hwr.bw", 10182000);}
 void lambda2(void) {displayMenu(&songSelect2);}
 void lambda1(void) {displayMenu(&songSelect1);}
 void selectBack(void) {displayMenu(&mainMenu);}

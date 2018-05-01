@@ -7,6 +7,7 @@
 #include "diskio.h"
 #include "diskio.h"
 #include "ff.h"
+#include "../controller/controller.h"
 
 // Status codes from the SD library
 FRESULT splashStatus;
@@ -22,13 +23,16 @@ UINT splashSuccess;
 // --------showSplash--------
 // Show the splash screen
 void showSplash(void) {
+    
+    // Mount SD Card
     do {
         splashStatus = f_mount(&splashFS, "", 0);
     } while(splashStatus != 0);
+    // Read file
     do {
         splashStatus = f_open(&splashHandle, "splash.pi", FA_READ);
     } while(splashStatus != 0);
-    
+    // Show Image
     for(uint8_t i = 0; i < 160; i++) {
         uint16_t readPixels[128];
         do {
@@ -38,6 +42,14 @@ void showSplash(void) {
             ST7735_DrawPixel(j, 160 - i, readPixels[j]);
         }
     }
-    
+    // Close file
     splashStatus = f_close(&splashHandle);
+    
+    // Write instructions
+    ST7735_SetTextColor(0xFFFF);
+    ST7735_SetCursor(3, 15);
+    ST7735_OutString("Press Any Button");
+
+    // Wait for input
+    while((controllerRead() & 0xF000) == 0){};
 }

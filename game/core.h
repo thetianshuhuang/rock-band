@@ -32,7 +32,13 @@ void selectInstrument(enum instrument_t instrument);
 // initialize game (start song)
 // Parameters
 //      const char* songName: song name to play
-void initGame(const char* songName);
+//      uint32_t songLength: length of the song, in ticks (44.1kHz)
+void initGame(const char* songName, uint32_t songLength);
+
+
+// ----------mainLoop----------
+// Main game loop
+void mainLoop(void);
 
 
 // ----------updateGame----------

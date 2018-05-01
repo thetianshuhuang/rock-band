@@ -137,7 +137,7 @@ void updateSong() {
     if(fifoGet(&audioQueue, &data)) {
         //GPIO_PORTF_DATA_R &= ~0x04;
         DACOut(data);
-			  *currentIndex += DIVIDER;
+			  *currentIndex -= DIVIDER;
     }
     else
 			;

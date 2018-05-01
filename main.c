@@ -24,40 +24,22 @@
 #define GAME_ID 0x42
 #endif
 
-Note testRed;
-Note testYellow;
-Note testBlue;
-Note testGreen;
 
-uint32_t a;
-//
-uint16_t controller;
 int main() {
+    
+    // Initializations (audioInit must go before ST7735_InitR)
     PLL_Init(Bus80MHz);
     audioInit();
     ST7735_InitR(INITR_REDTAB);
     controllerInit();
+    
+    // Show splash screen
     showSplash();
-    while(1){};
-    //displayMenu(&mainMenu);
-	  //initGame("miab.bw");
-	  //startSong("zzz.bw", &a);
-	 
-    drawGuitar();
+
+    // Enter main loop
     while(1){
-			initRedNote(&testRed);
-	    initYellowNote(&testYellow);
-	    initBlueNote(&testBlue);
-	    initGreenNote(&testGreen);
-			for(int i = 0; i < resolution; i++)
-	    { 
-		    animateNote(&testRed);
-			  animateNote(&testYellow);
-			  animateNote(&testBlue);
-			  animateNote(&testGreen);
-				updatePickups(controllerRead());
-			  Delayms(12);
-	    }
+        displayMenu(&mainMenu);	 
+        mainLoop();
     }
 }
 
