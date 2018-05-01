@@ -7,6 +7,7 @@
 #include "menu_defs.h"
 #include "menu.h"
 #include "../game/core.h"
+#include "../game/songs.h"
 
 
 MENU_SCREEN mainMenu;
@@ -14,11 +15,11 @@ MENU_SCREEN songSelect1;
 MENU_SCREEN songSelect2;
 MENU_SCREEN instrumentSelect;
 
-void song1(void) {initGame("rylah.bw", 11043000);}
-void song2(void) {initGame("miab.bw", 12536000);}
-void song3(void) {initGame("wwl.bw", 9475000);}
-void song4(void) {initGame("zzz.bw", 8312000);}
-void song5(void) {initGame("hwr.bw", 10182000);}
+void song1(void) {initGame(&rockYouLikeAHurricane);}
+void song2(void) {initGame(&messageInABottle);}
+void song3(void) {initGame(&wildWildLife);}
+void song4(void) {initGame(&zZz);}
+void song5(void) {initGame(&headsWillRoll);}
 void lambda2(void) {displayMenu(&songSelect2);}
 void lambda1(void) {displayMenu(&songSelect1);}
 void selectBack(void) {displayMenu(&mainMenu);}
@@ -32,6 +33,10 @@ void selectBass(void) {
 }
 void selectDrums(void) {
     selectInstrument(DRUMS);
+    selectBack();
+}
+void selectNull(void) {
+    selectInstrument(NULL);
     selectBack();
 }
 void songSelectMain(void) {displayMenu(&songSelect1);}
@@ -51,8 +56,9 @@ MENU_SCREEN mainMenu = {
 
 
 MENU_SCREEN instrumentSelect = {
-    "SELECT INSTRUMENT", 3, 1,
+    "SELECT INSTRUMENT", 4, 1,
     {
+        {"No instrument", "", "", &selectNull},
         {"Guitar", "", "", &selectGuitar},
         {"Bass", "", "", &selectBass},
         {"Drums", "", "", &selectDrums},

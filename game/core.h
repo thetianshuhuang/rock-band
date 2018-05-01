@@ -8,9 +8,10 @@
 #define CORE_H
 
 #include <stdint.h>
+#include "songs.h"
 
 
-enum instrument_t {GUITAR, BASS, DRUMS};
+enum instrument_t {NULL, GUITAR, BASS, DRUMS};
 
 // Game state type
 typedef struct game_state_t {
@@ -18,6 +19,7 @@ typedef struct game_state_t {
     uint16_t score;
     uint16_t currentOffset;
     uint32_t tick;
+    uint16_t note;
     enum instrument_t instrument;
 } GAME_STATE;
 
@@ -31,9 +33,8 @@ void selectInstrument(enum instrument_t instrument);
 // ----------initGame----------
 // initialize game (start song)
 // Parameters
-//      const char* songName: song name to play
-//      uint32_t songLength: length of the song, in ticks (44.1kHz)
-void initGame(const char* songName, uint32_t songLength);
+//      SONG song: song to play
+void initGame(SONG *song);
 
 
 // ----------mainLoop----------

@@ -12,7 +12,7 @@
 #include "../PLL.h"
 #include "../display/ST7735.h"
 #include "../display/splash.h"
-
+#include "songs.h"
 
 GAME_STATE playerStates[4];
 
@@ -26,19 +26,39 @@ void selectInstrument(enum instrument_t instrument) {
 }
 
 
+// Storage array for the current song
+uint16_t currentTrack[1500];
+
 // ----------initGame----------
 // initialize game (start song)
 // Parameters
-//      const char* songName: song name to play
-//      uint32_t songLength: length of the song, in ticks (44.1kHz)
-void initGame(const char* songName, uint32_t songLength) {
+//      SONG song: song to play
+void initGame(SONG *song) {
     for(uint8_t i = 0; i < 4; i++) {
-        playerStates[i].tick = songLength;
+        playerStates[i].tick = song->length;
         playerStates[i].score = 10000;
         playerStates[i].currentOffset = 0;
+        playerStates[i].note = 0;
     }
+    // Load song from SD card
+    /*
+    if(playerStates[0].instrument == GUITAR) {
+        something something load(song->guitarTrack);
+    }
+    else if(playerStates[0].instrument == BASS) {
+        something something load(song->bassTrack);
+    }
+    else if(playerStates[0].instrument == DRUMS) {
+        something something load(song->drumsTrack);
+    }
+    // Null track
+    else {
+        don't load any track
+    }
+    */
+    
     // Start song
-    startSong(songName, &(playerStates[0].tick));
+    startSong(song->byteWav, &(playerStates[0].tick));
 }
 
 
