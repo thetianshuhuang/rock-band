@@ -13,6 +13,7 @@
 #include "../display/ST7735.h"
 #include "../display/splash.h"
 #include "songs.h"
+#include "load_song.h"
 
 GAME_STATE playerStates[4];
 
@@ -27,38 +28,43 @@ void selectInstrument(enum instrument_t instrument) {
 
 
 // Storage array for the current song
-uint16_t currentTrack[1500];
+uint16_t currentTrack[2048];
+uint32_t timeToNextNote;
 
 // ----------initGame----------
 // initialize game (start song)
 // Parameters
 //      SONG song: song to play
 void initGame(SONG *song) {
+    
     for(uint8_t i = 0; i < 4; i++) {
         playerStates[i].tick = song->length;
         playerStates[i].score = 10000;
         playerStates[i].currentOffset = 0;
         playerStates[i].note = 0;
     }
+
+    // Zero out track
+    for(int i = 0; i < 2048; i++) {
+        currentTrack[0] = 0x03FF;
+    }
+    
     // Load song from SD card
-    /*
     if(playerStates[0].instrument == GUITAR) {
-        something something load(song->guitarTrack);
+        loadSong(currentTrack, song->guitarTrack);
     }
     else if(playerStates[0].instrument == BASS) {
-        something something load(song->bassTrack);
+        loadSong(currentTrack, song->bassTrack);
     }
     else if(playerStates[0].instrument == DRUMS) {
-        something something load(song->drumsTrack);
+        loadSong(currentTrack, song->drumsTrack);
     }
     // Null track
-    else {
-        don't load any track
-    }
-    */
+    else {}
     
     // Start song
     startSong(song->byteWav, &(playerStates[0].tick));
+    timeToNextNote = 0;
 }
 
 
@@ -152,6 +158,20 @@ void Timer0A_Handler(void) {
     sampleAdc();
     // Read sector
     readSector();
-    
+
     GPIO_PORTF_DATA_R ^= 0x08;
+}
+
+
+// ----------systick_Handler----------
+void SysTick_Handler(void) {
+    updateSong();
+    // Increment note index when the next note is reached, and set remaining time
+    if(timeToNextNote == 0) {
+        timeToNextNote = 100 * currentTrack[playerStates[0].note];
+        playerStates[0].note += 1;
+    }
+    else {
+        timeToNextNote -= 1;
+    }
 }

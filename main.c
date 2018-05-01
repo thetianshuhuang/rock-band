@@ -52,7 +52,3 @@ int main() {
     }
 }
 
-// ----------systick_Handler----------
-void SysTick_Handler(void) {
-    updateSong();
-}
