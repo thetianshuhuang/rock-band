@@ -578,6 +578,16 @@
               <FileType>5</FileType>
               <FilePath>.\display\ST7735.h</FilePath>
             </File>
+            <File>
+              <FileName>guitar.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\display\guitar.c</FilePath>
+            </File>
+            <File>
+              <FileName>guitar.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\display\guitar.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
