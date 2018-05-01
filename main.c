@@ -47,7 +47,7 @@ int main() {
 	    initYellowNote(&testYellow);
 	    initBlueNote(&testBlue);
 	    initGreenNote(&testGreen);
-			for(int i = 0; i < 10; i++)
+			for(int i = 0; i < resolution; i++)
 	    { 
 		    animateNote(&testRed);
 			  animateNote(&testYellow);

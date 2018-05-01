@@ -126,8 +126,8 @@ void displayMenu(MENU_SCREEN *menu) {
             else if(currentState & 0x2000) {
                 if(menu->backFunction != 0) {
                     menu->backFunction();
+									  break;
                 }
-                break;
             }
             // Select
             else {
