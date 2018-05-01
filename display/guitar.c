@@ -7,6 +7,13 @@
 #include "guitar.h"
 #include "../display/ST7735.h"
 
+/*
+uint32_t updateRed;
+uint32_t updateYellow;
+uint32_t updateBlue;
+uint32_t updateGreen;
+*/
+
 // 16x14
 const uint16_t RedPickup[] = { 
 	0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x001F, 0x001F, 0x001F, 0x001F, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
@@ -156,4 +163,28 @@ void drawGuitar(void){
 	ST7735_DrawFastVLine(64, 0, 160, 0xFFFF);
 	ST7735_DrawLine(79, 0, 94, 160, 0xFFFF);
 	ST7735_DrawLine(93, 0, 128, 160, 0xFFFF);
+}
+
+// Updates the pickup graphic to show if button is pressed or not
+void updatePickups(uint16_t controller)
+{
+	if(controller&0x8000) //green
+		ST7735_DrawBitmap(11, 157, GreenPickupPressed,16,14);
+	else
+		ST7735_DrawBitmap(11, 157, GreenPickup,16,14);
+	
+	if(controller&0x4000) //blue
+		ST7735_DrawBitmap(42, 157, BluePickupPressed,16,14);
+	else
+		ST7735_DrawBitmap(42, 157, BluePickup,16,14);
+	
+	if(controller&0x2000) //yellow
+		ST7735_DrawBitmap(71, 157, YellowPickupPressed,16,14);
+	else
+		ST7735_DrawBitmap(71, 157, YellowPickup,16,14);
+	
+	if(controller&0x1000) //red
+		ST7735_DrawBitmap(102, 157, RedPickupPressed,16,14);
+	else
+		ST7735_DrawBitmap(102, 157, RedPickup,16,14);	
 }

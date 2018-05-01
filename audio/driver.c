@@ -135,13 +135,11 @@ void readSector(void) {
 void updateSong() {
     char data;
     if(fifoGet(&audioQueue, &data)) {
-        GPIO_PORTF_DATA_R &= ~0x04;
+        //GPIO_PORTF_DATA_R &= ~0x04;
         DACOut(data);
+			  *currentIndex += DIVIDER;
     }
-    else {
-        GPIO_PORTF_DATA_R |= 0x04;
-    }
-    // Increment counter
-    *currentIndex += DIVIDER;
+    else
+			;
 }
 
