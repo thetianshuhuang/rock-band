@@ -26,15 +26,16 @@ void showSplash(void) {
         splashStatus = f_mount(&splashFS, "", 0);
     } while(splashStatus != 0);
     do {
-        splashStatus = f_open(&splashHandle, "spl.pi", FA_READ);
+        splashStatus = f_open(&splashHandle, "splash.pi", FA_READ);
     } while(splashStatus != 0);
     
-    uint16_t readPixel;
     for(uint8_t i = 0; i < 160; i++) {
-        for(uint8_t j = 0; j < 100; j++) {
-            splashStatus = f_read(&splashHandle, &readPixel, 2, &splashSuccess);
-            ST7735_DrawPixel(j, i, readPixel);
-            // ST7735_DrawPixel(j, i, 0x001F);
+        uint16_t readPixels[128];
+        do {
+            splashStatus = f_read(&splashHandle, &readPixels, 256, &splashSuccess);
+        } while(splashStatus != 0);
+        for(uint8_t j = 0; j < 128; j++) {
+            ST7735_DrawPixel(j, 160 - i, readPixels[j]);
         }
     }
     

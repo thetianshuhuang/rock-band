@@ -10,7 +10,7 @@
 #include "../tm4c123gh6pm.h"
 
 
-#define ADC_SAMPLE_RATE 400000
+#define ADC_SAMPLE_RATE 200000
 long StartCritical (void);
 void EndCritical(long sr);
 

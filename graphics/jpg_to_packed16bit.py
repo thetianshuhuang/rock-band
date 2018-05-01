@@ -7,5 +7,7 @@ for line in bmpcout:
     ints = line.split(',')[:-1]
     ints = [x[3:] for x in ints]
     for i in ints:
-        output.write(binascii.a2b_hex(i))
+        if(len(i) == 4):
+            output.write(struct.pack('B', int(i, base=16)/256))
+            output.write(struct.pack('B', int(i, base=16)%256))
 output.close()
