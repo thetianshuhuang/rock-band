@@ -37,7 +37,9 @@ int main() {
     audioInit();
     ST7735_InitR(INITR_REDTAB);
     controllerInit();
-    displayMenu(&mainMenu);
+    showSplash();
+    while(1){};
+    //displayMenu(&mainMenu);
 	  //initGame("miab.bw");
 	  //startSong("zzz.bw", &a);
 	 
