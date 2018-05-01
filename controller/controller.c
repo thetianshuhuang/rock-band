@@ -10,8 +10,9 @@
 #include "../tm4c123gh6pm.h"
 
 
-#define ADC_SAMPLE_RATE 500000
-
+#define ADC_SAMPLE_RATE 400000
+long StartCritical (void);
+void EndCritical(long sr);
 
 // ----------waitFourNops----------
 // Helper function that just NOPs four times
@@ -35,7 +36,7 @@ void controllerInit(void) {
     GPIO_PORTD_DEN_R |= 0x0E;
     
     GPIO_PORTE_AMSEL_R &= ~0x02;
-    GPIO_PORTE_DIR_R |= 0x02;
+    GPIO_PORTE_DIR_R &= ~0x02;
     GPIO_PORTE_AFSEL_R &= ~0x02;
     GPIO_PORTE_DEN_R |= 0x02;
     
@@ -61,6 +62,7 @@ void controllerInit(void) {
     ADC0_ACTSS_R |= 0x08;       // enable ss3
     
     // Configure timer0
+    long sr = StartCritical();
     SYSCTL_RCGCTIMER_R |= 0x01;
     TIMER0_CTL_R = 0x00000000;          // Disable timer
     TIMER0_CFG_R = 0x00000000;          // 32-bit mode
@@ -69,10 +71,10 @@ void controllerInit(void) {
     TIMER0_TAPR_R = 0;                  // Use bus clock
     TIMER0_ICR_R = 0x000000001;         // Clear timeout flag
     TIMER0_IMR_R = 0x000000001;         // Enable interrupt
-    NVIC_PRI4_R = (NVIC_SYS_PRI3_R & 0x00FFFFFF) | 0x40000000;
+    NVIC_PRI4_R = (NVIC_PRI4_R & 0x00FFFFFF) | 0x80000000;
                                         // Set priority to the same as the main timer
     NVIC_EN0_R = 1<<19;                 // Enable IRQ 19 in NVIC
-    TIMER0_CTL_R = 0x00000001;          // Enable timer
+    EndCritical(sr);
 }
 
 
@@ -88,7 +90,7 @@ void sampleAdc(void) {
     // Set mailbox
     adcMailbox = ADC0_SSFIFO3_R & 0xFFF;
     // Clear sample complete flag
-    ADC0_ISC_R = 0x08;    
+    ADC0_ISC_R = 0x08;
 }
 
 

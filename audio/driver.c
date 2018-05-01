@@ -73,7 +73,9 @@ void startSong(const char* songName, uint32_t* songCounter) {
         openStatus = f_open(&handle, songName, FA_READ);
     } while(openStatus != 0);
     fifoInit(&audioQueue);
-    readSector();
+    while(audioQueue.size < 10000) {
+        readSector();
+    }
     // Link current index
     currentIndex = songCounter;
     
@@ -81,8 +83,10 @@ void startSong(const char* songName, uint32_t* songCounter) {
     NVIC_ST_CTRL_R = 0;
     NVIC_ST_RELOAD_R = AUDIO_PERIOD;
     NVIC_ST_CURRENT_R = 0;
-    NVIC_SYS_PRI3_R = (NVIC_SYS_PRI3_R & 0X00FFFFFF) | 0X20000000;
+    NVIC_SYS_PRI3_R = (NVIC_SYS_PRI3_R & 0X00FFFFFF) | 0x40000000;
     NVIC_ST_CTRL_R = 0x0007;
+    // Start timer0 (ADC and SD)
+    TIMER0_CTL_R = 0x00000001;
 }
 
 
@@ -113,7 +117,7 @@ uint8_t charToHex(uint8_t input) {
 // Read at most one sector from the SD card into the audio queue
 void readSector(void) {
     uint8_t readByte;
-    for(uint16_t i = 0; (i < 512) && (audioQueue.size < 8192); i++) {
+    for(uint16_t i = 0; (i < 512) && (audioQueue.size < 10000); i++) {
         readStatus = f_read(&handle, &readByte, 1, &successfulreads);
         if(readStatus == 0) {
             fifoPut(&audioQueue, readByte);
@@ -136,3 +140,4 @@ void updateSong() {
     // Increment counter
     *currentIndex += DIVIDER;
 }
+

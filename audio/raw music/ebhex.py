@@ -1,7 +1,7 @@
 from scipy.io import wavfile
 import struct
 
-song = wavfile.read("Scorpions - Rock You Like A Hurricane (44.1kHz).wav")
+song = wavfile.read("Yeah Yeah Yeahs - Heads Will Roll (Jaydon Lewis Remix) (320  kbps) (Mp3Converter.net).wav")
 target = open("song_out.bw", "wb")
 
 val_previous = 128

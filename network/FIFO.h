@@ -10,7 +10,7 @@
 #include <stdint.h>
 
 // Set FIFO size
-#define _FIFO_SIZE 8192
+#define _FIFO_SIZE 10000
 
 // FIFO Data
 typedef struct fifo_struct_t {

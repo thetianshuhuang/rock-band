@@ -24,9 +24,6 @@ void initGame(const char* songName) {
         playerStates[i].currentOffset = 0;
     }
     
-    // Start timer0 (ADC and SD)
-    TIMER0_CTL_R = 0x00000001;
-
     // Start song
     startSong(songName, &(playerStates[0].tick));
 }
@@ -67,10 +64,15 @@ void updateGame(uint8_t* packet) {
 // ----------Timer0A_Handler----------
 // Timer handler for ADC sampling and SD read
 void Timer0A_Handler(void) {
+
+    GPIO_PORTF_DATA_R ^= 0x08;
+
     // Clear interrupt
     TIMER0_ICR_R = TIMER_ICR_TATOCINT;
     // Take ADC sample
     sampleAdc();
     // Read SD card
     readSector();
+    
+    GPIO_PORTF_DATA_R ^= 0x08;
 }

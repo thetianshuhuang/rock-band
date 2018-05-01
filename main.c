@@ -3,13 +3,11 @@
  *
  */
 
-/************************************/
-#define AUDIO_TEST
-/************************************/
 
 #include <stdint.h>
 #include "tm4c123gh6pm.h"
 #include "PLL.h"
+
 #include "audio/driver.h"
 #include "network/fifo.h"
 #include "display/ff.h"
@@ -24,22 +22,19 @@
 #define GAME_ID 0x42
 #endif
 
-const char* testSongName = "song3.bw";
-uint32_t songIndex = 0;
-
-
+uint16_t controller;
 int main() {
 	PLL_Init(Bus80MHz);
     ST7735_InitR(INITR_REDTAB);
-    audioInit();
     controllerInit();
-    // displayMenu(&songSelect);
-    while(1){
-        initGame("song.bw");
-    };
+    audioInit();
+    displayMenu(&songSelect1);
+    // controller = controllerRead();
+    // initGame("song.bw");
+    while(1){};
 }
 
-
+// ----------systick_Handler----------
 void SysTick_Handler(void) {
     updateSong();
 }

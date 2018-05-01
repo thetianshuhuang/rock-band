@@ -6,6 +6,7 @@
 #include "menu.h"
 #include "../controller/controller.h"
 #include "../display/ST7735.h"
+#include "../game/core.h"
 
 #define TEXT_WHITE  0xFFFF
 #define TEXT_GREEN  0x07E0
@@ -82,34 +83,53 @@ void displayMenu(MENU_SCREEN *menu) {
     for(uint8_t i = 0; i < menu->number; i++) {
         ST7735_SetCursor(2, 3*i + 1);
         ST7735_OutString(menu->options[i].name);
-        ST7735_SetCursor(3, 3*i + 2);
-        ST7735_OutString(menu->options[i].description1);
-        ST7735_SetCursor(3, 3*i + 3);
-        ST7735_OutString(menu->options[i].description2);
-        vLine(13, 30*i + 20, 30*i + 38, TEXT_WHITE);
+        if(i + 1 < menu->number) {
+            ST7735_SetCursor(3, 3*i + 2);
+            ST7735_OutString(menu->options[i].description1);
+            ST7735_SetCursor(3, 3*i + 3);
+            ST7735_OutString(menu->options[i].description2);
+            vLine(13, 30*i + 20, 30*i + 38, TEXT_WHITE);
+        }
     }    
     showInstructions();
     
     // Show arrow
     uint8_t inputLine = 0;
     drawSpecialChar(2, 10 * inputLine + 10, 0, TEXT_RED, 0x00);
+    
     // Check for button press    
+    uint16_t previousState;
+    uint16_t currentState;
+    uint32_t ghettoDebouncer = 100;
     while(1) {
-        uint16_t input = controllerRead();
-        if(input & 0xC000) {
+        currentState = controllerRead();
+        if((currentState & 0xF000 & ~previousState) && (ghettoDebouncer > 100000)) {
+            ghettoDebouncer = 0;
             drawSpecialChar(2, 30 * inputLine + 10, 5, TEXT_RED, 0x00);
-            if(input & 0x4000) {
+            // Up
+            if(currentState & 0x4000) {
                 if(inputLine + 1 < menu->number) {
                     inputLine += 1;
                 }
             }
-            else {
+            // Down
+            else if(currentState & 0x8000) {
                 if(inputLine > 0) {
                     inputLine -= 1;
                 }
-            }                
+            }
+            // Back
+            else if(currentState & 0x2000) {
+            
+            }
+            // Select
+            else {
+                (menu->options)[inputLine].function();
+                break;
+            }
             drawSpecialChar(2, 30 * inputLine + 10, 0, TEXT_RED, 0x00);
-
-        }   
+        }
+        previousState = currentState;
+        ghettoDebouncer += 1;
     }
 }

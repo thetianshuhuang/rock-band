@@ -11,6 +11,6 @@
 
 // Menu screen definitions
 extern MENU_SCREEN mainMenu;
-extern MENU_SCREEN songSelect;
+extern MENU_SCREEN songSelect1;
 
 #endif
