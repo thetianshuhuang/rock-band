@@ -82,8 +82,6 @@ void Timer0A_Handler(void) {
     TIMER0_ICR_R = TIMER_ICR_TATOCINT;
     // Take ADC sample
     sampleAdc();
-    // Read SD card
-    readSector();
     
     GPIO_PORTF_DATA_R ^= 0x08;
 }
