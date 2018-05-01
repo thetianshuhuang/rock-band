@@ -235,10 +235,8 @@ uint32_t animateNote(Note *note)
 {
 	if(note->stage >= resolution)
 		return 1;
-	if(note->stage == (resolution - 1))
-		ST7735_DrawBitmap(102, 1527, RedPickup,16,14);
 	if(note->stage != 0)
-	  ST7735_DrawCircle(note->x_path[note->stage - 1], note->y_path[note->stage - 1], 0);
+		ST7735_DrawCircle(note->x_path[note->stage - 1], note->y_path[note->stage - 1], 0);
 	ST7735_DrawCircle(note->x_path[note->stage], note->y_path[note->stage], note->color);
 	note->stage++;
 	return 0;
