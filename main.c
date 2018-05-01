@@ -17,6 +17,7 @@
 #include "menu/menu_defs.h"
 #include "display/ST7735.h"
 #include "display/splash.h"
+#include "display/guitar.h"
 
 // Game ID ifndef for testing
 #ifndef GAME_ID
@@ -27,13 +28,13 @@ uint16_t controller;
 int main() {
 	PLL_Init(Bus80MHz);
     ST7735_InitR(INITR_REDTAB);
-    
     controllerInit();
     audioInit();
     displayMenu(&mainMenu);
-    
     while(1){
-        controller = controllerRead();
+			//GPIO_PORTF_DATA_R ^= 0x04;
+      controller = controllerRead();
+			updatePickups(controller);
     };
 }
 
