@@ -107,7 +107,7 @@ void displayMenu(MENU_SCREEN *menu) {
     uint32_t ghettoDebouncer = 100;
     while(1) {
         currentState = controllerRead();
-        if((currentState & 0xF000 & ~previousState) && (ghettoDebouncer > 100000)) {
+        if((currentState & 0xF000 & ~previousState) && (ghettoDebouncer > 500000)) {
             ghettoDebouncer = 0;
             drawSpecialChar(2, menu->height * 10 * inputLine + 10, 5, TEXT_RED, 0x00);
             // Down
