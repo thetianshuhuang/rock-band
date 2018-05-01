@@ -166,10 +166,6 @@ void drawGuitar(void){
 	ST7735_DrawBitmap(71, 157, YellowPickup,16,14);
 	ST7735_DrawBitmap(42, 157, BluePickup,16,14);
 	ST7735_DrawBitmap(11, 157, GreenPickup,16,14);
-	//ST7735_DrawCircle(82, 0, 0x001F);
-	//ST7735_DrawCircle(74, 146, 0x07FF);
-	//ST7735_DrawCircle(45, 146, 0xF800);
-	//ST7735_DrawCircle(14, 146, 0x07E0);
 	ST7735_DrawLine(35, 0, 0, 160, 0xFFFF);
 	ST7735_DrawLine(49, 0, 34, 160, 0xFFFF);
 	ST7735_DrawFastVLine(64, 0, 160, 0xFFFF);
@@ -187,11 +183,12 @@ void updatePickups(uint16_t controller)
     if(controller & 0x8000) {
         ST7735_DrawBitmap(11, 157, GreenPickupPressed,16,14);
     }
-       
+      
     if(controller&0x8000) //green
 		ST7735_DrawBitmap(11, 157, GreenPickupPressed,16,14);
 	else
 		ST7735_DrawBitmap(11, 157, GreenPickup,16,14);
+	
 	if(controller&0x4000) //blue
 		ST7735_DrawBitmap(42, 157, BluePickupPressed,16,14);
 	else
@@ -241,6 +238,10 @@ uint32_t animateNote(Note *note)
 {
 	if(note->stage >= 10)
 		return 1;
+	if(note->stage == 9)
+		ST7735_DrawBitmap(102, 1527, RedPickup,16,14);
+	if(note->stage != 0)
+	  ST7735_DrawCircle(note->x_path[note->stage - 1], note->y_path[note->stage - 1], 0);
 	ST7735_DrawCircle(note->x_path[note->stage], note->y_path[note->stage], note->color);
 	note->stage++;
 	return 0;
