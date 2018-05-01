@@ -242,6 +242,6 @@ uint32_t animateNote(Note *note)
 	if(note->stage >= 10)
 		return 1;
 	ST7735_DrawCircle(note->x_path[note->stage], note->y_path[note->stage], note->color);
-	note->stage--;
+	note->stage++;
 	return 0;
 }
