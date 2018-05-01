@@ -95,7 +95,7 @@ void startSong(const char* songName, uint32_t* songCounter) {
 void endSong(void) {
     // Disable interrupts
     NVIC_ST_CTRL_R = 0;
-    TIMER0_CTL_R = 0x00000001;
+    TIMER0_CTL_R = 0x00000000;
     // Close file
     openStatus = f_close(&handle);
 }

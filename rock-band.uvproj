@@ -518,6 +518,16 @@
               <FileType>5</FileType>
               <FilePath>.\controller\controller.h</FilePath>
             </File>
+            <File>
+              <FileName>dsp.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\controller\dsp.c</FilePath>
+            </File>
+            <File>
+              <FileName>dsp.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\controller\dsp.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -587,6 +597,16 @@
               <FileName>guitar.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\display\guitar.h</FilePath>
+            </File>
+            <File>
+              <FileName>splash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\display\splash.c</FilePath>
+            </File>
+            <File>
+              <FileName>splash.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\display\splash.h</FilePath>
             </File>
           </Files>
         </Group>

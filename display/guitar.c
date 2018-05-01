@@ -6,6 +6,8 @@
 
 #include "guitar.h"
 #include "../display/ST7735.h"
+#include "../tm4c123gh6pm.h"
+
 
 /*
 uint32_t updateRed;
@@ -165,14 +167,21 @@ void drawGuitar(void){
 	ST7735_DrawLine(93, 0, 128, 160, 0xFFFF);
 }
 
+#define SDC_CS           (*((volatile uint32_t *)0x40024004))
+#define SDC_CS_LOW       0           // CS controlled by software
+#define SDC_CS_HIGH      0x01
+
 // Updates the pickup graphic to show if button is pressed or not
 void updatePickups(uint16_t controller)
 {
-	if(controller&0x8000) //green
+    if(controller & 0x8000) {
+        ST7735_DrawBitmap(11, 157, GreenPickupPressed,16,14);
+    }
+        /*
+    if(controller&0x8000) //green
 		ST7735_DrawBitmap(11, 157, GreenPickupPressed,16,14);
 	else
 		ST7735_DrawBitmap(11, 157, GreenPickup,16,14);
-	
 	if(controller&0x4000) //blue
 		ST7735_DrawBitmap(42, 157, BluePickupPressed,16,14);
 	else
@@ -187,4 +196,5 @@ void updatePickups(uint16_t controller)
 		ST7735_DrawBitmap(102, 157, RedPickupPressed,16,14);
 	else
 		ST7735_DrawBitmap(102, 157, RedPickup,16,14);	
+*/
 }

@@ -32,9 +32,12 @@ int main() {
     audioInit();
     displayMenu(&mainMenu);
     while(1){
+        // Read SD card
+        readSector();
+
 			//GPIO_PORTF_DATA_R ^= 0x04;
-      controller = controllerRead();
-			updatePickups(controller);
+        controller = controllerRead();
+        updatePickups(controller);
     };
 }
 
