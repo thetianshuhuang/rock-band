@@ -33,16 +33,16 @@ uint32_t a;
 //
 uint16_t controller;
 int main() {
-	  PLL_Init(Bus80MHz);
+    PLL_Init(Bus80MHz);
+    audioInit();
     ST7735_InitR(INITR_REDTAB);
     controllerInit();
-    //audioInit();
-    //displayMenu(&mainMenu);
+    displayMenu(&mainMenu);
 	  //initGame("miab.bw");
 	  //startSong("zzz.bw", &a);
 	 
     while(1){
-			initRedNote(&testRed);
+        initRedNote(&testRed);
 	    initYellowNote(&testYellow);
 	    initBlueNote(&testBlue);
 	    initGreenNote(&testGreen);
