@@ -16,6 +16,16 @@ uint32_t updateBlue;
 uint32_t updateGreen;
 */
 
+uint8_t red_x_path[] = {82, 83, 87, 89, 92, 95, 97, 99, 102, 105};
+uint8_t red_y_path[] = {0, 10, 30, 48, 65, 82, 98, 114, 130, 146};
+uint8_t yellow_x_path[] = {66, 67, 68, 69, 70, 71, 71, 72, 73, 74};
+uint8_t yellow_y_path[] = {0, 10, 30, 48, 65, 82, 98, 114, 130, 146};
+uint8_t blue_x_path[] = {53, 52, 51, 50, 49, 48, 48, 47, 46, 45};
+uint8_t blue_y_path[] = {0, 10, 30, 48, 65, 82, 98, 114, 130, 146};
+uint8_t green_x_path[] = {37, 36, 32, 30, 27, 24, 22, 20, 17, 14};
+uint8_t green_y_path[] = {0, 10, 30, 48, 65, 82, 98, 114, 130, 146};
+
+
 // 16x14
 const uint16_t RedPickup[] = { 
 	0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x001F, 0x001F, 0x001F, 0x001F, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
@@ -156,10 +166,10 @@ void drawGuitar(void){
 	ST7735_DrawBitmap(71, 157, YellowPickup,16,14);
 	ST7735_DrawBitmap(42, 157, BluePickup,16,14);
 	ST7735_DrawBitmap(11, 157, GreenPickup,16,14);
-	//ST7735_DrawCircle(101, 130, 0x001F);
-	ST7735_DrawCircle(74, 30, 0x07FF);
-	//ST7735_DrawCircle(51, 30, 0xF800);
-	//ST7735_DrawCircle(11, 130, 0x07E0);
+	//ST7735_DrawCircle(82, 0, 0x001F);
+	//ST7735_DrawCircle(74, 146, 0x07FF);
+	//ST7735_DrawCircle(45, 146, 0xF800);
+	ST7735_DrawCircle(14, 146, 0x07E0);
 	ST7735_DrawLine(35, 0, 0, 160, 0xFFFF);
 	ST7735_DrawLine(49, 0, 34, 160, 0xFFFF);
 	ST7735_DrawFastVLine(64, 0, 160, 0xFFFF);
