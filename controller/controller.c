@@ -6,6 +6,9 @@
  * Digital: PE1, PD1-D3
  */
 
+/////////CLOCKWISE ON POT == LESS SENSitive - golden val = 0.77v
+
+
 #include "controller.h"
 #include "../tm4c123gh6pm.h"
 
