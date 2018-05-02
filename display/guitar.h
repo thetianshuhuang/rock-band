@@ -51,5 +51,5 @@ void initGreenNote(Note *note);
 
 uint32_t animateNote(Note *note);
 
-
+void updateScore(uint16_t score);
 #endif

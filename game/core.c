@@ -106,7 +106,7 @@ void mainLoop(void) {
         { 
 					  for(int i = 0; i < 20; i++)
 						  animateNote(&notes[i]);
-					
+					  updateScore(playerState.score);
             updatePickups(controllerRead());
 					  Delayms(12);
             if(checkPause() != 0) {
