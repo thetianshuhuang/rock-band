@@ -14,7 +14,7 @@
 #include "../display/splash.h"
 #include "songs.h"
 #include "load_song.h"
-#include "dsp.h"
+#include "../controller/dsp.h"
 
 GAME_STATE playerState;
 
@@ -46,7 +46,7 @@ void initGame(SONG *song) {
 
     // Zero out track
     for(int i = 0; i < 2048; i++) {
-        currentTrack[0] = 0x03FF;
+        currentTrack[0] = 0xF0FF;
     }
     
     // Load song from SD card
