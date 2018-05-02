@@ -66,6 +66,7 @@ void startSong(const char* songName, uint32_t* songCounter) {
     
     // Initialize SD card filesystem
     do {
+        mountStatus = f_mount(&sdFileSystem, "", 0);
     } while(mountStatus != 0);
 
     // Open song and load the first sector

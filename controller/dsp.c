@@ -6,6 +6,7 @@
 
 
 #include <stdint.h>
+#include <stdlib.h>
 
 
 uint16_t previousValue;
@@ -16,7 +17,7 @@ uint16_t previousValue;
 // Returns;
 //      uint16_t: output change
 uint16_t derivative(uint16_t input) {
-    uint16_t output = input - previousValue;
+    uint16_t output = abs(input - previousValue);
     previousValue = input;
     return(output);
 }

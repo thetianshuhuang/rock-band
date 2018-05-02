@@ -94,6 +94,7 @@ uint8_t findId(uint8_t id) {
     return(0xFF);
 }
 
+uint16_t change;
 // ----------mainLoop----------
 // Main game loop
 void mainLoop(void) {
@@ -104,7 +105,7 @@ void mainLoop(void) {
         for(int j = 0; j < resolution; j++)
         { 
 					  uint16_t controller = controllerRead();
-            uint16_t change = derivative(controller);
+            change = derivative(controller);
 					
 					  for(int i = 0; i < 20; i++)
 					    //if(playerState.instrument == DRUMS)
@@ -154,6 +155,7 @@ void updateGame(uint8_t* packet) {
 */
 
 
+uint8_t ADCCounter;
 // ----------Timer0A_Handler----------
 // Timer handler for ADC sampling and SD read
 void Timer0A_Handler(void) {
@@ -163,11 +165,15 @@ void Timer0A_Handler(void) {
     // Clear interrupt
     TIMER0_ICR_R = TIMER_ICR_TATOCINT;
     // Take ADC sample
-    sampleAdc();
+    if(ADCCounter > 40) {
+        sampleAdc();
+        ADCCounter = 0;
+    }
     // Read sector
     readSector();
 
     GPIO_PORTF_DATA_R ^= 0x08;
+    ADCCounter += 1;
 }
 
 
@@ -201,28 +207,6 @@ void SysTick_Handler(void) {
             incrementNotePointer();
         }
     }
-    if(playerState.tail <= 10) {
-        uint16_t controller = controllerRead();
-        uint16_t change = derivative(controller);
-        // Large change -> clear bits that are set in controller
-        if(change > 0x0080) {
-            currentTrack[playerState.tailPtr] &= ~(controller & 0xF000);
-        }
-    }
-    /*
-    if(playerState.tail <= -10) {
-        playerState.tail = 100 * (currentTrack[playerState.tailPtr] & 0x03FF);
-        // Check if note bits have all been cleared
-        if((playerState.tailPtr & 0xF000) != 0) {
-            playerState.score -= 100;
-        }
-        else {
-            playerState.score += 100;
-        }
-        playerState.tailPtr += 1;
-    }
-		*/
     playerState.head -= 1;
-    playerState.tail -= 1;
 }
 
