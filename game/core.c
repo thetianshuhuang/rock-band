@@ -107,9 +107,9 @@ void mainLoop(void) {
             uint16_t change = derivative(controller);
 					
 					  for(int i = 0; i < 20; i++)
-					    if(playerState.instrument == DRUMS)
-						    animateNote(&notes[i], &playerState, (uint16_t)100000);
-							else 
+					    //if(playerState.instrument == DRUMS)
+						  //  animateNote(&notes[i], &playerState, (uint16_t)100000);
+							//else 
 								animateNote(&notes[i], &playerState, change);
 					
 					  updateScore(playerState.score);
