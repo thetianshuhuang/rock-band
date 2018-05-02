@@ -25,7 +25,8 @@ uint8_t blue_y_path[] = {0, 4, 10, 19, 30, 40, 48, 57, 65, 74, 82, 90, 98, 106, 
 uint8_t green_x_path[] = {37, 37, 36, 34, 32, 31, 30, 29, 27, 26, 24, 23, 22, 21, 20, 19, 17, 15, 14};
 uint8_t green_y_path[] = {0, 4, 10, 19, 30, 40, 48, 57, 65, 74, 82, 90, 98, 106, 114, 122, 130, 138, 146};
 
-
+char *scorePrompt = "Score";
+	
 // 16x14
 const uint16_t RedPickup[] = { 
 	0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x001F, 0x001F, 0x001F, 0x001F, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
@@ -157,11 +158,9 @@ const uint16_t GreenPickupPressed[] = {
 };
 
 void drawGuitar(void){
-	char *scorePrompt = "Score";
-	char *score = ">9000";
 	ST7735_FillScreen(0);
 	ST7735_DrawString(0, 0, scorePrompt, 0xFFFF);
-	ST7735_DrawString(0, 1, score, 0xFFFF);
+	ST7735_DrawString(0, 1, ">9000", 0xFFFF);
 	ST7735_DrawBitmap(102, 157, RedPickup,16,14);
 	ST7735_DrawBitmap(71, 157, YellowPickup,16,14);
 	ST7735_DrawBitmap(42, 157, BluePickup,16,14);
@@ -240,4 +239,11 @@ uint32_t animateNote(Note *note)
 	ST7735_DrawCircle(note->x_path[note->stage], note->y_path[note->stage], note->color);
 	note->stage++;
 	return 0;
+}
+
+void updateScore(uint16_t score){
+	ST7735_DrawString(0, 0, scorePrompt, 0xFFFF);
+	ST7735_FillRect(0, 8, 29, 8, 0);
+	ST7735_SetCursor(0, 1);
+	ST7735_OutUDec(score);
 }
