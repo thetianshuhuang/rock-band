@@ -523,6 +523,16 @@
               <FileType>5</FileType>
               <FilePath>.\game\songs.h</FilePath>
             </File>
+            <File>
+              <FileName>load_song.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\game\load_song.c</FilePath>
+            </File>
+            <File>
+              <FileName>load_song.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\game\load_song.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
