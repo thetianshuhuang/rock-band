@@ -102,10 +102,6 @@ void mainLoop(void) {
 
     // Play until tick overflows
     while(playerState.tick < 0x8FFFFFFF) {
-        initRedNote(&testRed);
-        initYellowNote(&testYellow);
-        initBlueNote(&testBlue);
-        initGreenNote(&testGreen);
         for(int j = 0; j < resolution; j++)
         { 
 					  for(int i = 0; i < 20; i++)
@@ -176,19 +172,22 @@ void SysTick_Handler(void) {
     if(playerState.head == 0) {
         playerState.head = currentTrack[playerState.headPtr];
         playerState.headPtr += 1;
-        // Create note			
+        // Create Red note			
 		    if(currentTrack[playerState.headPtr] & 0x8000){
 					initRedNote(&notes[noteIndex]);
 					incrementNotePointer();
 				}
+				// Create Yellow note
 				if(currentTrack[playerState.headPtr] & 0x4000){
 					initYellowNote(&notes[noteIndex]);
 					incrementNotePointer();
 				}
+				// Create Blue note
 				if(currentTrack[playerState.headPtr] & 0x2000){
 					initBlueNote(&notes[noteIndex]);
 					incrementNotePointer();
 				}
+				// Create Green note
 				if(currentTrack[playerState.headPtr] & 0x1000){
 					initGreenNote(&notes[noteIndex]);
 					incrementNotePointer();
