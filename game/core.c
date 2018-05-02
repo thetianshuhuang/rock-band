@@ -135,10 +135,12 @@ void mainLoop(void) {
     ST7735_SetCursor(3, 3);
     ST7735_OutUDec(playerState.score);
     ST7735_SetCursor(3, 4);
+    /*
     ST7735_OutString("Your Accuracy:");
     ST7735_SetCursor(3, 5);
     ST7735_OutUDec(playerState.score/playerState.percent);
     ST7735_OutString(" %");
+    */
     // Wait for input
     while((controllerRead() & 0xF000) == 0){};
 }

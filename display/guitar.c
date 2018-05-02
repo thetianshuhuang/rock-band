@@ -249,9 +249,9 @@ uint32_t animateNote(Note *note, GAME_STATE *playerState, uint16_t strumVelocity
 		ST7735_DrawCircle(note->x_path[note->stage - 1], note->y_path[note->stage - 1], 0);
 	}
 	
-	if((note->stage >= 15) && note->playCheck == 1 && (controllerRead()&note->button) && strumVelocity > 0x0200){
+	if((note->stage >= 13) && note->playCheck == 1 && (controllerRead()&note->button) && strumVelocity > 0x0200){
 		  note->playCheck = 0;
-		  if(playerState->score < 100000)
+		  if(playerState->score < 50000)
 			  playerState->score += 100;
 	}
 	
