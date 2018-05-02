@@ -57,7 +57,7 @@ void initGame(SONG *song) {
     playerState.tailPtr = 0;
 
     // Zero out track
-    for(int i = 0; i < 2048; i++) {
+    for(int i = 0; i < 3072; i++) {
         currentTrack[i] = 0x03FF;
     }
     

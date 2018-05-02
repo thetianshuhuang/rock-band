@@ -34,6 +34,6 @@ void loadSong(uint16_t* readBuffer, const char* trackName) {
     } while(loadSongStatus != 0);
     // Load buffer
     do {
-        loadSongStatus = f_read(&songHandle, readBuffer, 2048, &songSuccessfulLoad);
+        loadSongStatus = f_read(&songHandle, readBuffer, 3072, &songSuccessfulLoad);
     } while(loadSongStatus != 0);
 }

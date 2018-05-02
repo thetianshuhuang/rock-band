@@ -54,6 +54,7 @@ void audioInit(void) {
 // Parameters:
 //      char* songName: name of file to open
 //      uint32_t* songCounter: pointer to current song index
+uint32_t silence;
 void startSong(const char* songName, uint32_t* songCounter) {
     
     SYSCTL_RCGCGPIO_R |= 0x20;
@@ -77,6 +78,9 @@ void startSong(const char* songName, uint32_t* songCounter) {
     while(audioQueue.size < 10000) {
         readSector();
     }
+    
+    silence = 70000;
+    
     // Link current index
     currentIndex = songCounter;
     
@@ -135,12 +139,15 @@ void readSector(void) {
 // Execute a song update
 void updateSong() {
     char data;
-    if(fifoGet(&audioQueue, &data)) {
-        //GPIO_PORTF_DATA_R &= ~0x04;
-        DACOut(data);
-			  *currentIndex -= DIVIDER;
+    if(silence == 0) {
+        if(fifoGet(&audioQueue, &data)) {
+            //GPIO_PORTF_DATA_R &= ~0x04;
+            DACOut(data);
+            *currentIndex -= DIVIDER;
+        }
     }
-    else
-			;
+    else {
+        silence --;
+    }
 }
 
