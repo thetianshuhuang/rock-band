@@ -19,6 +19,19 @@
 GAME_STATE playerState;
 
 
+Note testRed;
+Note testYellow;
+Note testBlue;
+Note testGreen;
+Note notes[20];
+uint32_t noteIndex;
+
+void incrementNotePointer(void){
+	noteIndex++;
+	if(noteIndex >= 20)
+		noteIndex = 0;
+}
+
 // ----------selectInstrument----------
 // Set the player's current instrument
 // Parameters:
@@ -82,11 +95,6 @@ uint8_t findId(uint8_t id) {
     return(0xFF);
 }
 
-
-Note testRed;
-Note testYellow;
-Note testBlue;
-Note testGreen;
 // ----------mainLoop----------
 // Main game loop
 void mainLoop(void) {
@@ -98,14 +106,13 @@ void mainLoop(void) {
         initYellowNote(&testYellow);
         initBlueNote(&testBlue);
         initGreenNote(&testGreen);
-        for(int i = 0; i < resolution; i++)
+        for(int j = 0; j < resolution; j++)
         { 
-            animateNote(&testRed);
-            animateNote(&testYellow);
-            animateNote(&testBlue);
-            animateNote(&testGreen);
+					  for(int i = 0; i < 20; i++)
+						  animateNote(&notes[i]);
+					
             updatePickups(controllerRead());
-            Delayms(12);
+					  Delayms(12);
             if(checkPause() != 0) {
                 playerState.tick = 0xEFFFFFFF;
                 break;
@@ -169,7 +176,23 @@ void SysTick_Handler(void) {
     if(playerState.head == 0) {
         playerState.head = currentTrack[playerState.headPtr];
         playerState.headPtr += 1;
-        // Create note
+        // Create note			
+		    if(currentTrack[playerState.headPtr] & 0x8000){
+					initRedNote(&notes[noteIndex]);
+					incrementNotePointer();
+				}
+				if(currentTrack[playerState.headPtr] & 0x4000){
+					initYellowNote(&notes[noteIndex]);
+					incrementNotePointer();
+				}
+				if(currentTrack[playerState.headPtr] & 0x2000){
+					initBlueNote(&notes[noteIndex]);
+					incrementNotePointer();
+				}
+				if(currentTrack[playerState.headPtr] & 0x1000){
+					initGreenNote(&notes[noteIndex]);
+					incrementNotePointer();
+				}
     }
     if(playerState.tail <= 10) {
         uint16_t controller = controllerRead();
@@ -194,3 +217,4 @@ void SysTick_Handler(void) {
     playerState.head -= 1;
     playerState.tail -= 1;
 }
+
