@@ -23,6 +23,7 @@ Note testYellow;
 Note testBlue;
 Note testGreen;
 Note notes[20];
+
 uint32_t noteIndex;
 
 void incrementNotePointer(void){
@@ -55,6 +56,7 @@ void initGame(SONG *song) {
     playerState.tail = 100;
     playerState.headPtr = 0;
     playerState.tailPtr = 0;
+    playerState.percent = 0;
 
     // Zero out track
     for(int i = 0; i < 3072; i++) {
@@ -132,6 +134,11 @@ void mainLoop(void) {
     ST7735_OutString("Your Score:");
     ST7735_SetCursor(3, 3);
     ST7735_OutUDec(playerState.score);
+    ST7735_SetCursor(3, 4);
+    ST7735_OutString("Your Accuracy:");
+    ST7735_SetCursor(3, 5);
+    ST7735_OutUDec(playerState.score/playerState.percent);
+    ST7735_OutString(" %");
     // Wait for input
     while((controllerRead() & 0xF000) == 0){};
 }
@@ -186,7 +193,8 @@ void SysTick_Handler(void) {
             playerState.head = 100 * (currentTrack[playerState.headPtr] & 0x03FF);
             playerState.headPtr += 1;
         } while(playerState.head == 0);
-        // Create Red note			
+        playerState.percent++;
+        // Create Red note	
         if(currentTrack[playerState.headPtr] & 0x8000){
             initRedNote(&notes[noteIndex]);
             incrementNotePointer();

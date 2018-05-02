@@ -22,6 +22,7 @@ typedef struct game_state_t {
     int32_t headPtr;
     int32_t tail;
     int32_t tailPtr;
+    uint32_t percent;
     enum instrument_t instrument;
 } GAME_STATE;
 
