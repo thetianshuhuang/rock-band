@@ -17,9 +17,11 @@ enum instrument_t {NULL, GUITAR, BASS, DRUMS};
 typedef struct game_state_t {
     uint8_t id;
     uint16_t score;
-    uint16_t currentOffset;
     uint32_t tick;
-    uint16_t note;
+    int32_t head;
+    int32_t headPtr;
+    int32_t tail;
+    int32_t tailPtr;
     enum instrument_t instrument;
 } GAME_STATE;
 

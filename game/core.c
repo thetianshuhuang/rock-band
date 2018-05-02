@@ -14,8 +14,9 @@
 #include "../display/splash.h"
 #include "songs.h"
 #include "load_song.h"
+#include "dsp.h"
 
-GAME_STATE playerStates[4];
+GAME_STATE playerState;
 
 
 // ----------selectInstrument----------
@@ -23,13 +24,12 @@ GAME_STATE playerStates[4];
 // Parameters:
 //      enum instrument_t instrument: instrument to choose; GUITAR, BASS, or DRUMS
 void selectInstrument(enum instrument_t instrument) {
-    playerStates[0].instrument = instrument;
+    playerState.instrument = instrument;
 }
 
 
 // Storage array for the current song
 uint16_t currentTrack[2048];
-uint32_t timeToNextNote;
 
 // ----------initGame----------
 // initialize game (start song)
@@ -37,12 +37,12 @@ uint32_t timeToNextNote;
 //      SONG song: song to play
 void initGame(SONG *song) {
     
-    for(uint8_t i = 0; i < 4; i++) {
-        playerStates[i].tick = song->length;
-        playerStates[i].score = 10000;
-        playerStates[i].currentOffset = 0;
-        playerStates[i].note = 0;
-    }
+    playerState.tick = song->length;
+    playerState.score = 10000;
+    playerState.head = 0;
+    playerState.tail = 100;
+    playerState.headPtr = 0;
+    playerState.tailPtr = 0;
 
     // Zero out track
     for(int i = 0; i < 2048; i++) {
@@ -50,21 +50,20 @@ void initGame(SONG *song) {
     }
     
     // Load song from SD card
-    if(playerStates[0].instrument == GUITAR) {
+    if(playerState.instrument == GUITAR) {
         loadSong(currentTrack, song->guitarTrack);
     }
-    else if(playerStates[0].instrument == BASS) {
+    else if(playerState.instrument == BASS) {
         loadSong(currentTrack, song->bassTrack);
     }
-    else if(playerStates[0].instrument == DRUMS) {
+    else if(playerState.instrument == DRUMS) {
         loadSong(currentTrack, song->drumsTrack);
     }
     // Null track
     else {}
     
     // Start song
-    startSong(song->byteWav, &(playerStates[0].tick));
-    timeToNextNote = 0;
+    startSong(song->byteWav, &(playerState.tick));
 }
 
 
@@ -76,7 +75,7 @@ void initGame(SONG *song) {
 //      uint8_t: index of found game states; 0xFF for error
 uint8_t findId(uint8_t id) {
     for(uint8_t i = 0; i < 4; i++) {
-        if(playerStates[i].id == id) {
+        if(playerState.id == id) {
             return(i);
         }
     }
@@ -94,7 +93,7 @@ void mainLoop(void) {
     drawGuitar();
 
     // Play until tick overflows
-    while(playerStates[0].tick < 0x8FFFFFFF) {
+    while(playerState.tick < 0x8FFFFFFF) {
         initRedNote(&testRed);
         initYellowNote(&testYellow);
         initBlueNote(&testBlue);
@@ -108,7 +107,7 @@ void mainLoop(void) {
             updatePickups(controllerRead());
             Delayms(12);
             if(checkPause() != 0) {
-                playerStates[0].tick = 0xEFFFFFFF;
+                playerState.tick = 0xEFFFFFFF;
                 break;
             }
         }                
@@ -122,14 +121,13 @@ void mainLoop(void) {
     ST7735_SetCursor(3, 2);
     ST7735_OutString("Your Score:");
     ST7735_SetCursor(3, 3);
-    ST7735_OutUDec(playerStates[0].score);
+    ST7735_OutUDec(playerState.score);
     // Wait for input
     while((controllerRead() & 0xF000) == 0){};
-
-
 }
 
 
+/*
 // ----------updateGame----------
 // Update game state over network
 // Parameters:
@@ -144,6 +142,7 @@ void updateGame(uint8_t* packet) {
         (uint32_t) packet[11] << 8 |
         (uint32_t) packet[12];
 }
+*/
 
 
 // ----------Timer0A_Handler----------
@@ -167,11 +166,31 @@ void Timer0A_Handler(void) {
 void SysTick_Handler(void) {
     updateSong();
     // Increment note index when the next note is reached, and set remaining time
-    if(timeToNextNote == 0) {
-        timeToNextNote = 100 * currentTrack[playerStates[0].note];
-        playerStates[0].note += 1;
+    if(playerState.head == 0) {
+        playerState.head = currentTrack[playerState.headPtr];
+        playerState.headPtr += 1;
+        // Create note
     }
-    else {
-        timeToNextNote -= 1;
+    if(playerState.tail <= 10) {
+        uint16_t controller = controllerRead();
+        uint16_t change = derivative(controller);
+        // Large change -> clear bits that are set in controller
+        if(change > 0x0080) {
+            currentTrack[playerState.tailPtr] &= ~(controller & 0xF000);
+        }
     }
+    
+    if(playerState.tail <= -10) {
+        playerState.tail = currentTrack[playerState.tailPtr];
+        // Check if note bits have all been cleared
+        if((playerState.tailPtr & 0xF000) != 0) {
+            playerState.score -= 100;
+        }
+        else {
+            playerState.score += 100;
+        }
+        playerState.tailPtr += 1;
+    }
+    playerState.head -= 1;
+    playerState.tail -= 1;
 }
