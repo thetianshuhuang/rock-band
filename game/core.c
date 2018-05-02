@@ -59,7 +59,7 @@ void initGame(SONG *song) {
 
     // Zero out track
     for(int i = 0; i < 2048; i++) {
-        currentTrack[0] = 0xF0FF;
+        currentTrack[i] = 0xF00F;
     }
     
     // Load song from SD card
