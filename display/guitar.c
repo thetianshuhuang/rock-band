@@ -251,7 +251,7 @@ uint32_t animateNote(Note *note, GAME_STATE *playerState, uint16_t strumVelocity
 	
 	if((note->stage == 18 || note->stage == 17 || note->stage == 16) && note->playCheck == 1 && (controllerRead()&note->button) && strumVelocity > 0x0200){
 		  note->playCheck = 0;
-		  if(playerState->score < 10000)
+		  if(playerState->score < 100000)
 			  playerState->score += 100;
 	}
 	
