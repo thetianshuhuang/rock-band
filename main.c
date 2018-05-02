@@ -20,10 +20,22 @@
  * LIBRARIES AND MODULES
  * - Network: token network implementation, modified from Serial Token Ring
  * - Audio: SD read and DAC out; 8 bit x 44.1kHz (44.1kBps bitrate)
- * - Controller: Four digital and one analog, and derivative routines for the strummer
+ * - Controller: Four digital and one analog, and derivative routines for the
+ *      strummer
  * - Game: Core game control
  * - Display: SD drivers and display routines
  * - Menu: Generalized menu library using function pointers
+ *
+ * FILE TYPES
+ * - Packed Image (.pi): packed 5-6-5 GBR 16-bit image, uncompressed, scanning
+ *      starting from bottom left, across, then up
+ * - Byte wave file (.bw): raw audio file, bit-depth of 8, 44.1kHz
+ * - Rock Band Track (.rb): 16-bit array.
+ *      | R | Y | B | G | Reserved | Reserved | -- (10) Tick -- |
+ *      R, Y, B, G indicated whether each drum should be hit (1) at that note
+ *      or not (0).
+ *      Tick indicates the number of updates (441 updates/s or 100 audio ticks/update)
+ *      before the next note.
  */
 
 // Library Includes
