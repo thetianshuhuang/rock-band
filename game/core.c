@@ -59,7 +59,7 @@ void initGame(SONG *song) {
 
     // Zero out track
     for(int i = 0; i < 2048; i++) {
-        currentTrack[0] = 0xF0FF;
+        currentTrack[0] = 0x08FF;
     }
     
     // Load song from SD card
@@ -170,8 +170,11 @@ void SysTick_Handler(void) {
     updateSong();
     // Increment note index when the next note is reached, and set remaining time
     if(playerState.head == 0) {
-        playerState.head = currentTrack[playerState.headPtr];
+        playerState.head = 100 * currentTrack[playerState.headPtr];
         playerState.headPtr += 1;
+			
+			GPIO_PORTF_DATA_R ^= 0x04;
+			
         // Create Red note			
 		    if(currentTrack[playerState.headPtr] & 0x8000){
 					initRedNote(&notes[noteIndex]);
@@ -200,10 +203,11 @@ void SysTick_Handler(void) {
         if(change > 0x0080) {
             currentTrack[playerState.tailPtr] &= ~(controller & 0xF000);
         }
+				GPIO_PORTF_DATA_R ^= 0x04;
     }
     
     if(playerState.tail <= -10) {
-        playerState.tail = currentTrack[playerState.tailPtr];
+        playerState.tail = 100 * currentTrack[playerState.tailPtr];
         // Check if note bits have all been cleared
         if((playerState.tailPtr & 0xF000) != 0) {
             playerState.score -= 100;
