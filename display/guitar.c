@@ -7,6 +7,8 @@
 #include "guitar.h"
 #include "../display/ST7735.h"
 #include "../tm4c123gh6pm.h"
+#include "../controller/controller.h"
+#include "../game/core.h"
 
 
 /*
@@ -207,6 +209,8 @@ void initRedNote(Note *note)
 	  note->y_path = red_y_path; 
     note->stage = 0;
     note->color = red;
+	  note->playCheck = 1;
+	  note->button = 0x1000;
 }
 void initYellowNote(Note *note)
 {
@@ -214,6 +218,8 @@ void initYellowNote(Note *note)
 	  note->y_path = yellow_y_path; 
     note->stage = 0;
     note->color = yellow;
+	  note->playCheck = 1;
+	  note->button = 0x2000;
 }
 void initBlueNote(Note *note)
 {
@@ -221,6 +227,8 @@ void initBlueNote(Note *note)
 	  note->y_path = blue_y_path; 
     note->stage = 0;
     note->color = blue;
+	  note->playCheck = 1;
+	  note->button = 0x4000;
 }
 void initGreenNote(Note *note)
 {
@@ -228,14 +236,24 @@ void initGreenNote(Note *note)
 	  note->y_path = green_y_path; 
     note->stage = 0;
     note->color = green;
+	  note->playCheck = 1;
+	  note->button = 0x8000;
 }
 
-uint32_t animateNote(Note *note)
+uint32_t animateNote(Note *note, GAME_STATE *playerState, uint16_t strumVelocity)
 {
 	if(note->stage >= resolution)
 		return 1;
-	if(note->stage != 0)
+	
+	if(note->stage != 0){
 		ST7735_DrawCircle(note->x_path[note->stage - 1], note->y_path[note->stage - 1], 0);
+	}
+	
+	if((note->stage == 0 || note->stage == 1 ) && note->playCheck == 1 && (controllerRead()&note->button) && strumVelocity > 100){
+		  note->playCheck = 0;
+			playerState->score += 100;
+	}
+	
 	ST7735_DrawCircle(note->x_path[note->stage], note->y_path[note->stage], note->color);
 	note->stage++;
 	return 0;
@@ -243,7 +261,7 @@ uint32_t animateNote(Note *note)
 
 void updateScore(uint16_t score){
 	ST7735_DrawString(0, 0, scorePrompt, 0xFFFF);
-	ST7735_FillRect(0, 8, 29, 8, 0);
+	ST7735_FillRect(0, 8, 29, 9, 0);
 	ST7735_SetCursor(0, 1);
 	ST7735_OutUDec(score);
 }
