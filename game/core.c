@@ -192,6 +192,7 @@ void SysTick_Handler(void) {
 					initGreenNote(&notes[noteIndex]);
 					incrementNotePointer();
 				}
+                //
     }
     if(playerState.tail <= 10) {
         uint16_t controller = controllerRead();
