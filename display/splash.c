@@ -45,3 +45,17 @@ void showSplash(char* image) {
     // Close file
     splashStatus = f_close(&splashHandle);
 }
+
+
+// --------menuSplash--------
+// Show the main menu splash screen
+void menuSplash(void) {
+     // Show splash screen
+    showSplash("splash.pi");
+    // Write instructions
+    ST7735_SetTextColor(0xFFFF);
+    ST7735_SetCursor(3, 15);
+    ST7735_OutString("Press Any Button");
+    // Wait for input
+    while((controllerRead() & 0xF000) == 0){};
+}

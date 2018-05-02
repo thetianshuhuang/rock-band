@@ -14,17 +14,8 @@
 
 
 // Set audio period
-// Divider specifies the audio refresh rate as a fraction of 44.1kHz
-#if DIVIDER == 4
-#define AUDIO_PERIOD 0x1C58;
-#elif DIVIDER == 2
-#define AUDIO_PERIOD 0xE2C;
-#elif DIVIDER == 1
 #define AUDIO_PERIOD 0x716;
-#else
-#define DIVIDER 1
-#define AUDIO_PERIOD 0x716;
-#endif
+#define DIVIDER 1;
 
 
 // Status codes from the SD library
@@ -56,7 +47,8 @@ void audioInit(void) {
 //      uint32_t* songCounter: pointer to current song index
 uint32_t silence;
 void startSong(const char* songName, uint32_t* songCounter) {
-    
+
+    // Debug heartbeat init
     SYSCTL_RCGCGPIO_R |= 0x20;
     __asm{NOP};
     __asm{NOP};
@@ -78,9 +70,9 @@ void startSong(const char* songName, uint32_t* songCounter) {
     while(audioQueue.size < 10000) {
         readSector();
     }
-    
+
+    // Set silence at the beginning of the song
     silence = 70000;
-    
     // Link current index
     currentIndex = songCounter;
     
@@ -126,8 +118,10 @@ uint8_t charToHex(uint8_t input) {
 // Read at most one sector from the SD card into the audio queue
 void readSector(void) {
     uint8_t readByte;
+    // Read until audioQueue is full, or at most one sector
     for(uint16_t i = 0; (i < 512) && (audioQueue.size < 20000); i++) {
         readStatus = f_read(&handle, &readByte, 1, &successfulreads);
+        // Only push if success returned
         if(readStatus == 0) {
             fifoPut(&audioQueue, readByte);
         }

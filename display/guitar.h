@@ -17,17 +17,17 @@
 #define green 0x07E0
 
 typedef struct {
-    uint8_t *x_path;
-	  uint8_t *y_path;
+    const uint8_t *x_path;
+	const uint8_t *y_path;
     uint16_t stage;
-		uint16_t color;
-	  uint8_t playCheck;
-	  uint16_t button;
+    uint16_t color;
+	uint8_t playCheck;
+	uint16_t button;
 } Note;
 
 // ----------drawGuitar----------
 // initialize guitar graphics
-// Parameters
+// Parameters:
 //      none
 void drawGuitar(void);
 
@@ -41,4 +41,5 @@ void initGreenNote(Note *note);
 uint32_t animateNote(Note *note, GAME_STATE *playerState, uint16_t strumVelocity);
 
 void updateScore(uint16_t score);
+
 #endif

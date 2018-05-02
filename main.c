@@ -1,50 +1,73 @@
 /*
- *Insert a header here
+ * ROCK BAND
+ * EE319k Final Project
  *
+ * By Quinn Buoy and Tianshu Huang
+ * May 2018
+ *
+ * FEATURES
+ * - 44.1kHz, 8 bit audio
+ * - ST7735R display
+ * - Audio and tracks via SD read
+ * - inifinitely many songs supported, just by expanding the menu
+ * - Full resolution (128x160) splash screens
+ *
+ * DEPENDENCIES
+ * - tm4c123gh6p.h (tm4c hardware register definition file)
+ * - PLL.h (tm4c PLL; used for 80mHz clock)
+ * - FATFS; ST7735.h and diskio.h from Valvanoware (Heavily modified)
+ *
+ * LIBRARIES AND MODULES
+ * - Network: token network implementation, modified from Serial Token Ring
+ * - Audio: SD read and DAC out; 8 bit x 44.1kHz (44.1kBps bitrate)
+ * - Controller: Four digital and one analog, and derivative routines for the strummer
+ * - Game: Core game control
+ * - Display: SD drivers and display routines
+ * - Menu: Generalized menu library using function pointers
  */
 
-
+// Library Includes
 #include <stdint.h>
 #include "tm4c123gh6pm.h"
 #include "PLL.h"
 
+// Module Includes
 #include "audio/driver.h"
-#include "network/fifo.h"
-#include "display/ff.h"
 #include "controller/controller.h"
 #include "game/core.h"
 #include "menu/menu.h"
 #include "menu/menu_defs.h"
 #include "display/ST7735.h"
 #include "display/splash.h"
-#include "display/guitar.h"
-
-// Game ID ifndef for testing
-#ifndef GAME_ID
-#define GAME_ID 0x42
-#endif
 
 
-int main() {
-    
+//
+// GAME HARDWARE SETTINGS
+//
+void gameInit(void)
+{
     // Initializations (audioInit must go before ST7735_InitR)
     PLL_Init(Bus80MHz);
     audioInit();
     ST7735_InitR(INITR_REDTAB);
     controllerInit();
-    
-    // Set rotation
+
+    // Set rotation (180 degrees)
     ST7735_SetRotation(2);
+}
+
+
+//
+// MAIN LOOP
+//
+int main()
+{
+    // Initialize hardware
+    gameInit();
 
     // Show splash screen
-    showSplash("splash.pi");
-    // Write instructions
-    ST7735_SetTextColor(0xFFFF);
-    ST7735_SetCursor(3, 15);
-    ST7735_OutString("Press Any Button");
-    // Wait for input
-    while((controllerRead() & 0xF000) == 0){};
-    
+    menuSplash();
+
     // Enter main loop
     while(1){
         displayMenu(&mainMenu);	 
