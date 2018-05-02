@@ -18,7 +18,6 @@
 
 GAME_STATE playerState;
 
-
 Note testRed;
 Note testYellow;
 Note testBlue;
@@ -51,7 +50,7 @@ uint16_t currentTrack[2048];
 void initGame(SONG *song) {
     
     playerState.tick = song->length;
-    playerState.score = 10000;
+    playerState.score = 0;
     playerState.head = 0;
     playerState.tail = 100;
     playerState.headPtr = 0;
@@ -104,10 +103,17 @@ void mainLoop(void) {
     while(playerState.tick < 0x8FFFFFFF) {
         for(int j = 0; j < resolution; j++)
         { 
+					  uint16_t controller = controllerRead();
+            uint16_t change = derivative(controller);
+					
 					  for(int i = 0; i < 20; i++)
-						  animateNote(&notes[i]);
+					    //if(playerState.instrument == DRUMS)
+						  //  animateNote(&notes[i], &playerState, (uint16_t)100000);
+							//else 
+								animateNote(&notes[i], &playerState, change);
+					
 					  updateScore(playerState.score);
-            updatePickups(controllerRead());
+            updatePickups(controller);
 					  Delayms(12);
             if(checkPause() != 0) {
                 playerState.tick = 0xEFFFFFFF;
@@ -203,7 +209,7 @@ void SysTick_Handler(void) {
             currentTrack[playerState.tailPtr] &= ~(controller & 0xF000);
         }
     }
-    
+    /*
     if(playerState.tail <= -10) {
         playerState.tail = 100 * (currentTrack[playerState.tailPtr] & 0x03FF);
         // Check if note bits have all been cleared
@@ -215,6 +221,7 @@ void SysTick_Handler(void) {
         }
         playerState.tailPtr += 1;
     }
+		*/
     playerState.head -= 1;
     playerState.tail -= 1;
 }
