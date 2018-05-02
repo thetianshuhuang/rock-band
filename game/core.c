@@ -59,7 +59,7 @@ void initGame(SONG *song) {
 
     // Zero out track
     for(int i = 0; i < 2048; i++) {
-        currentTrack[i] = 0xF00F;
+        currentTrack[i] = 0x03FF;
     }
     
     // Load song from SD card
@@ -170,29 +170,30 @@ void SysTick_Handler(void) {
     updateSong();
     // Increment note index when the next note is reached, and set remaining time
     if(playerState.head == 0) {
-        playerState.head = currentTrack[playerState.headPtr];
-        playerState.headPtr += 1;
+        do {
+            playerState.head = 100 * (currentTrack[playerState.headPtr] & 0x03FF);
+            playerState.headPtr += 1;
+        } while(playerState.head == 0);
         // Create Red note			
-		    if(currentTrack[playerState.headPtr] & 0x8000){
-					initRedNote(&notes[noteIndex]);
-					incrementNotePointer();
-				}
-				// Create Yellow note
-				if(currentTrack[playerState.headPtr] & 0x4000){
-					initYellowNote(&notes[noteIndex]);
-					incrementNotePointer();
-				}
-				// Create Blue note
-				if(currentTrack[playerState.headPtr] & 0x2000){
-					initBlueNote(&notes[noteIndex]);
-					incrementNotePointer();
-				}
-				// Create Green note
-				if(currentTrack[playerState.headPtr] & 0x1000){
-					initGreenNote(&notes[noteIndex]);
-					incrementNotePointer();
-				}
-                //
+        if(currentTrack[playerState.headPtr] & 0x8000){
+            initRedNote(&notes[noteIndex]);
+            incrementNotePointer();
+        }
+        // Create Yellow note
+        if(currentTrack[playerState.headPtr] & 0x4000){
+            initYellowNote(&notes[noteIndex]);
+            incrementNotePointer();
+        }
+        // Create Blue note
+        if(currentTrack[playerState.headPtr] & 0x2000){
+            initBlueNote(&notes[noteIndex]);
+            incrementNotePointer();
+        }
+        // Create Green note
+        if(currentTrack[playerState.headPtr] & 0x1000){
+            initGreenNote(&notes[noteIndex]);
+            incrementNotePointer();
+        }
     }
     if(playerState.tail <= 10) {
         uint16_t controller = controllerRead();
@@ -204,7 +205,7 @@ void SysTick_Handler(void) {
     }
     
     if(playerState.tail <= -10) {
-        playerState.tail = currentTrack[playerState.tailPtr];
+        playerState.tail = 100 * (currentTrack[playerState.tailPtr] & 0x03FF);
         // Check if note bits have all been cleared
         if((playerState.tailPtr & 0xF000) != 0) {
             playerState.score -= 100;

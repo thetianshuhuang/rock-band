@@ -23,8 +23,7 @@ while not done:
             if(keys !=0):
                 notes.append([
                     keys,
-                    int(
-                        ((time.time() * 1000) % 1000000) / 2.27)])
+                    int(time.time() * 441)])
             if(event.key == pygame.K_SPACE):
                 done = True
 pygame.quit()
@@ -54,5 +53,5 @@ notesPacked = [(i[0] << 12) + i[1] for i in notesDiff]
 
 outfile = open("rylah_g.rb", "w")
 for i in notesPacked:
-    outfile.write(struct.pack('>H', i))
+    outfile.write(struct.pack('H', i))
 outfile.close()

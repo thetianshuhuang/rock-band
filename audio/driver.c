@@ -46,10 +46,6 @@ FIFO_QUEUE audioQueue;
 void audioInit(void) {
     // Initialize DAC
     DACInit();
-    // Initialize SD card filesystem
-    do {
-        mountStatus = f_mount(&sdFileSystem, "", 0);
-    } while(mountStatus != 0);
 }
 
 
@@ -68,6 +64,10 @@ void startSong(const char* songName, uint32_t* songCounter) {
     GPIO_PORTF_AFSEL_R &= ~0x0C;
     GPIO_PORTF_AMSEL_R &= ~0x0C;
     
+    // Initialize SD card filesystem
+    do {
+    } while(mountStatus != 0);
+
     // Open song and load the first sector
     do {
         openStatus = f_open(&handle, songName, FA_READ);
