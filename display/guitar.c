@@ -90,7 +90,7 @@ void moveNotes(void) {
 
 
 // lenience in seconds = (19 - LENIENCE) * 60  / 441
-#define LENIENCE 18
+#define LENIENCE 16
 // Minimum strum velocity
 #define MIN_STRUM 0x0200
 
@@ -108,16 +108,16 @@ int16_t updateNote(uint16_t strumChange)
         // Cycle through the four notes
         for(uint8_t j = 0; j < 4; j++) {
             // Check if note is present
-            if((noteStates[j] && (0x0001 << i)) != 0) {
+            if((noteStates[j] & (0x0001 << i)) != 0) {
                 // Clear previous note, except for position 0
-                if(i != 0) {
+                if((i != 0) && (i < 20)) {
                     ST7735_DrawCircle(
                         noteProfiles[j].xPath[i - 1],
                         noteProfiles[j].yPath[i - 1], 0);
                 }
                 // If the note is being played:
                 if(strumChange > MIN_STRUM &&
-                   ((controllerRead() & (0x0001 << i)) != 0) &&
+                   ((controllerRead() & (0x1000 << j)) != 0) &&
                    i > LENIENCE) {
                     // Increment score by 100
                     score += 100;
@@ -125,13 +125,15 @@ int16_t updateNote(uint16_t strumChange)
                     noteStates[j] &= ~(0x0001 << i);
                 }
                 // Draw new note
-                ST7735_DrawCircle(
-                    noteProfiles[j].xPath[i],
-                    noteProfiles[j].yPath[i],
-                    noteProfiles[j].color);
+                else if(i < 19) {
+                    ST7735_DrawCircle(
+                        noteProfiles[j].xPath[i],
+                        noteProfiles[j].yPath[i],
+                        noteProfiles[j].color);
+                }
                 // Subtract points for missed note
-                if(i == 20) {
-                    score -= 20;
+                if(i == 19) {
+                    score -= 10;
                     noteStates[j] &= ~(0x0001 << i);
                 }
             }

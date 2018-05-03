@@ -72,7 +72,7 @@ void startSong(const char* songName, uint32_t* songCounter) {
     }
 
     // Set silence at the beginning of the song
-    silence = 110200;
+    silence = 114000;
     // Link current index
     currentIndex = songCounter;
     
@@ -121,7 +121,6 @@ void readSector(void) {
     // Read until audioQueue is full, or at most two sectors, unless the queue is almost empty
     for(uint16_t i = 0; ((i < 1024) || audioQueue.size < 5000) && (audioQueue.size < 10000); i++) {
         readStatus = f_read(&handle, &readByte, 1, &successfulreads);
-        // Only push if success returned
         if(readStatus == 0) {
             fifoPut(&audioQueue, readByte);
         }

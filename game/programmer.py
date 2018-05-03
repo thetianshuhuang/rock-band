@@ -8,6 +8,7 @@ done = False
 
 # capture notes
 notes = []
+started = False
 while not done:
     for event in pygame.event.get():
         keys = 0
@@ -24,7 +25,10 @@ while not done:
                 notes.append([
                     keys,
                     int(time.time() * 441)])
-            if(event.key == pygame.K_SPACE):
+            if(event.key == pygame.K_SPACE and not started):
+                notes.append([0, int(time.time() * 441)])
+                started = True
+            elif(event.key == pygame.K_SPACE and started):
                 done = True
 pygame.quit()
 print(notes)
@@ -43,9 +47,12 @@ print(notesProcessed)
 # calculate offset
 notesDiff = [[notesProcessed[0][0], 0]]
 for i in range(len(notesProcessed) - 1):
-    notesDiff.append([
-        notesProcessed[i + 1][0],
-        notesProcessed[i + 1][1] - notesProcessed[i][1]])
+    offset = notesProcessed[i + 1][1] - notesProcessed[i][1]
+    while(offset > 1023):
+        notesDiff.append([0, 1023])
+        offset -= 1023
+    notesDiff.append([notesProcessed[i + 1][0], offset])
+              
 print(notesDiff)
 
 # get pack

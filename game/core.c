@@ -114,10 +114,8 @@ void mainLoop(void) {
             uint16_t change = derivative(controllerRead() & 0x0FFF);
             scoreChange = updateNote(change);
         }
-        if(playerState.score > -scoreChange) {
-            playerState.score += scoreChange;
-        }
-        else {
+        playerState.score += scoreChange;
+        if(playerState.score > 6000) {
             playerState.score = 0;
         }
         updateScore(playerState.score);
@@ -200,7 +198,7 @@ void SysTick_Handler(void) {
             playerState.headPtr += 1;
         } while(playerState.head == 0);
         // Create relevant notes
-        createNotes(currentTrack[playerState.headPtr] & 0xF000);
+        createNotes(currentTrack[playerState.headPtr]);
     }
     if(drawTicks == 0) {
         drawTicks = 6000;
