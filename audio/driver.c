@@ -72,15 +72,15 @@ void startSong(const char* songName, uint32_t* songCounter) {
     }
 
     // Set silence at the beginning of the song
-    silence = 70000;
+    silence = 110200;
     // Link current index
     currentIndex = songCounter;
     
-    // Set up SysTick with priority 1, clock, and interrupts
+    // Set up SysTick with priority 0, clock, and interrupts
     NVIC_ST_CTRL_R = 0;
     NVIC_ST_RELOAD_R = AUDIO_PERIOD;
     NVIC_ST_CURRENT_R = 0;
-    NVIC_SYS_PRI3_R = (NVIC_SYS_PRI3_R & 0X00FFFFFF) | 0x40000000;
+    NVIC_SYS_PRI3_R = (NVIC_SYS_PRI3_R & 0X00FFFFFF) | 0x00000000;
     NVIC_ST_CTRL_R = 0x0007;
     // Start timer0 (ADC and SD)
     TIMER0_CTL_R = 0x00000001;
@@ -118,8 +118,8 @@ uint8_t charToHex(uint8_t input) {
 // Read at most one sector from the SD card into the audio queue
 void readSector(void) {
     uint8_t readByte;
-    // Read until audioQueue is full, or at most one sector
-    for(uint16_t i = 0; (i < 512) && (audioQueue.size < 20000); i++) {
+    // Read until audioQueue is full, or at most two sectors, unless the queue is almost empty
+    for(uint16_t i = 0; ((i < 1024) || audioQueue.size < 5000) && (audioQueue.size < 10000); i++) {
         readStatus = f_read(&handle, &readByte, 1, &successfulreads);
         // Only push if success returned
         if(readStatus == 0) {
@@ -134,11 +134,9 @@ void readSector(void) {
 void updateSong() {
     char data;
     if(silence == 0) {
-        if(fifoGet(&audioQueue, &data)) {
-            //GPIO_PORTF_DATA_R &= ~0x04;
-            DACOut(data);
-            *currentIndex -= DIVIDER;
-        }
+        fifoGet(&audioQueue, &data);
+        DACOut(data);
+        *currentIndex -= DIVIDER;
     }
     else {
         silence --;
