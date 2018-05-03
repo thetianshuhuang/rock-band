@@ -84,7 +84,7 @@ MENU_SCREEN mainMenu = {
         {"Start Lobby", "", "", &startMultiplayer},
         {"Select Instrument", "", "", &instrumentSelectMenu},
     },
-    &menuSplash
+    0
 };
 
 
