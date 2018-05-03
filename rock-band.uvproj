@@ -430,16 +430,6 @@
               <FileType>5</FileType>
               <FilePath>.\PLL.h</FilePath>
             </File>
-            <File>
-              <FileName>guitar_data.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\display\guitar_data.c</FilePath>
-            </File>
-            <File>
-              <FileName>guitar_data.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\display\guitar_data.h</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -607,6 +597,16 @@
               <FileName>splash.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\display\splash.h</FilePath>
+            </File>
+            <File>
+              <FileName>guitar_data.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\display\guitar_data.c</FilePath>
+            </File>
+            <File>
+              <FileName>guitar_data.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\display\guitar_data.h</FilePath>
             </File>
           </Files>
         </Group>

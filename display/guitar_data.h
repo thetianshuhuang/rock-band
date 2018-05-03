@@ -9,22 +9,17 @@
 
 #include <stdint.h>
 
-extern const uint8_t red_x_path[];
-extern const uint8_t red_y_path[];
-extern const uint8_t yellow_x_path[];
-extern const uint8_t yellow_y_path[];
-extern const uint8_t blue_x_path[];
-extern const uint8_t blue_y_path[];
-extern const uint8_t green_x_path[];
-extern const uint8_t green_y_path[];
+typedef struct note_profile_t {
+    // Color
+    const uint16_t color;
+    // Path
+    const uint8_t xPath[19];
+    const uint8_t yPath[19];
+    // Pickup Sprite (16x14)
+    const uint16_t pickupSprite[224];
+    const uint16_t pickupPressed[224];
+} NOTE_PROFILE;
 
-extern const uint16_t RedPickup[];
-extern const uint16_t YellowPickup[];
-extern const uint16_t BluePickup[];
-extern const uint16_t GreenPickup[];
-extern const uint16_t RedPickupPressed[];
-extern const uint16_t YellowPickupPressed[];
-extern const uint16_t BluePickupPressed[];
-extern const uint16_t GreenPickupPressed[];
+extern NOTE_PROFILE noteProfiles[4];
 
 #endif

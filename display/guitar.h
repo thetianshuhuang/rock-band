@@ -25,21 +25,44 @@ typedef struct {
 	uint16_t button;
 } Note;
 
-// ----------drawGuitar----------
-// initialize guitar graphics
-// Parameters:
-//      none
+
+// --------drawGuitar--------
+// Draw the main guitar
 void drawGuitar(void);
 
+
+// --------updatePickups--------
+// Updates the pickup graphic to show if button is pressed or not
 void updatePickups(uint16_t controller);
 
-void initRedNote(Note *note);
-void initYellowNote(Note *note);
-void initBlueNote(Note *note);
-void initGreenNote(Note *note); 
+    
+// --------createNotes--------
+// Create note sprites.
+// Parameters
+//      uint16_t inputState: Input string, as specified by the song track
+//          filetype. The first four bits are used to determine what notes
+//          to create.
+void createNotes(uint16_t controller);
 
-uint32_t animateNote(Note *note, GAME_STATE *playerState, uint16_t strumVelocity);
 
+// --------moveNotes--------
+// Move all notes by one position.
+void moveNotes(void);
+
+
+// --------updateNotes--------
+// Draw notes on the screen.
+// Parameters:
+//      uint16_t strumChange: change in strummer
+// Returns:
+//      int16_t: change in score due to this update
+int16_t updateNote(uint16_t strumChange);
+
+
+// --------updateScore--------
+// Display the score on the screen
+// Parameters:
+//      uint16_t score: score to display
 void updateScore(uint16_t score);
 
 #endif

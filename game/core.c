@@ -43,6 +43,8 @@ void selectInstrument(enum instrument_t instrument) {
 
 // Storage array for the current song
 uint16_t currentTrack[2048];
+// Tick tracker
+uint16_t drawTicks;
 
 // ----------initGame----------
 // initialize game (start song)
@@ -53,10 +55,9 @@ void initGame(SONG *song) {
     playerState.tick = song->length;
     playerState.score = 0;
     playerState.head = 0;
-    playerState.tail = 100;
     playerState.headPtr = 0;
-    playerState.tailPtr = 0;
     playerState.percent = 0;
+    drawTicks = 6000;
 
     // Zero out track
     for(int i = 0; i < 3072; i++) {
@@ -104,24 +105,27 @@ void mainLoop(void) {
 
     // Play until tick overflows
     while(playerState.tick < 0x8FFFFFFF) {
-        for(int j = 0; j < resolution; j++)
-        { 
-					  uint16_t controller = controllerRead();
-            change = derivative(controller);
-					
-					  for(int i = 0; i < 20; i++)
-					    if(playerState.instrument == DRUMS)
-						    animateNote(&notes[i], &playerState, 0x0300);
-							else 
-								animateNote(&notes[i], &playerState, change);
-					
-					  updateScore(playerState.score);
-            updatePickups(controller);
-					  Delayms(12);
-            if(checkPause() != 0) {
-                playerState.tick = 0xEFFFFFFF;
-                break;
-            }
+        GPIO_PORTF_DATA_R ^= 0x80;
+        int16_t scoreChange;
+        if(playerState.instrument == DRUMS) {
+            scoreChange = updateNote(0x1000);
+        }
+        else {
+            uint16_t change = derivative(controllerRead() & 0x0FFF);
+            scoreChange = updateNote(change);
+        }
+        if(playerState.score > -scoreChange) {
+            playerState.score += scoreChange;
+        }
+        else {
+            playerState.score = 0;
+        }
+        updateScore(playerState.score);
+        updatePickups(controllerRead());
+
+        if(checkPause() != 0) {
+            playerState.tick = 0xEFFFFFFF;
+            break;
         }                
     }
     
@@ -195,28 +199,14 @@ void SysTick_Handler(void) {
             playerState.head = 100 * (currentTrack[playerState.headPtr] & 0x03FF);
             playerState.headPtr += 1;
         } while(playerState.head == 0);
-        playerState.percent++;
-        // Create Red note	
-        if(currentTrack[playerState.headPtr] & 0x8000){
-            initRedNote(&notes[noteIndex]);
-            incrementNotePointer();
-        }
-        // Create Yellow note
-        if(currentTrack[playerState.headPtr] & 0x4000){
-            initYellowNote(&notes[noteIndex]);
-            incrementNotePointer();
-        }
-        // Create Blue note
-        if(currentTrack[playerState.headPtr] & 0x2000){
-            initBlueNote(&notes[noteIndex]);
-            incrementNotePointer();
-        }
-        // Create Green note
-        if(currentTrack[playerState.headPtr] & 0x1000){
-            initGreenNote(&notes[noteIndex]);
-            incrementNotePointer();
-        }
+        // Create relevant notes
+        createNotes(currentTrack[playerState.headPtr] & 0xF000);
+    }
+    if(drawTicks == 0) {
+        drawTicks = 6000;
+        moveNotes();
     }
     playerState.head -= 1;
+    drawTicks -= 1;
 }
 
