@@ -57,7 +57,7 @@ void initGame(SONG *song) {
     playerState.head = 0;
     playerState.headPtr = 0;
     playerState.percent = 0;
-    drawTicks = 6000;
+    drawTicks = 3500;
 
     // Zero out track
     for(int i = 0; i < 3072; i++) {
@@ -103,19 +103,50 @@ uint16_t change;
 void mainLoop(void) {
     drawGuitar();
 
+    // Start at normal play
+    int32_t starCounter = 0;
+    enum guitarState currentState;
+    currentState = NORMAL;
+
     // Play until tick overflows
     while(playerState.tick < 0x8FFFFFFF) {
         GPIO_PORTF_DATA_R ^= 0x80;
         int16_t scoreChange;
+        // Exempt drums from strumming
         if(playerState.instrument == DRUMS) {
-            scoreChange = updateNote(0x1000);
+            scoreChange = updateNote(0x1000, currentState);
         }
         else {
             uint16_t change = derivative(controllerRead() & 0x0FFF);
-            scoreChange = updateNote(change);
+            scoreChange = updateNote(change, currentState);
         }
-        playerState.score += scoreChange;
-        if(playerState.score > 6000) {
+        // Update starpower
+        if(currentState == NORMAL) {
+            starCounter += scoreChange;
+            if(starCounter > 8000) {
+                starCounter = 800;
+                currentState = STARPOWER;
+            }
+            playerState.score += scoreChange;
+        }
+        if(currentState == STARPOWER) {
+            // Decrease star counter each cycle
+            starCounter --;
+            // Hits will extend the star counter; misses will decrease it
+            if(scoreChange < 0) {
+                starCounter += scoreChange / 2;
+            }
+            else {
+                starCounter += scoreChange / 20;
+            }
+            if(starCounter < 0) {
+                currentState = NORMAL;
+            }
+            playerState.score += 2 * scoreChange;
+        }
+        
+        // Update score
+        if(playerState.score > 60000) {
             playerState.score = 0;
         }
         updateScore(playerState.score);
@@ -201,7 +232,7 @@ void SysTick_Handler(void) {
         createNotes(currentTrack[playerState.headPtr]);
     }
     if(drawTicks == 0) {
-        drawTicks = 6000;
+        drawTicks = 3500;
         moveNotes();
     }
     playerState.head -= 1;

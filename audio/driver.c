@@ -119,7 +119,7 @@ uint8_t charToHex(uint8_t input) {
 void readSector(void) {
     uint8_t readByte;
     // Read until audioQueue is full, or at most two sectors, unless the queue is almost empty
-    for(uint16_t i = 0; ((i < 1024) || audioQueue.size < 5000) && (audioQueue.size < 10000); i++) {
+    for(uint16_t i = 0; ((i < 1024) || audioQueue.size < 5000) && (audioQueue.size < 18000); i++) {
         readStatus = f_read(&handle, &readByte, 1, &successfulreads);
         if(readStatus == 0) {
             fifoPut(&audioQueue, readByte);

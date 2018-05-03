@@ -89,28 +89,29 @@ void moveNotes(void) {
 }
 
 
-// lenience in seconds = (19 - LENIENCE) * 60  / 441
-#define LENIENCE 16
+// lenience in seconds = (32 - LENIENCE) * 35  / 441
+#define LENIENCE 29
 // Minimum strum velocity
-#define MIN_STRUM 0x0200
+#define MIN_STRUM 0x0100
 
 // --------updateNotes--------
 // Draw notes on the screen.
 // Parameters:
 //      uint16_t strumChange: change in strummer
+//      enum guitarState: current state. Currently, NORMAL and STARPOWER only
 // Returns:
 //      int16_t: change in score due to this update
-int16_t updateNote(uint16_t strumChange)
+int16_t updateNote(uint16_t strumChange, enum guitarState currentState)
 {
     int16_t score = 0;
     // Cycle through possible positions
-    for(uint8_t i = 0; i < 20; i++) {
+    for(uint8_t i = 0; i < 32; i++) {
         // Cycle through the four notes
         for(uint8_t j = 0; j < 4; j++) {
             // Check if note is present
             if((noteStates[j] & (0x0001 << i)) != 0) {
                 // Clear previous note, except for position 0
-                if((i != 0) && (i < 20)) {
+                if((i != 0) && (i < 32)) {
                     ST7735_DrawCircle(
                         noteProfiles[j].xPath[i - 1],
                         noteProfiles[j].yPath[i - 1], 0);
@@ -119,20 +120,31 @@ int16_t updateNote(uint16_t strumChange)
                 if(strumChange > MIN_STRUM &&
                    ((controllerRead() & (0x1000 << j)) != 0) &&
                    i > LENIENCE) {
-                    // Increment score by 100
-                    score += 100;
-                    // Erase note
-                    noteStates[j] &= ~(0x0001 << i);
-                }
-                // Draw new note
-                else if(i < 19) {
-                    ST7735_DrawCircle(
+                   // Increment score by 100
+                   score += 100;
+                   // Erase note
+                   noteStates[j] &= ~(0x0001 << i);
+                   ST7735_DrawCircle(
                         noteProfiles[j].xPath[i],
-                        noteProfiles[j].yPath[i],
-                        noteProfiles[j].color);
+                        noteProfiles[j].yPath[i], 0);
+                }
+                // Draw new note (white if in star power mode)
+                else if(i < 31) {
+                    if(currentState == STARPOWER) {
+                        ST7735_DrawCircle(
+                            noteProfiles[j].xPath[i],
+                            noteProfiles[j].yPath[i],
+                            COLOR_WHITE);
+                    }
+                    else {
+                        ST7735_DrawCircle(
+                            noteProfiles[j].xPath[i],
+                            noteProfiles[j].yPath[i],
+                            noteProfiles[j].color);
+                    }
                 }
                 // Subtract points for missed note
-                if(i == 19) {
+                if(i == 31) {
                     score -= 10;
                     noteStates[j] &= ~(0x0001 << i);
                 }

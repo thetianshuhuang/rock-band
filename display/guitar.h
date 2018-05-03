@@ -26,6 +26,10 @@ typedef struct {
 } Note;
 
 
+// Game boost control
+enum guitarState{NORMAL, STARPOWER};
+
+
 // --------drawGuitar--------
 // Draw the main guitar
 void drawGuitar(void);
@@ -54,9 +58,10 @@ void moveNotes(void);
 // Draw notes on the screen.
 // Parameters:
 //      uint16_t strumChange: change in strummer
+//      enum guitarState: current state. Currently, NORMAL and STARPOWER only
 // Returns:
 //      int16_t: change in score due to this update
-int16_t updateNote(uint16_t strumChange);
+int16_t updateNote(uint16_t strumChange, enum guitarState currentState);
 
 
 // --------updateScore--------
