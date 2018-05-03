@@ -39,7 +39,7 @@ void showSplash(char* image) {
             splashStatus = f_read(&splashHandle, &readPixels, 256, &splashSuccess);
         } while(splashStatus != 0);
         for(uint8_t j = 0; j < 128; j++) {
-            ST7735_DrawPixel(j, 160 - i, readPixels[j]);
+            ST7735_DrawPixel(j, 159 - i, readPixels[j]);
         }
     }
     // Close file

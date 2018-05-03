@@ -97,6 +97,10 @@ uint8_t findId(uint8_t id) {
     return(0xFF);
 }
 
+
+#define COLOR_NORMAL 0xFFFF
+#define COLOR_STARPOWER 0x77FF
+
 uint16_t change;
 // ----------mainLoop----------
 // Main game loop
@@ -126,6 +130,12 @@ void mainLoop(void) {
             if(starCounter > 8000) {
                 starCounter = 800;
                 currentState = STARPOWER;
+                // Draw starpower
+                ST7735_DrawLine(35, 0, 0, 160, COLOR_STARPOWER);
+                ST7735_DrawLine(49, 0, 34, 160, COLOR_STARPOWER);
+                ST7735_DrawFastVLine(64, 0, 160, COLOR_STARPOWER);
+                ST7735_DrawLine(79, 0, 94, 160, COLOR_STARPOWER);
+                ST7735_DrawLine(93, 0, 128, 160, COLOR_STARPOWER);
             }
             playerState.score += scoreChange;
         }
@@ -134,13 +144,20 @@ void mainLoop(void) {
             starCounter --;
             // Hits will extend the star counter; misses will decrease it
             if(scoreChange < 0) {
-                starCounter += scoreChange / 2;
+                starCounter += scoreChange;
             }
             else {
                 starCounter += scoreChange / 20;
             }
             if(starCounter < 0) {
                 currentState = NORMAL;
+                // Clear guitar
+                ST7735_DrawLine(35, 0, 0, 160, COLOR_NORMAL);
+                ST7735_DrawLine(49, 0, 34, 160, COLOR_NORMAL);
+                ST7735_DrawFastVLine(64, 0, 160, COLOR_NORMAL);
+                ST7735_DrawLine(79, 0, 94, 160, COLOR_NORMAL);
+                ST7735_DrawLine(93, 0, 128, 160, COLOR_NORMAL);
+
             }
             playerState.score += 2 * scoreChange;
         }

@@ -7,6 +7,7 @@
 #include "../controller/controller.h"
 #include "../display/ST7735.h"
 #include "../game/core.h"
+#include "../display/splash.h"
 
 #define TEXT_WHITE  0xFFFF
 #define TEXT_GREEN  0x07E0
@@ -36,7 +37,7 @@ void drawSpecialChar(int16_t x, int16_t y, char c, int16_t textColor, int16_t bg
             if(line & 0x1) {
                 ST7735_DrawPixel(x + i, y + j, textColor);
             }
-            else if (bgColor != textColor) {
+            else if (bgColor != textColor && c == 5) {
                 ST7735_DrawPixel(x + i, y + j, bgColor);
             }
             line >>= 1;
@@ -74,9 +75,19 @@ void showInstructions(void) {
 // Parameters:
 //      MENU_SCREEN *menu: menu to display
 void displayMenu(MENU_SCREEN *menu) {
+    
+    if(playerState.instrument == DRUMS) {
+        showSplash("menu_d.pi");
+    }
+    else if(playerState.instrument == GUITAR || playerState.instrument == BASS) {
+        showSplash("menu_g.pi");
+    }
+    else {
+        ST7735_FillScreen(0);
+    }
+    
     // Title text
     ST7735_SetTextColor(TEXT_WHITE);
-    ST7735_FillScreen(0);
     ST7735_SetCursor(0, 0);
     ST7735_OutString(menu->title);
     // Options

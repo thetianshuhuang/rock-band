@@ -38,5 +38,8 @@ typedef struct menu_screen_t {
 //      MENU_SCREEN *menu: menu to display
 void displayMenu(MENU_SCREEN *menu);
 
+// ----------drawSpecialChar----------
+void drawSpecialChar(int16_t x, int16_t y, char c, int16_t textColor, int16_t bgColor);
+
 
 #endif

@@ -8,6 +8,9 @@
 #include "menu.h"
 #include "../game/core.h"
 #include "../game/songs.h"
+#include "../display/splash.h"
+#include "../display/ST7735.h"
+#include "../controller/controller.h"
 
 
 MENU_SCREEN mainMenu;
@@ -42,16 +45,46 @@ void selectNull(void) {
 void songSelectMain(void) {displayMenu(&songSelect1);}
 void instrumentSelectMenu(void) {displayMenu(&instrumentSelect);}
 void showMainMenu(void) {displayMenu(&mainMenu);}
-
+void startMultiplayer(void) {
+    // set flag
+    songSelectMain();
+}
+void joinMultiplayer(void) {
+    showSplash("wait.pi");
+    ST7735_SetCursor(3, 3);
+    ST7735_SetTextColor(0x0000);
+    ST7735_OutString("Waiting for Song");
+    ST7735_SetCursor(3, 4);
+    ST7735_OutString("   Selection    ");
+    ST7735_SetTextColor(0xFFFF);
+    drawSpecialChar(5, 151, 3, 0x07FF, 0);
+    ST7735_SetCursor(3, 15);
+    ST7735_OutString("back to main menu");
+    ST7735_DrawFastHLine(14, 27, 101, 0x0000);
+    ST7735_DrawFastHLine(14, 49, 101, 0x0000);
+    ST7735_DrawFastVLine(14, 27, 22, 0x0000);
+    ST7735_DrawFastVLine(115, 27, 22, 0x0000);
+    while(1) {
+        if(controllerRead() & 0x2000) {
+            showMainMenu();
+        }
+        // Put UART RX here
+        uint8_t uart_RX_flag = 0;
+        if(uart_RX_flag != 0) {
+            initGame(&rockYouLikeAHurricane);
+        }
+    };    
+}
 
 MENU_SCREEN mainMenu = {
-    "MAIN MENU", 3, 1,
+    "MAIN MENU", 4, 1,
     {
         {"Single Player", "", "", &songSelectMain},
-        {"Multiplayer", "", "", &songSelectMain},
+        {"Multiplayer", "", "", &joinMultiplayer},
+        {"Start Lobby", "", "", &startMultiplayer},
         {"Select Instrument", "", "", &instrumentSelectMenu},
     },
-    0
+    &menuSplash
 };
 
 

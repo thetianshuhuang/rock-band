@@ -26,6 +26,8 @@ typedef struct game_state_t {
     enum instrument_t instrument;
 } GAME_STATE;
 
+extern GAME_STATE playerState;
+
 void incrementNotePointer(void);
 
 // ----------selectInstrument----------
