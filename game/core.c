@@ -17,6 +17,7 @@
 #include "../controller/dsp.h"
 #include "../menu/menu.h"
 #include "../network/uart.h"
+#include "../accel/accel.h"
 
 GAME_STATE playerState;
 

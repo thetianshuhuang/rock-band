@@ -5,7 +5,6 @@
 #include "accel.h"
 #include <stdint.h>
 #include "I2C0.h"
-#include "../PLL.h"
 
 int8_t address = 0x18;
 //int8_t address = 0x0C;
@@ -32,23 +31,20 @@ void initAccel(void){
 		starpower->x = 0;
 		starpower->y = 0;
 		starpower->z = 0;
+		starpower->enable = 1;
 	}
 	else
-		;//USE TIMED STAR POWER
+		starpower->enable = 0;
 }
 
 void getSample(void){
   I2C_Send1(address, 0x28|0x80);
-	x = (int16_t)I2C_Recv2(address);
-	x |= (I2C_Recv2(address) << 8);
-	y = (int16_t)I2C_Recv2(address);
-	y |= (I2C_Recv2(address) << 8);
-	z = (int16_t)I2C_Recv2(address);
-	z |= (I2C_Recv2(address) << 8);
-
-  starpower->x = (float)x / divider;
-  starpower->y = (float)y / divider;
-  starpower->z = (float)z / divider;
+	starpower->x = (int16_t)I2C_Recv2(address);
+	starpower->x |= (I2C_Recv2(address) << 8);
+	starpower->y = (int16_t)I2C_Recv2(address);
+	starpower->y |= (I2C_Recv2(address) << 8);
+	starpower->z = (int16_t)I2C_Recv2(address);
+	starpower->z |= (I2C_Recv2(address) << 8);
 }
 
 uint8_t isStarpower(){
