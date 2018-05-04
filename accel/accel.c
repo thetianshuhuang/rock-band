@@ -48,6 +48,8 @@ void getSample(void){
 }
 
 uint8_t isStarpower(){
+	if(starpower->enable == 0)
+		return 1;
 	uint8_t state;
 	getSample();
 	if(abs(starpower->x) > abs(starpower->y))

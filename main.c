@@ -66,7 +66,7 @@ void gameInit(void)
     ST7735_InitR(INITR_REDTAB);
     controllerInit();
     uartInit();
-	  initAccel();
+	  //initAccel();
 
     // Set rotation (180 degrees)
     ST7735_SetRotation(2);
