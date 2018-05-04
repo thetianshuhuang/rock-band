@@ -660,6 +660,31 @@
             </File>
           </Files>
         </Group>
+        <Group>
+          <GroupName>Accel</GroupName>
+          <Files>
+            <File>
+              <FileName>accel.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\accel\accel.c</FilePath>
+            </File>
+            <File>
+              <FileName>accel.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\accel\accel.h</FilePath>
+            </File>
+            <File>
+              <FileName>I2C0.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\accel\I2C0.c</FilePath>
+            </File>
+            <File>
+              <FileName>I2C0.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\accel\I2C0.h</FilePath>
+            </File>
+          </Files>
+        </Group>
       </Groups>
     </Target>
   </Targets>
