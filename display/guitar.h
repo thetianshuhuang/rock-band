@@ -10,10 +10,10 @@
 #include <stdint.h>
 #include "../game/core.h"
 
+
 #define COLOR_NORMAL 0xFFFF
 #define COLOR_STARPOWER 0x0618
-
-#define resolution 19
+#define resolution 32
 #define red 0x001F
 #define yellow 0x07FF
 #define blue 0xF800

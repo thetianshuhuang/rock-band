@@ -1,0 +1,1 @@
+PE 4 SCK & 5 SDA
