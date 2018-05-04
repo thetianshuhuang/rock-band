@@ -22,13 +22,12 @@
  http://users.ece.utexas.edu/~valvano/
  */
 
-// I2C0SCL connected to PB2 and to pin 4 of HMC6352 compass or pin 3 of TMP102 thermometer
-// I2C0SDA connected to PB3 and to pin 3 of HMC6352 compass or pin 2 of TMP102 thermometer
+// I2C0SCL connected to PE4
+// I2C0SDA connected to PE5
 // SCL and SDA lines pulled to +3.3 V with 10 k resistors (part of breakout module)
 // ADD0 pin of TMP102 thermometer connected to GND
 #include <stdint.h>
 #include "../tm4c123gh6pm.h"
-
 
 #define I2C_MCS_ACK             0x00000008  // Data Acknowledge Enable
 #define I2C_MCS_DATACK          0x00000008  // Acknowledge Data
@@ -43,26 +42,21 @@
 #define MAXRETRIES              5           // number of receive attempts before giving up
 void I2C_Init(void){
   SYSCTL_RCGCI2C_R |= 0x0001;           // activate I2C0
-  SYSCTL_RCGCGPIO_R |= 0x0002;          // activate port B
-  while((SYSCTL_PRGPIO_R&0x0002) == 0){};// ready?
+  SYSCTL_RCGCGPIO_R |= 0x0010;          // activate port E
+  while((SYSCTL_PRGPIO_R&0x0010) == 0){};// ready?
 
-  GPIO_PORTB_AFSEL_R |= 0x0C;           // 3) enable alt funct on PB2,3
-  GPIO_PORTB_ODR_R |= 0x08;             // 4) enable open drain on PB3 only
-  GPIO_PORTB_DEN_R |= 0x0C;             // 5) enable digital I/O on PB2,3
-                                        // 6) configure PB2,3 as I2C
-  GPIO_PORTB_PCTL_R = (GPIO_PORTB_PCTL_R&0xFFFF00FF)+0x00003300;
-  GPIO_PORTB_AMSEL_R &= ~0x0C;          // 7) disable analog functionality on PB2,3
+  GPIO_PORTE_AFSEL_R |= 0x30;           // 3) enable alt funct on PE4,5
+  GPIO_PORTE_ODR_R |= 0x20;             // 4) enable open drain on PE5 only
+  GPIO_PORTE_DEN_R |= 0x30;             // 5) enable digital I/O on PB2,3
+                                        // 6) configure PE4,5 as I2C
+  GPIO_PORTE_PCTL_R = (GPIO_PORTE_PCTL_R&0xFF00FFFF)+0x00330000;
+  GPIO_PORTE_AMSEL_R &= ~0x30;          // 7) disable analog functionality on PE4,5
   I2C0_MCR_R = I2C_MCR_MFE;      // 9) master function enable
   I2C0_MTPR_R = 24;              // 8) configure for 100 kbps clock
   // 20*(TPR+1)*20ns = 10us, with TPR=24
 }
 
 // receives one byte from specified slave
-// Note for HMC6352 compass only:
-// Used with 'r' and 'g' commands
-// Note for TMP102 thermometer only:
-// Used to read the top byte of the contents of the pointer register
-//  This will work but is probably not what you want to do.
 uint8_t I2C_Recv(int8_t slave){
   int retryCounter = 1;
   do{
@@ -81,9 +75,6 @@ uint8_t I2C_Recv(int8_t slave){
   return (I2C0_MDR_R&0xFF);          // usually returns 0xFF on error
 }
 // receives two bytes from specified slave
-// Note for HMC6352 compass only:
-// Used with 'A' commands
-// Note for TMP102 thermometer only:
 // Used to read the contents of the pointer register
 uint16_t I2C_Recv2(int8_t slave){
   uint8_t data1,data2;
@@ -133,13 +124,7 @@ uint32_t I2C_Send1(int8_t slave, uint8_t data1){
                                           // return error bits
   return (I2C0_MCS_R&(I2C_MCS_DATACK|I2C_MCS_ADRACK|I2C_MCS_ERROR));
 }
-// sends two bytes to specified slave
-// Note for HMC6352 compass only:
-// Used with 'r' and 'g' commands
-//  For 'r' and 'g' commands, I2C_Recv() should also be called
-// Note for TMP102 thermometer only:
-// Used to change the top byte of the contents of the pointer register
-//  This will work but is probably not what you want to do.
+
 // Returns 0 if successful, nonzero if error
 uint32_t I2C_Send2(int8_t slave, uint8_t data1, uint8_t data2){
   while(I2C0_MCS_R&I2C_MCS_BUSY){};// wait for I2C ready
