@@ -17,6 +17,7 @@
 #include "../controller/dsp.h"
 #include "../menu/menu.h"
 #include "../network/uart.h"
+#include "../accel/accel.h"
 
 GAME_STATE playerState;
 
@@ -138,7 +139,7 @@ void mainLoop(void) {
         // Update starpower
         if(playerState.guitarState == NORMAL) {
             starCounter += scoreChange;
-            if(starCounter > 5000) {
+            if(starCounter > 5000 && isStarpower()) {
                 starCounter = 800;
                 playerState.guitarState = STARPOWER;
                 // Draw starpower

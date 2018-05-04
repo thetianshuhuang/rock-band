@@ -52,6 +52,7 @@
 #include "display/ST7735.h"
 #include "graphics/splash.h"
 #include "network/uart.h"
+#include "accel/accel.h"
 
 
 //
@@ -65,6 +66,7 @@ void gameInit(void)
     ST7735_InitR(INITR_REDTAB);
     controllerInit();
     uartInit();
+	  //initAccel();
 
     // Set rotation (180 degrees)
     ST7735_SetRotation(2);
