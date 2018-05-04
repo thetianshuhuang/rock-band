@@ -75,21 +75,26 @@ void joinMultiplayer(void) {
             break;
         }
         // Wait for sync byte
-        if(uartRead(&data) && ((data & 0xF0) == 0xA0)) {
+        if((uartRead(&data) != 0) && ((data & 0xF0) == 0xA0)) {
             uartWrite(data);
             initGame(data & 0x0F);
             break;
         }
     }
 }
+void setDemo(void) {
+    playerState.runMode = DEMO;
+    showMainMenu();
+}
 
 MENU_SCREEN mainMenu = {
-    "MAIN MENU", 4, 1,
+    "MAIN MENU", 5, 1,
     {
         {"Single Player", "", "", &songSelectMain},
         {"Multiplayer", "", "", &joinMultiplayer},
         {"Start Lobby", "", "", &startMultiplayer},
         {"Select Instrument", "", "", &instrumentSelectMenu},
+        {"Enable Demo Mode", "", "", &setDemo},
     },
     0
 };

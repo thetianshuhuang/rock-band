@@ -10,7 +10,7 @@
 
 
 #define CHAR_WIDTH 18
-#define CHAR_HEIGHT 4
+#define CHAR_HEIGHT 5
 
 
 // Menu item

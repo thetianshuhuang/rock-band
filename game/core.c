@@ -42,9 +42,15 @@ uint16_t drawTicks;
 void initGame(uint8_t song) {
     
     // Forward UART
-    uartWrite(0xA0 | (song + 1));
+    uartWrite(0xA0 | song);
 
-    playerState.tick = songs[song].length + 112000;
+    // Demo mode: limit songs to 2:30
+    if(playerState.runMode == DEMO) {
+        playerState.tick = 6700000;
+    }
+    else {
+        playerState.tick = songs[song].length + 112000;
+    }
     playerState.score = 0;
     playerState.head = 0;
     playerState.headPtr = 0;

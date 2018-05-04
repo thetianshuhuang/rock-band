@@ -67,7 +67,7 @@ void startSong(const char* songName, uint32_t* songCounter) {
         openStatus = f_open(&handle, songName, FA_READ);
     } while(openStatus != 0);
     fifoInit(&audioQueue);
-    while(audioQueue.size < 10000) {
+    while(audioQueue.size < 18000) {
         readSector();
     }
 
