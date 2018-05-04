@@ -12,6 +12,7 @@
 
 
 enum instrument_t {NULL, GUITAR, BASS, DRUMS};
+enum guitar_state_t {NORMAL, STARPOWER};
 
 // Game state type
 typedef struct game_state_t {
@@ -24,6 +25,7 @@ typedef struct game_state_t {
     int32_t tailPtr;
     uint32_t percent;
     enum instrument_t instrument;
+    enum guitar_state_t guitarState;
 } GAME_STATE;
 
 extern GAME_STATE playerState;

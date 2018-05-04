@@ -97,11 +97,8 @@ uint8_t findId(uint8_t id) {
     return(0xFF);
 }
 
-
-#define COLOR_NORMAL 0xFFFF
-#define COLOR_STARPOWER 0x77FF
-
 uint16_t change;
+uint16_t drawCtr;
 // ----------mainLoop----------
 // Main game loop
 void mainLoop(void) {
@@ -109,27 +106,38 @@ void mainLoop(void) {
 
     // Start at normal play
     int32_t starCounter = 0;
-    enum guitarState currentState;
-    currentState = NORMAL;
-
+    playerState.guitarState = NORMAL;
+    drawCtr = 100;
+    
+    // Clear note States
+    for(uint8_t i = 0; i < 4; i++) {
+        noteStates[i] = 0;
+    }
+    
     // Play until tick overflows
     while(playerState.tick < 0x8FFFFFFF) {
+        if(drawCtr == 0) {
+            drawCtr = 10000;
+            drawGuitar();
+        }
+        updatePickups(controllerRead());
+        drawCtr --;
         GPIO_PORTF_DATA_R ^= 0x80;
         int16_t scoreChange;
         // Exempt drums from strumming
         if(playerState.instrument == DRUMS) {
-            scoreChange = updateNote(0x1000, currentState);
+            scoreChange = updateNote(0x1000, playerState.guitarState);
         }
         else {
             uint16_t change = derivative(controllerRead() & 0x0FFF);
-            scoreChange = updateNote(change, currentState);
+            scoreChange = updateNote(change, playerState.guitarState);
         }
         // Update starpower
-        if(currentState == NORMAL) {
+        if(playerState.guitarState == NORMAL) {
             starCounter += scoreChange;
             if(starCounter > 8000) {
                 starCounter = 800;
-                currentState = STARPOWER;
+                playerState.guitarState = STARPOWER;
                 // Draw starpower
                 ST7735_DrawLine(35, 0, 0, 160, COLOR_STARPOWER);
                 ST7735_DrawLine(49, 0, 34, 160, COLOR_STARPOWER);
@@ -139,7 +147,7 @@ void mainLoop(void) {
             }
             playerState.score += scoreChange;
         }
-        if(currentState == STARPOWER) {
+        if(playerState.guitarState == STARPOWER) {
             // Decrease star counter each cycle
             starCounter --;
             // Hits will extend the star counter; misses will decrease it
@@ -150,7 +158,7 @@ void mainLoop(void) {
                 starCounter += scoreChange / 20;
             }
             if(starCounter < 0) {
-                currentState = NORMAL;
+                playerState.guitarState = NORMAL;
                 // Clear guitar
                 ST7735_DrawLine(35, 0, 0, 160, COLOR_NORMAL);
                 ST7735_DrawLine(49, 0, 34, 160, COLOR_NORMAL);
@@ -167,7 +175,6 @@ void mainLoop(void) {
             playerState.score = 0;
         }
         updateScore(playerState.score);
-        updatePickups(controllerRead());
 
         if(checkPause() != 0) {
             playerState.tick = 0xEFFFFFFF;

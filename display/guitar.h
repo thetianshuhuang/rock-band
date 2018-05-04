@@ -10,11 +10,18 @@
 #include <stdint.h>
 #include "../game/core.h"
 
+#define COLOR_NORMAL 0xFFFF
+#define COLOR_STARPOWER 0x0618
+
 #define resolution 19
 #define red 0x001F
 #define yellow 0x07FF
 #define blue 0xF800
 #define green 0x07E0
+
+
+extern uint32_t noteStates[4];
+
 
 typedef struct {
     const uint8_t *x_path;
@@ -24,11 +31,6 @@ typedef struct {
 	uint8_t playCheck;
 	uint16_t button;
 } Note;
-
-
-// Game boost control
-enum guitarState{NORMAL, STARPOWER};
-
 
 // --------drawGuitar--------
 // Draw the main guitar
@@ -61,7 +63,7 @@ void moveNotes(void);
 //      enum guitarState: current state. Currently, NORMAL and STARPOWER only
 // Returns:
 //      int16_t: change in score due to this update
-int16_t updateNote(uint16_t strumChange, enum guitarState currentState);
+int16_t updateNote(uint16_t strumChange, enum guitar_state_t currentState);
 
 
 // --------updateScore--------

@@ -24,9 +24,6 @@ uint32_t noteStates[4];
 const uint8_t pickupCoords[4] = {102, 71, 42, 11};
 void drawGuitar(void){
 	ST7735_FillScreen(0);
-    // Draw score
-	ST7735_DrawString(0, 0, "Score", COLOR_WHITE);
-	ST7735_DrawString(0, 1, ">9000", COLOR_WHITE);
     // Draw Pickups
     for(uint8_t i = 0; i < 4; i++) {
         ST7735_DrawBitmap(
@@ -38,10 +35,6 @@ void drawGuitar(void){
 	ST7735_DrawFastVLine(64, 0, 160, COLOR_WHITE);
 	ST7735_DrawLine(79, 0, 94, 160, COLOR_WHITE);
 	ST7735_DrawLine(93, 0, 128, 160, COLOR_WHITE);
-    // Clear note States
-    for(uint8_t i = 0; i < 4; i++) {
-        noteStates[i] = 0;
-    }
 }
 
 
@@ -101,7 +94,7 @@ void moveNotes(void) {
 //      enum guitarState: current state. Currently, NORMAL and STARPOWER only
 // Returns:
 //      int16_t: change in score due to this update
-int16_t updateNote(uint16_t strumChange, enum guitarState currentState)
+int16_t updateNote(uint16_t strumChange, enum guitar_state_t currentState)
 {
     int16_t score = 0;
     // Cycle through possible positions
