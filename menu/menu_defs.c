@@ -6,11 +6,13 @@
 
 #include "menu_defs.h"
 #include "menu.h"
+#include "../graphics/util.h"
 #include "../game/core.h"
 #include "../game/songs.h"
-#include "../display/splash.h"
+#include "../graphics/splash.h"
 #include "../display/ST7735.h"
 #include "../controller/controller.h"
+#include "../network/uart.h"
 
 
 MENU_SCREEN mainMenu;
@@ -18,11 +20,24 @@ MENU_SCREEN songSelect1;
 MENU_SCREEN songSelect2;
 MENU_SCREEN instrumentSelect;
 
-void song1(void) {initGame(&rockYouLikeAHurricane);}
-void song2(void) {initGame(&messageInABottle);}
-void song3(void) {initGame(&wildWildLife);}
-void song4(void) {initGame(&zZz);}
-void song5(void) {initGame(&headsWillRoll);}
+void song1(void) {
+    initGame(0);
+}
+void song2(void) {
+    initGame(1);
+}
+void song3(void) {
+    initGame(2);
+}
+void song4(void) {
+    initGame(3);
+}
+void song5(void) {
+    initGame(4);
+}
+void song6(void) {
+    initGame(5);
+}
 void lambda2(void) {displayMenu(&songSelect2);}
 void lambda1(void) {displayMenu(&songSelect1);}
 void selectBack(void) {displayMenu(&mainMenu);}
@@ -49,40 +64,37 @@ void startMultiplayer(void) {
     // set flag
     songSelectMain();
 }
+uint8_t data;
 void joinMultiplayer(void) {
-    showSplash("wait.pi");
-    ST7735_SetCursor(3, 3);
-    ST7735_SetTextColor(0x0000);
-    ST7735_OutString("Waiting for Song");
-    ST7735_SetCursor(3, 4);
-    ST7735_OutString("   Selection    ");
-    ST7735_SetTextColor(0xFFFF);
-    drawSpecialChar(5, 151, 3, 0x07FF, 0);
-    ST7735_SetCursor(3, 15);
-    ST7735_OutString("back to main menu");
-    ST7735_DrawFastHLine(14, 27, 101, 0x0000);
-    ST7735_DrawFastHLine(14, 49, 101, 0x0000);
-    ST7735_DrawFastVLine(14, 27, 22, 0x0000);
-    ST7735_DrawFastVLine(115, 27, 22, 0x0000);
+    // Show splash screen
+    multiSplash();
     while(1) {
+        // Check for back button
         if(controllerRead() & 0x2000) {
             showMainMenu();
+            break;
         }
-        // Put UART RX here
-        uint8_t uart_RX_flag = 0;
-        if(uart_RX_flag != 0) {
-            initGame(&rockYouLikeAHurricane);
+        // Wait for sync byte
+        if((uartRead(&data) != 0) && ((data & 0xF0) == 0xA0)) {
+            uartWrite(data);
+            initGame(data & 0x0F);
+            break;
         }
-    };    
+    }
+}
+void setDemo(void) {
+    playerState.runMode = DEMO;
+    showMainMenu();
 }
 
 MENU_SCREEN mainMenu = {
-    "MAIN MENU", 4, 1,
+    "MAIN MENU", 5, 1,
     {
         {"Single Player", "", "", &songSelectMain},
         {"Multiplayer", "", "", &joinMultiplayer},
         {"Start Lobby", "", "", &startMultiplayer},
         {"Select Instrument", "", "", &instrumentSelectMenu},
+        {"Enable Demo Mode", "", "", &setDemo},
     },
     0
 };
@@ -112,10 +124,11 @@ MENU_SCREEN songSelect1 = {
 };
 
 MENU_SCREEN songSelect2 = {
-    "SONG SELECT", 3, 3,
+    "SONG SELECT", 4, 3,
     {
         {"DROELOE", "zZz", "", &song4},
         {"Yeah Yeah Yeahs", "Heads Will Roll", "", &song5},
+        {"Band of Horses", "The Funeral", "Y2KxHonest Remix", &song6},
         {"Previous", "", "", &lambda1},
     },
     &showMainMenu

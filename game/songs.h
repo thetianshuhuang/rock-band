@@ -14,13 +14,10 @@ typedef struct song_t {
     const char* guitarTrack;
     const char* bassTrack;
     const char* drumsTrack;
-    uint32_t length;
+    const uint32_t length;
 } SONG;
 
-extern SONG rockYouLikeAHurricane;
-extern SONG messageInABottle;
-extern SONG wildWildLife;
-extern SONG zZz;
-extern SONG headsWillRoll;
+extern SONG songs[6];
+
 
 #endif

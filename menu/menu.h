@@ -10,7 +10,7 @@
 
 
 #define CHAR_WIDTH 18
-#define CHAR_HEIGHT 4
+#define CHAR_HEIGHT 5
 
 
 // Menu item
@@ -37,9 +37,6 @@ typedef struct menu_screen_t {
 // Parameters:
 //      MENU_SCREEN *menu: menu to display
 void displayMenu(MENU_SCREEN *menu);
-
-// ----------drawSpecialChar----------
-void drawSpecialChar(int16_t x, int16_t y, char c, int16_t textColor, int16_t bgColor);
 
 
 #endif

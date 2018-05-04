@@ -7,49 +7,14 @@
 #include "../controller/controller.h"
 #include "../display/ST7735.h"
 #include "../game/core.h"
-#include "../display/splash.h"
+#include "../graphics/splash.h"
+#include "../graphics/util.h"
 
 #define TEXT_WHITE  0xFFFF
 #define TEXT_GREEN  0x07E0
 #define TEXT_BLUE   0xF800
 #define TEXT_YELLOW 0x07FF
 #define TEXT_RED    0x001F
-
-const uint8_t specialChars[] = {
-    0x3E, 0x3E, 0x1C, 0x1C, 0x08, // >
-    0x30, 0x3C, 0x3E, 0x3C, 0x30, // ^
-    0x0C, 0x3C, 0x7C, 0x3C, 0x0C, // v
-    0x08, 0x1C, 0x1C, 0x3E, 0x3E, // <
-    0xFF, 0xFF, 0xFF, 0xFF, 0xFF, // []
-    0x00, 0x00, 0x00, 0x00, 0x00, // ' '
-};
-// ----------drawSpecialChar----------
-void drawSpecialChar(int16_t x, int16_t y, char c, int16_t textColor, int16_t bgColor) {
-    uint8_t line;
-    for(uint8_t i = 0; i < 6; i++) {
-        if(i == 5) {
-            line = 0x0;
-        }
-        else {
-            line = specialChars[(c * 5) + i];
-        }
-        for(uint8_t j = 0; j < 8; j++) {
-            if(line & 0x1) {
-                ST7735_DrawPixel(x + i, y + j, textColor);
-            }
-            else if (bgColor != textColor && c == 5) {
-                ST7735_DrawPixel(x + i, y + j, bgColor);
-            }
-            line >>= 1;
-        }
-    }
-}
-// ----------vLine--------
-void vLine(uint8_t x, uint8_t y_1, uint8_t y_2, uint16_t color) {
-    for(uint8_t coord = y_1; coord < y_2; coord++) {
-        ST7735_DrawPixel(x, coord, color);
-    }
-}
 
 
 // ----------showInstructions----------

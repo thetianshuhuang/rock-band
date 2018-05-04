@@ -13,6 +13,7 @@
 
 enum instrument_t {NULL, GUITAR, BASS, DRUMS};
 enum guitar_state_t {NORMAL, STARPOWER};
+enum run_mode_t {FULL, DEMO};
 
 // Game state type
 typedef struct game_state_t {
@@ -26,11 +27,11 @@ typedef struct game_state_t {
     uint32_t percent;
     enum instrument_t instrument;
     enum guitar_state_t guitarState;
+    enum run_mode_t runMode;
 } GAME_STATE;
 
 extern GAME_STATE playerState;
 
-void incrementNotePointer(void);
 
 // ----------selectInstrument----------
 // Set the player's current instrument
@@ -42,8 +43,8 @@ void selectInstrument(enum instrument_t instrument);
 // ----------initGame----------
 // initialize game (start song)
 // Parameters
-//      SONG song: song to play
-void initGame(SONG *song);
+//      uint8_t song: index of song to play
+void initGame(uint8_t song);
 
 
 // ----------mainLoop----------

@@ -8,29 +8,18 @@
 #include "../audio/driver.h"
 #include "../tm4c123gh6pm.h"
 #include "../controller/controller.h"
-#include "../display/guitar.h"
+#include "../graphics/guitar.h"
 #include "../PLL.h"
 #include "../display/ST7735.h"
-#include "../display/splash.h"
+#include "../graphics/splash.h"
 #include "songs.h"
 #include "load_song.h"
 #include "../controller/dsp.h"
+#include "../menu/menu.h"
+#include "../network/uart.h"
 
 GAME_STATE playerState;
 
-Note testRed;
-Note testYellow;
-Note testBlue;
-Note testGreen;
-Note notes[20];
-
-uint32_t noteIndex;
-
-void incrementNotePointer(void){
-	noteIndex++;
-	if(noteIndex >= 20)
-		noteIndex = 0;
-}
 
 // ----------selectInstrument----------
 // Set the player's current instrument
@@ -49,10 +38,19 @@ uint16_t drawTicks;
 // ----------initGame----------
 // initialize game (start song)
 // Parameters
-//      SONG song: song to play
-void initGame(SONG *song) {
+//      uint8_t song: index of song to play
+void initGame(uint8_t song) {
     
-    playerState.tick = song->length;
+    // Forward UART
+    uartWrite(0xA0 | song);
+
+    // Demo mode: limit songs to 2:30
+    if(playerState.runMode == DEMO) {
+        playerState.tick = 6700000;
+    }
+    else {
+        playerState.tick = songs[song].length + 112000;
+    }
     playerState.score = 0;
     playerState.head = 0;
     playerState.headPtr = 0;
@@ -66,19 +64,19 @@ void initGame(SONG *song) {
     
     // Load song from SD card
     if(playerState.instrument == GUITAR) {
-        loadSong(currentTrack, song->guitarTrack);
+        loadSong(currentTrack, songs[song].guitarTrack);
     }
     else if(playerState.instrument == BASS) {
-        loadSong(currentTrack, song->bassTrack);
+        loadSong(currentTrack, songs[song].bassTrack);
     }
     else if(playerState.instrument == DRUMS) {
-        loadSong(currentTrack, song->drumsTrack);
+        loadSong(currentTrack, songs[song].drumsTrack);
     }
     // Null track
     else {}
     
     // Start song
-    startSong(song->byteWav, &(playerState.tick));
+    startSong(songs[song].byteWav, &(playerState.tick));
 }
 
 
@@ -99,6 +97,7 @@ uint8_t findId(uint8_t id) {
 
 uint16_t change;
 uint16_t drawCtr;
+uint16_t previousScore;
 // ----------mainLoop----------
 // Main game loop
 void mainLoop(void) {
@@ -107,7 +106,9 @@ void mainLoop(void) {
     // Start at normal play
     int32_t starCounter = 0;
     playerState.guitarState = NORMAL;
-    drawCtr = 100;
+    drawCtr = 1000;
+    previousScore = 0;
+    updateScore(0);
     
     // Clear note States
     for(uint8_t i = 0; i < 4; i++) {
@@ -117,8 +118,9 @@ void mainLoop(void) {
     // Play until tick overflows
     while(playerState.tick < 0x8FFFFFFF) {
         if(drawCtr == 0) {
-            drawCtr = 10000;
+            drawCtr = 1000;
             drawGuitar();
+            updateScore(playerState.score);
         }
         updatePickups(controllerRead());
         drawCtr --;
@@ -135,15 +137,11 @@ void mainLoop(void) {
         // Update starpower
         if(playerState.guitarState == NORMAL) {
             starCounter += scoreChange;
-            if(starCounter > 8000) {
+            if(starCounter > 5000) {
                 starCounter = 800;
                 playerState.guitarState = STARPOWER;
                 // Draw starpower
-                ST7735_DrawLine(35, 0, 0, 160, COLOR_STARPOWER);
-                ST7735_DrawLine(49, 0, 34, 160, COLOR_STARPOWER);
-                ST7735_DrawFastVLine(64, 0, 160, COLOR_STARPOWER);
-                ST7735_DrawLine(79, 0, 94, 160, COLOR_STARPOWER);
-                ST7735_DrawLine(93, 0, 128, 160, COLOR_STARPOWER);
+                drawGuitarLines(COLOR_STARPOWER);
             }
             playerState.score += scoreChange;
         }
@@ -160,12 +158,7 @@ void mainLoop(void) {
             if(starCounter < 0) {
                 playerState.guitarState = NORMAL;
                 // Clear guitar
-                ST7735_DrawLine(35, 0, 0, 160, COLOR_NORMAL);
-                ST7735_DrawLine(49, 0, 34, 160, COLOR_NORMAL);
-                ST7735_DrawFastVLine(64, 0, 160, COLOR_NORMAL);
-                ST7735_DrawLine(79, 0, 94, 160, COLOR_NORMAL);
-                ST7735_DrawLine(93, 0, 128, 160, COLOR_NORMAL);
-
+                drawGuitarLines(COLOR_NORMAL);
             }
             playerState.score += 2 * scoreChange;
         }
@@ -174,8 +167,11 @@ void mainLoop(void) {
         if(playerState.score > 60000) {
             playerState.score = 0;
         }
-        updateScore(playerState.score);
-
+        if(playerState.score != previousScore) {
+            updateScore(playerState.score);
+        }
+        previousScore = playerState.score;
+            
         if(checkPause() != 0) {
             playerState.tick = 0xEFFFFFFF;
             break;
@@ -184,41 +180,8 @@ void mainLoop(void) {
     
     // End song
     endSong();
-    
-    showSplash("back.pi");
-    ST7735_SetTextColor(0xFFFF);
-    ST7735_SetCursor(3, 2);
-    ST7735_OutString("Your Score:");
-    ST7735_SetCursor(3, 3);
-    ST7735_OutUDec(playerState.score);
-    ST7735_SetCursor(3, 4);
-    /*
-    ST7735_OutString("Your Accuracy:");
-    ST7735_SetCursor(3, 5);
-    ST7735_OutUDec(playerState.score/playerState.percent);
-    ST7735_OutString(" %");
-    */
-    // Wait for input
-    while((controllerRead() & 0xF000) == 0){};
+    scoreSplash(playerState.score);
 }
-
-
-/*
-// ----------updateGame----------
-// Update game state over network
-// Parameters:
-//      uint8_t* packet: byte string packet
-void updateGame(uint8_t* packet) {
-    GAME_STATE *targetPlayer = &playerStates[findId(packet[2])];
-    targetPlayer->score = ((uint16_t) packet[5] << 8) | packet[6];
-    targetPlayer->currentOffset = ((uint16_t) packet[7] << 8) | packet[8];
-    targetPlayer->tick = 
-        (uint32_t) packet[9] << 24 |
-        (uint32_t) packet[10] << 16 |
-        (uint32_t) packet[11] << 8 |
-        (uint32_t) packet[12];
-}
-*/
 
 
 uint8_t ADCCounter;

@@ -58,7 +58,7 @@ print(notesDiff)
 # get pack
 notesPacked = [(i[0] << 12) + i[1] for i in notesDiff]
 
-outfile = open("rylah_b.rb", "w")
+outfile = open("out.rb", "w")
 for i in notesPacked:
     outfile.write(struct.pack('H', i))
 outfile.close()
