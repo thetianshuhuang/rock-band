@@ -6,7 +6,6 @@
 
 #include "uart.h"
 #include "../tm4c123gh6pm.h"
-#include "fifo.h"
 #include "../game/core.h"
 
 
@@ -19,8 +18,6 @@
 #define UART_RXIC   0x0010      // UART RX interrupt acknowledge
 #define UART_TXIM   0x0020      // UART TX interrupt enable
 
-// FIFO queues
-FIFO_QUEUE txFifo;
 
 // Game ID ifndef for testing
 #ifndef GAME_ID

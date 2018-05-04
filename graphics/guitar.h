@@ -23,15 +23,13 @@
 extern uint32_t noteStates[4];
 
 
-typedef struct {
-    const uint8_t *x_path;
-	const uint8_t *y_path;
-    uint16_t stage;
-    uint16_t color;
-	uint8_t playCheck;
-	uint16_t button;
-} Note;
+// --------drawGuitarLines--------
+// Draw the main guitar lines
+// Parameters:
+//      uint16_t color: color to draw
+void drawGuitarLines(uint16_t color);
 
+    
 // --------drawGuitar--------
 // Draw the main guitar
 void drawGuitar(void);

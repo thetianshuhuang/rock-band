@@ -439,16 +439,6 @@
           <GroupName>Network</GroupName>
           <Files>
             <File>
-              <FileName>fifo.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\network\fifo.c</FilePath>
-            </File>
-            <File>
-              <FileName>fifo.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\network\fifo.h</FilePath>
-            </File>
-            <File>
               <FileName>uart.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\network\uart.c</FilePath>
@@ -482,6 +472,16 @@
               <FileName>driver.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\audio\driver.h</FilePath>
+            </File>
+            <File>
+              <FileName>FIFO.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\audio\FIFO.c</FilePath>
+            </File>
+            <File>
+              <FileName>FIFO.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\audio\FIFO.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -588,36 +588,6 @@
               <FileType>5</FileType>
               <FilePath>.\display\ST7735.h</FilePath>
             </File>
-            <File>
-              <FileName>guitar.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\display\guitar.c</FilePath>
-            </File>
-            <File>
-              <FileName>guitar.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\display\guitar.h</FilePath>
-            </File>
-            <File>
-              <FileName>splash.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\display\splash.c</FilePath>
-            </File>
-            <File>
-              <FileName>splash.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\display\splash.h</FilePath>
-            </File>
-            <File>
-              <FileName>guitar_data.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\display\guitar_data.c</FilePath>
-            </File>
-            <File>
-              <FileName>guitar_data.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\display\guitar_data.h</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -642,6 +612,51 @@
               <FileName>menu_defs.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\menu\menu_defs.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Graphics</GroupName>
+          <Files>
+            <File>
+              <FileName>guitar.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\graphics\guitar.c</FilePath>
+            </File>
+            <File>
+              <FileName>guitar.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\graphics\guitar.h</FilePath>
+            </File>
+            <File>
+              <FileName>guitar_data.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\graphics\guitar_data.c</FilePath>
+            </File>
+            <File>
+              <FileName>guitar_data.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\graphics\guitar_data.h</FilePath>
+            </File>
+            <File>
+              <FileName>splash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\graphics\splash.c</FilePath>
+            </File>
+            <File>
+              <FileName>splash.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\graphics\splash.h</FilePath>
+            </File>
+            <File>
+              <FileName>util.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\graphics\util.c</FilePath>
+            </File>
+            <File>
+              <FileName>util.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\graphics\util.h</FilePath>
             </File>
           </Files>
         </Group>

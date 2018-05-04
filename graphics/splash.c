@@ -3,11 +3,12 @@
  *
  * Splash screen display routine
  */
-#include "ST7735.h"
-#include "diskio.h"
-#include "diskio.h"
-#include "ff.h"
+
 #include "../controller/controller.h"
+#include "../display/ST7735.h"
+#include "../display/diskio.h"
+#include "../display/ff.h"
+#include "util.h"
 
 // Status codes from the SD library
 FRESULT splashStatus;
@@ -19,6 +20,7 @@ FIL splashHandle;
 UINT splashSuccess;
 
 #include "../tm4c123gh6pm.h"
+
 
 // --------showSplash--------
 // Show the splash screen
@@ -59,3 +61,41 @@ void menuSplash(void) {
     // Wait for input
     while((controllerRead() & 0xF000) == 0){};
 }
+
+
+// --------scoreSplash--------
+// Show the song end score splash screen
+void scoreSplash(uint16_t score) {
+    // Show splash screen
+    showSplash("back.pi");
+    // Show display Text
+    ST7735_SetTextColor(0xFFFF);
+    ST7735_SetCursor(3, 2);
+    ST7735_OutString("Your Score:");
+    ST7735_SetCursor(3, 3);
+    ST7735_OutUDec(score);
+    ST7735_SetCursor(3, 4);
+    // Wait for input
+    while((controllerRead() & 0xF000) == 0){};
+}
+
+
+// --------multiplayerSplash--------
+// Show the multiplayer splash screen
+void multiSplash(void) {
+    showSplash("wait.pi");
+    ST7735_SetCursor(3, 3);
+    ST7735_SetTextColor(0x0000);
+    ST7735_OutString("Waiting for Song");
+    ST7735_SetCursor(3, 4);
+    ST7735_OutString("   Selection    ");
+    ST7735_SetTextColor(0xFFFF);
+    drawSpecialChar(5, 151, 3, 0x07FF, 0);
+    ST7735_SetCursor(3, 15);
+    ST7735_OutString("back to main menu");
+    ST7735_DrawFastHLine(14, 27, 101, 0x0000);
+    ST7735_DrawFastHLine(14, 49, 101, 0x0000);
+    ST7735_DrawFastVLine(14, 27, 22, 0x0000);
+    ST7735_DrawFastVLine(115, 27, 22, 0x0000);
+}
+

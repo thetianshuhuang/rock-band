@@ -17,11 +17,7 @@ typedef struct song_t {
     const uint32_t length;
 } SONG;
 
-extern SONG rockYouLikeAHurricane;
-extern SONG messageInABottle;
-extern SONG wildWildLife;
-extern SONG zZz;
-extern SONG headsWillRoll;
-extern SONG theFuneral;
+extern SONG songs[6];
+
 
 #endif

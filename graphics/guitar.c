@@ -18,6 +18,19 @@
 uint32_t noteStates[4];
 
 
+// --------drawGuitarLines--------
+// Draw the main guitar lines
+// Parameters:
+//      uint16_t color: color to draw
+void drawGuitarLines(uint16_t color) {
+    ST7735_DrawLine(35, 0, 0, 160, color);
+    ST7735_DrawLine(49, 0, 34, 160, color);
+    ST7735_DrawFastVLine(64, 0, 160, color);
+    ST7735_DrawLine(79, 0, 94, 160, color);
+    ST7735_DrawLine(93, 0, 128, 160, color);
+}
+
+
 // --------drawGuitar--------
 // Draw the main guitar
 #define COLOR_WHITE 0xFFFF
@@ -31,19 +44,10 @@ void drawGuitar(void){
             pickupCoords[i], PICKUP_Y, noteProfiles[i].pickupSprite, 16, 14);
     }
     if(playerState.guitarState == NORMAL) {
-        // Draw lines
-        ST7735_DrawLine(35, 0, 0, 160, COLOR_NORMAL);
-        ST7735_DrawLine(49, 0, 34, 160, COLOR_NORMAL);
-        ST7735_DrawFastVLine(64, 0, 160, COLOR_NORMAL);
-        ST7735_DrawLine(79, 0, 94, 160, COLOR_NORMAL);
-        ST7735_DrawLine(93, 0, 128, 160, COLOR_NORMAL);
+        drawGuitarLines(COLOR_NORMAL);
     }
     else {
-        ST7735_DrawLine(35, 0, 0, 160, COLOR_STARPOWER);
-        ST7735_DrawLine(49, 0, 34, 160, COLOR_STARPOWER);
-        ST7735_DrawFastVLine(64, 0, 160, COLOR_STARPOWER);
-        ST7735_DrawLine(79, 0, 94, 160, COLOR_STARPOWER);
-        ST7735_DrawLine(93, 0, 128, 160, COLOR_STARPOWER);
+        drawGuitarLines(COLOR_STARPOWER);
     }
 }
 

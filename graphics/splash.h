@@ -16,4 +16,15 @@ void showSplash(char* image);
 // Show the main menu splash screen
 void menuSplash(void);
 
+
+// --------scoreSplash--------
+// Show the song end score splash screen
+void scoreSplash(uint16_t score);
+
+
+// --------multiplayerSplash--------
+// Show the multiplayer splash screen
+void multiSplash(void);
+
+
 #endif

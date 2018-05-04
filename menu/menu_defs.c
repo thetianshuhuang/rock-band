@@ -6,9 +6,10 @@
 
 #include "menu_defs.h"
 #include "menu.h"
+#include "../graphics/util.h"
 #include "../game/core.h"
 #include "../game/songs.h"
-#include "../display/splash.h"
+#include "../graphics/splash.h"
 #include "../display/ST7735.h"
 #include "../controller/controller.h"
 #include "../network/uart.h"
@@ -20,28 +21,22 @@ MENU_SCREEN songSelect2;
 MENU_SCREEN instrumentSelect;
 
 void song1(void) {
-    uartWrite(0xA1);
-    initGame(&rockYouLikeAHurricane);
+    initGame(0);
 }
 void song2(void) {
-    uartWrite(0xA2);
-    initGame(&messageInABottle);
+    initGame(1);
 }
 void song3(void) {
-    uartWrite(0xA3);
-    initGame(&wildWildLife);
+    initGame(2);
 }
 void song4(void) {
-    uartWrite(0xA4);
-    initGame(&zZz);
+    initGame(3);
 }
 void song5(void) {
-    uartWrite(0xA5);
-    initGame(&headsWillRoll);
+    initGame(4);
 }
 void song6(void) {
-    uartWrite(0xA6);
-    initGame(&theFuneral);
+    initGame(5);
 }
 void lambda2(void) {displayMenu(&songSelect2);}
 void lambda1(void) {displayMenu(&songSelect1);}
@@ -71,51 +66,19 @@ void startMultiplayer(void) {
 }
 uint8_t data;
 void joinMultiplayer(void) {
-    showSplash("wait.pi");
-    ST7735_SetCursor(3, 3);
-    ST7735_SetTextColor(0x0000);
-    ST7735_OutString("Waiting for Song");
-    ST7735_SetCursor(3, 4);
-    ST7735_OutString("   Selection    ");
-    ST7735_SetTextColor(0xFFFF);
-    drawSpecialChar(5, 151, 3, 0x07FF, 0);
-    ST7735_SetCursor(3, 15);
-    ST7735_OutString("back to main menu");
-    ST7735_DrawFastHLine(14, 27, 101, 0x0000);
-    ST7735_DrawFastHLine(14, 49, 101, 0x0000);
-    ST7735_DrawFastVLine(14, 27, 22, 0x0000);
-    ST7735_DrawFastVLine(115, 27, 22, 0x0000);
+    // Show splash screen
+    multiSplash();
     while(1) {
+        // Check for back button
         if(controllerRead() & 0x2000) {
             showMainMenu();
+            break;
         }
-        // Put UART RX here
-        if(uartRead(&data)) {
+        // Wait for sync byte
+        if(uartRead(&data) && ((data & 0xF0) == 0xA0)) {
             uartWrite(data);
-            if(data == 0xA1) {
-                song1();
-                break;
-            }
-            if(data == 0xA2) {
-                song2();
-                break;
-            }
-            if(data == 0xA3) {
-                song3();
-                break;
-            }
-            if(data == 0xA4) {
-                song4();
-                break;
-            }
-            if(data == 0xA5) {
-                song5();
-                break;
-            }
-            if(data == 0xA6) {
-                song6();
-                break;
-            }
+            initGame(data & 0x0F);
+            break;
         }
     }
 }

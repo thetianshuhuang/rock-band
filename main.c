@@ -50,7 +50,7 @@
 #include "menu/menu.h"
 #include "menu/menu_defs.h"
 #include "display/ST7735.h"
-#include "display/splash.h"
+#include "graphics/splash.h"
 #include "network/uart.h"
 
 

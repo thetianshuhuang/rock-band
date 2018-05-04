@@ -30,7 +30,6 @@ typedef struct game_state_t {
 
 extern GAME_STATE playerState;
 
-void incrementNotePointer(void);
 
 // ----------selectInstrument----------
 // Set the player's current instrument
@@ -42,8 +41,8 @@ void selectInstrument(enum instrument_t instrument);
 // ----------initGame----------
 // initialize game (start song)
 // Parameters
-//      SONG song: song to play
-void initGame(SONG *song);
+//      uint8_t song: index of song to play
+void initGame(uint8_t song);
 
 
 // ----------mainLoop----------

@@ -10,7 +10,7 @@
 #include "../display/ff.h"
 #include "../display/diskio.h"
 #include "../display/ST7735.h"
-#include "../network/fifo.h"
+#include "fifo.h"
 
 
 // Set audio period
@@ -98,22 +98,6 @@ void endSong(void) {
 }
 
 
-// ----------charToHex----------
-// The the hex value of an ASCII character
-// Parameters:
-//      uint8_t input: character to look up
-// Returns:
-//      uint8_t: 1-byte hex int output
-uint8_t charToHex(uint8_t input) {
-    if('0' <= input && '9' >= input) {
-        return(input - 48);
-    }
-    else {
-        return(input - 55);
-    }
-}
-
-
 // ----------readSector----------
 // Read at most one sector from the SD card into the audio queue
 void readSector(void) {
@@ -130,7 +114,7 @@ void readSector(void) {
 
 // ----------updateSong----------
 // Execute a song update
-void updateSong() {
+void updateSong(void) {
     char data;
     if(silence == 0) {
         fifoGet(&audioQueue, &data);
