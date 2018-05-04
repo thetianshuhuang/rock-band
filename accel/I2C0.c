@@ -104,10 +104,6 @@ uint16_t I2C_Recv2(int8_t slave){
 }
 
 // sends one byte to specified slave
-// Note for HMC6352 compass only:
-// Used with 'S', 'W', 'O', 'C', 'E', 'L', and 'A' commands
-//  For 'A' commands, I2C_Recv2() should also be called
-// Note for TMP102 thermometer only:
 // Used to change the pointer register
 // Returns 0 if successful, nonzero if error
 uint32_t I2C_Send1(int8_t slave, uint8_t data1){
@@ -158,10 +154,7 @@ uint32_t I2C_Send2(int8_t slave, uint8_t data1, uint8_t data2){
                                           // return error bits
   return (I2C0_MCS_R&(I2C_MCS_DATACK|I2C_MCS_ADRACK|I2C_MCS_ERROR));
 }
-// sends three bytes to specified slave
-// Note for HMC6352 compass only:
-// Used with 'w' and 'G' commands
-// Note for TMP102 thermometer only:
+
 // Used to change the contents of the pointer register
 // Returns 0 if successful, nonzero if error
 uint32_t I2C_Send3(int8_t slave, uint8_t data1, uint8_t data2, uint8_t data3){
