@@ -10,7 +10,7 @@
 #include <stdint.h>
 #include "../game/core.h"
 
-#define resolution 19
+#define resolution 32
 #define red 0x001F
 #define yellow 0x07FF
 #define blue 0xF800
