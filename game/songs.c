@@ -41,3 +41,10 @@ SONG headsWillRoll = {
     "hwr_d.rb",
     10182000,
 };
+SONG theFuneral = {
+    "tf.bw",
+    "tf_g.rb",
+    "tf_b.rb",
+    "tf_d.rb",
+    10546000,
+};

@@ -15,6 +15,7 @@
 #include "songs.h"
 #include "load_song.h"
 #include "../controller/dsp.h"
+#include "../menu/menu.h"
 
 GAME_STATE playerState;
 
@@ -52,7 +53,7 @@ uint16_t drawTicks;
 //      SONG song: song to play
 void initGame(SONG *song) {
     
-    playerState.tick = song->length;
+    playerState.tick = song->length + 114000;
     playerState.score = 0;
     playerState.head = 0;
     playerState.headPtr = 0;
@@ -99,6 +100,7 @@ uint8_t findId(uint8_t id) {
 
 uint16_t change;
 uint16_t drawCtr;
+uint16_t previousScore;
 // ----------mainLoop----------
 // Main game loop
 void mainLoop(void) {
@@ -107,7 +109,9 @@ void mainLoop(void) {
     // Start at normal play
     int32_t starCounter = 0;
     playerState.guitarState = NORMAL;
-    drawCtr = 100;
+    drawCtr = 1000;
+    previousScore = 0;
+    updateScore(0);
     
     // Clear note States
     for(uint8_t i = 0; i < 4; i++) {
@@ -117,8 +121,9 @@ void mainLoop(void) {
     // Play until tick overflows
     while(playerState.tick < 0x8FFFFFFF) {
         if(drawCtr == 0) {
-            drawCtr = 10000;
+            drawCtr = 1000;
             drawGuitar();
+            updateScore(playerState.score);
         }
         updatePickups(controllerRead());
         drawCtr --;
@@ -135,7 +140,7 @@ void mainLoop(void) {
         // Update starpower
         if(playerState.guitarState == NORMAL) {
             starCounter += scoreChange;
-            if(starCounter > 8000) {
+            if(starCounter > 5000) {
                 starCounter = 800;
                 playerState.guitarState = STARPOWER;
                 // Draw starpower
@@ -174,8 +179,11 @@ void mainLoop(void) {
         if(playerState.score > 60000) {
             playerState.score = 0;
         }
-        updateScore(playerState.score);
-
+        if(playerState.score != previousScore) {
+            updateScore(playerState.score);
+        }
+        previousScore = playerState.score;
+            
         if(checkPause() != 0) {
             playerState.tick = 0xEFFFFFFF;
             break;

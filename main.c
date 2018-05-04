@@ -51,6 +51,7 @@
 #include "menu/menu_defs.h"
 #include "display/ST7735.h"
 #include "display/splash.h"
+#include "network/uart.h"
 
 
 //
@@ -63,6 +64,7 @@ void gameInit(void)
     audioInit();
     ST7735_InitR(INITR_REDTAB);
     controllerInit();
+    uartInit();
 
     // Set rotation (180 degrees)
     ST7735_SetRotation(2);

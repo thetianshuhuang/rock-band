@@ -12,7 +12,7 @@
 
 
 #define COLOR_NORMAL 0xFFFF
-#define COLOR_STARPOWER 0x0618
+#define COLOR_STARPOWER 0x07FF
 #define resolution 32
 #define red 0x001F
 #define yellow 0x07FF

@@ -1,7 +1,7 @@
 from scipy.io import wavfile
 import struct
 
-song = wavfile.read("Yeah Yeah Yeahs - Heads Will Roll (Jaydon Lewis Remix) (320  kbps) (Mp3Converter.net).wav")
+song = wavfile.read("Band Of Horses - The Funeral (Y2K x Honest Remix) (BassBoosted).wav")
 target = open("song_out.bw", "wb")
 
 val_previous = 128
@@ -22,4 +22,3 @@ for i in song[1]:
     target.write(struct.pack('B', val))
     val_previous = val
 target.close();
-

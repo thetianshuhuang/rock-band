@@ -11,6 +11,7 @@
 #include "../display/splash.h"
 #include "../display/ST7735.h"
 #include "../controller/controller.h"
+#include "../network/uart.h"
 
 
 MENU_SCREEN mainMenu;
@@ -18,11 +19,30 @@ MENU_SCREEN songSelect1;
 MENU_SCREEN songSelect2;
 MENU_SCREEN instrumentSelect;
 
-void song1(void) {initGame(&rockYouLikeAHurricane);}
-void song2(void) {initGame(&messageInABottle);}
-void song3(void) {initGame(&wildWildLife);}
-void song4(void) {initGame(&zZz);}
-void song5(void) {initGame(&headsWillRoll);}
+void song1(void) {
+    uartWrite(0xA1);
+    initGame(&rockYouLikeAHurricane);
+}
+void song2(void) {
+    uartWrite(0xA2);
+    initGame(&messageInABottle);
+}
+void song3(void) {
+    uartWrite(0xA3);
+    initGame(&wildWildLife);
+}
+void song4(void) {
+    uartWrite(0xA4);
+    initGame(&zZz);
+}
+void song5(void) {
+    uartWrite(0xA5);
+    initGame(&headsWillRoll);
+}
+void song6(void) {
+    uartWrite(0xA6);
+    initGame(&theFuneral);
+}
 void lambda2(void) {displayMenu(&songSelect2);}
 void lambda1(void) {displayMenu(&songSelect1);}
 void selectBack(void) {displayMenu(&mainMenu);}
@@ -49,6 +69,7 @@ void startMultiplayer(void) {
     // set flag
     songSelectMain();
 }
+uint8_t data;
 void joinMultiplayer(void) {
     showSplash("wait.pi");
     ST7735_SetCursor(3, 3);
@@ -69,11 +90,34 @@ void joinMultiplayer(void) {
             showMainMenu();
         }
         // Put UART RX here
-        uint8_t uart_RX_flag = 0;
-        if(uart_RX_flag != 0) {
-            initGame(&rockYouLikeAHurricane);
+        if(uartRead(&data)) {
+            uartWrite(data);
+            if(data == 0xA1) {
+                song1();
+                break;
+            }
+            if(data == 0xA2) {
+                song2();
+                break;
+            }
+            if(data == 0xA3) {
+                song3();
+                break;
+            }
+            if(data == 0xA4) {
+                song4();
+                break;
+            }
+            if(data == 0xA5) {
+                song5();
+                break;
+            }
+            if(data == 0xA6) {
+                song6();
+                break;
+            }
         }
-    };    
+    }
 }
 
 MENU_SCREEN mainMenu = {
@@ -112,10 +156,11 @@ MENU_SCREEN songSelect1 = {
 };
 
 MENU_SCREEN songSelect2 = {
-    "SONG SELECT", 3, 3,
+    "SONG SELECT", 4, 3,
     {
         {"DROELOE", "zZz", "", &song4},
         {"Yeah Yeah Yeahs", "Heads Will Roll", "", &song5},
+        {"Band of Horses", "The Funeral", "Y2KxHonest Remix", &song6},
         {"Previous", "", "", &lambda1},
     },
     &showMainMenu

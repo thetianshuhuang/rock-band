@@ -11,6 +11,7 @@
 #include "../controller/dsp.h"
 #include "../game/core.h"
 #include "guitar_data.h"
+#include "../menu/menu.h"
 
 
 // Note states
@@ -29,12 +30,21 @@ void drawGuitar(void){
         ST7735_DrawBitmap(
             pickupCoords[i], PICKUP_Y, noteProfiles[i].pickupSprite, 16, 14);
     }
-    // Draw lines
-	ST7735_DrawLine(35, 0, 0, 160, COLOR_WHITE);
-	ST7735_DrawLine(49, 0, 34, 160, COLOR_WHITE);
-	ST7735_DrawFastVLine(64, 0, 160, COLOR_WHITE);
-	ST7735_DrawLine(79, 0, 94, 160, COLOR_WHITE);
-	ST7735_DrawLine(93, 0, 128, 160, COLOR_WHITE);
+    if(playerState.guitarState == NORMAL) {
+        // Draw lines
+        ST7735_DrawLine(35, 0, 0, 160, COLOR_NORMAL);
+        ST7735_DrawLine(49, 0, 34, 160, COLOR_NORMAL);
+        ST7735_DrawFastVLine(64, 0, 160, COLOR_NORMAL);
+        ST7735_DrawLine(79, 0, 94, 160, COLOR_NORMAL);
+        ST7735_DrawLine(93, 0, 128, 160, COLOR_NORMAL);
+    }
+    else {
+        ST7735_DrawLine(35, 0, 0, 160, COLOR_STARPOWER);
+        ST7735_DrawLine(49, 0, 34, 160, COLOR_STARPOWER);
+        ST7735_DrawFastVLine(64, 0, 160, COLOR_STARPOWER);
+        ST7735_DrawLine(79, 0, 94, 160, COLOR_STARPOWER);
+        ST7735_DrawLine(93, 0, 128, 160, COLOR_STARPOWER);
+    }
 }
 
 
@@ -105,7 +115,7 @@ int16_t updateNote(uint16_t strumChange, enum guitar_state_t currentState)
             if((noteStates[j] & (0x0001 << i)) != 0) {
                 // Clear previous note, except for position 0
                 if((i != 0) && (i < 32)) {
-                    ST7735_DrawCircle(
+                    ST7735_DrawCircle(  
                         noteProfiles[j].xPath[i - 1],
                         noteProfiles[j].yPath[i - 1], 0);
                 }
@@ -144,8 +154,14 @@ int16_t updateNote(uint16_t strumChange, enum guitar_state_t currentState)
             }
         }
     }
-    return(score);
+    if(playerState.instrument == DRUMS) {
+        return(score / 2);
+    }
+    else {
+        return(score);
+    }
 }
+
 
 void updateScore(uint16_t score){
 	ST7735_DrawString(0, 0, "Score", COLOR_WHITE);
