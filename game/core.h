@@ -13,7 +13,7 @@
 
 enum instrument_t {NULL, GUITAR, BASS, DRUMS};
 enum guitar_state_t {NORMAL, STARPOWER};
-enum run_mode_t {FULL, DEMO};
+enum run_mode_t {DEMO, FULL};
 
 // Game state type
 typedef struct game_state_t {

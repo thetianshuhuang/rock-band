@@ -45,11 +45,12 @@ void initGame(uint8_t song) {
     uartWrite(0xA0 | song);
 
     // Demo mode: limit songs to 2:30
-    if(playerState.runMode == DEMO) {
-        playerState.tick = 6700000;
-    }
-    else {
+    if(playerState.runMode == FULL) {
         playerState.tick = songs[song].length + 112000;
+    }
+    // Default to demo mode
+    else {
+        playerState.tick = 6700000;
     }
     playerState.score = 0;
     playerState.head = 0;

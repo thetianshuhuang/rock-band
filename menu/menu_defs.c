@@ -94,7 +94,7 @@ MENU_SCREEN mainMenu = {
         {"Multiplayer", "", "", &joinMultiplayer},
         {"Start Lobby", "", "", &startMultiplayer},
         {"Select Instrument", "", "", &instrumentSelectMenu},
-        {"Enable Demo Mode", "", "", &setDemo},
+        {"Enable Full Mode", "", "", &setDemo},
     },
     0
 };
