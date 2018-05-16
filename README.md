@@ -43,7 +43,7 @@ Navigate the menus using the four buttons or by hitting the drums.
 
 At first, the Menu screen will have a black background. Navigate to 'select instrument', and choose the desired instrument. Then, the background will change to match the chosen instrument. Then, select 'Enable Full Mode' to disable the 2:30 time limit on song duration if desired.
 
-<img src="https://github.com/thetianshuhuang/rock-band/blob/master/images/menu.JPG" width="300"><img src="https://github.com/thetianshuhuang/rock-band/blob/master/images/songs1.JPG" width="300"><img src="https://github.com/thetianshuhuang/rock-band/blob/master/images/songs2.JPG" width="300">
+<img src="https://github.com/thetianshuhuang/rock-band/blob/master/images/menu.JPG" width="250"><img src="https://github.com/thetianshuhuang/rock-band/blob/master/images/songs1.JPG" width="250"><img src="https://github.com/thetianshuhuang/rock-band/blob/master/images/songs2.JPG" width="250">
 
 All but one device should choose 'Join Lobby'. These devices will wait for the main ('Lobby Leader') device to choose a song, and join in.
 
@@ -79,4 +79,40 @@ After a song is started, notes will scroll down the screen. Play notes by holdin
 6. If playing with the drums, plug the 8 pin cable into the top 8 pin connector, with the 3.3v pin connected to the pin closest to the power LED. Then, plug each piezo sensor into the bottom 8 pin connector, with each piezo connected to two adjacent pins.
 7. Connect the USB A port of each main board to the USB Micro B port of the next board. Note that the USB cable should not be plugged into either of the TM4C's USB ports. Connect the last board's USB A port to the USB Micro B port of the first board.
 8. Connect a 5v source to one of the launchpads, either through the 5v pin or the TM4C's onboard USB port.
+
+## PCBs
+### Main Board
+<img src="https://github.com/thetianshuhuang/rock-band/blob/master/images/top.JPG" width="250">
+<img src="https://github.com/thetianshuhuang/rock-band/blob/master/images/top_bare.JPG" width="250">
+<img src="https://github.com/thetianshuhuang/rock-band/blob/master/images/bottom.JPG" width="250">
+
+- 1x Micro USB Breakout
+- 1x USB A Port
+- 1x 3.5mm Jack
+- 1x 10&mu;f Capacitor
+- 2x 1x8 Right angle Female Connector
+- 1x 1x10 Female Connector
+- 3x Switch
+- Resistors: 1x 10&Omega;, 1x 1k&Omega;, 3x 3k&Omega;, 1x 5.1k&Omega;, 1x 12k&Omega;, 1x 16k&Omega;, 2x 24k&Omega;, 1x 47.1k&Omega;, 1x 91k&Omega;, 1x 180k&Omega;, 1x 360k&Omega;
+
+### Strummer Board
+- 1x 1x6 Right angle male connector
+- 1x 1x8 Female header
+- 1x Red LED
+- 1x 220&Omega; Resistor
+- 1x Slide Potentiometer
+
+### Button Board
+- 4x Buttons
+- 4x 10k&Omega; Resistors
+
+### Drums
+<img src="https://github.com/thetianshuhuang/rock-band/blob/master/images/drum_opamp.JPG" width="250">
+
+- 2x 1x8 Female Header
+- 1x 20k (or similar) Cermet Potentiometer
+- 1x PC324C Quad Op Amp or Equivalent
+- 1x Red LED
+- 1x 220&Omega; Resistor
+- 4x 1M&Omega; Resistors
 
