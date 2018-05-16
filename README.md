@@ -1,1 +1,1 @@
-# lab-10-tianshu-and-quinn
+# EE319K Final Project: Rock Band

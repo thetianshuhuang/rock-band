@@ -20,13 +20,13 @@ void showInstructions(void) {
     drawSpecialChar(0, 120, 1, GREEN, 0x00);
     ST7735_SetCursor(2, 13);
     ST7735_OutString("Down");
-    drawSpecialChar(0, 130, 2, GREEN, 0x00);
+    drawSpecialChar(0, 130, 2, BLUE, 0x00);
     ST7735_SetCursor(2, 14);
     ST7735_OutString("Back");
-    drawSpecialChar(0, 140, 3, GREEN, 0x00);
+    drawSpecialChar(0, 140, 3, YELLOW, 0x00);
     ST7735_SetCursor(2, 15);
     ST7735_OutString("Select");
-    drawSpecialChar(0, 150, 0, GREEN, 0x00);
+    drawSpecialChar(0, 150, 0, RED, 0x00);
 }
 
 

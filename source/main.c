@@ -15,7 +15,7 @@
  * DEPENDENCIES
  * - tm4c123gh6p.h (tm4c hardware register definition file)
  * - PLL.h (tm4c PLL; used for 80mHz clock)
- * - FATFS; ST7735.h and diskio.h from Valvanoware (Heavily modified)
+ * - FATFS; ST7735.h and diskio.h from Valvanoware (modified)
  *
  * LIBRARIES AND MODULES
  * - Network: token network implementation, modified from Serial Token Ring
@@ -25,6 +25,7 @@
  * - Game: Core game control
  * - Display: SD drivers and display routines
  * - Menu: Generalized menu library using function pointers
+ * - Graphics: Display routines for the guitar, splash screen, and misc utilities
  *
  * FILE TYPES
  * - Packed Image (.pi): packed 5-6-5 GBR 16-bit image, uncompressed, scanning
@@ -47,12 +48,10 @@
 #include "audio/driver.h"
 #include "controller/controller.h"
 #include "game/core.h"
-#include "menu/menu.h"
 #include "menu/menu_defs.h"
 #include "display/ST7735.h"
 #include "graphics/splash.h"
 #include "network/uart.h"
-#include "accel/accel.h"
 
 
 //
@@ -66,7 +65,6 @@ void gameInit(void)
     ST7735_InitR(INITR_REDTAB);
     controllerInit();
     uartInit();
-	  //initAccel();
 
     // Set rotation (180 degrees)
     ST7735_SetRotation(2);

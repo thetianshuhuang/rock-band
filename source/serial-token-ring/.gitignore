@@ -1,0 +1,14 @@
+*.pyc
+*.o
+*.d
+*.crf
+*.axf
+*.htm
+*.plg
+*.lnp
+*.bak
+*.dep
+*.uvgui*
+*.ccxml
+*.ccsproject
+*.cproject
