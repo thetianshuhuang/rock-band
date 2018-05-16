@@ -9,25 +9,35 @@
 #include "../tm4c123gh6pm.h"
 #include "../controller/controller.h"
 #include "../graphics/guitar.h"
-#include "../PLL.h"
-#include "../display/ST7735.h"
 #include "../graphics/splash.h"
 #include "songs.h"
 #include "load_song.h"
 #include "../controller/dsp.h"
-#include "../menu/menu.h"
 #include "../network/uart.h"
 #include "../accel/accel.h"
+#include "../menu/menu_defs.h"
+
 
 GAME_STATE playerState;
 
-
 // ----------selectInstrument----------
 // Set the player's current instrument
-// Parameters:
-//      enum instrument_t instrument: instrument to choose; GUITAR, BASS, or DRUMS
-void selectInstrument(enum instrument_t instrument) {
-    playerState.instrument = instrument;
+//      uint8_t instrument: instrument to choose; GUITAR, BASS, or DRUMS
+//          (matches enum instrument_t)
+void selectInstrument(uint8_t instrument) {
+    playerState.instrument = (enum instrument_t) instrument;
+}
+
+
+// ----------toggleDemo----------
+// Toggle Demo Mode
+void toggleDemo(void) {
+    if(playerState.runMode == DEMO) {
+        playerState.runMode = FULL;
+    }
+    else {
+        playerState.runMode = DEMO;
+    }
 }
 
 
@@ -79,6 +89,30 @@ void initGame(uint8_t song) {
     
     // Start song
     startSong(songs[song].byteWav, &(playerState.tick));
+}
+
+
+// ----------joinMultiplayer----------
+// Join multiplayer game via serial
+// Parameters
+//      uint8_t foo: argument to match function definition in Menu library
+void joinMultiplayer(uint8_t foo) {
+    uint8_t data;
+    // Show splash screen
+    multiSplash();
+    while(1) {
+        // Check for back button
+        if(controllerRead() & 0x2000) {
+            showMenuByIndex(MAIN_MENU);
+            break;
+        }
+        // Wait for sync byte
+        if((uartRead(&data) != 0) && ((data & 0xF0) == 0xA0)) {
+            uartWrite(data);
+            initGame(data & 0x0F);
+            break;
+        }
+    }
 }
 
 
@@ -177,7 +211,7 @@ void mainLoop(void) {
         if(checkPause() != 0) {
             playerState.tick = 0xEFFFFFFF;
             break;
-        }                
+        }
     }
     
     // End song

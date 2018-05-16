@@ -4,9 +4,11 @@
  * I/O interfacing for the game controller
  * Analog: PE2
  * Digital: PE1, PD1-D3
+ * 
+ * Potentiometer on Drum Controller:
+ *  - Clockwise -> Less Sensitive
+ *  - Approximate value: 0.75v
  */
-
-/////////CLOCKWISE ON POT == LESS SENSitive - golden val = 0.77v
 
 
 #include "controller.h"

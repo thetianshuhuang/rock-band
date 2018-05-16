@@ -10,6 +10,14 @@
 #include <stdint.h>
 
 
+// Standard color definitions
+#define WHITE  0xFFFF
+#define GREEN  0x07E0
+#define BLUE   0xF800
+#define YELLOW 0x07FF
+#define RED    0x001F
+
+
 // ----------drawSpecialChar----------
 // Draw a special character on the screen.
 // Parameters:

@@ -11,7 +11,7 @@
 #include "../controller/dsp.h"
 #include "../game/core.h"
 #include "guitar_data.h"
-#include "../menu/menu.h"
+#include "util.h"
 
 
 // Note states
@@ -33,7 +33,6 @@ void drawGuitarLines(uint16_t color) {
 
 // --------drawGuitar--------
 // Draw the main guitar
-#define COLOR_WHITE 0xFFFF
 #define PICKUP_Y 157
 const uint8_t pickupCoords[4] = {102, 71, 42, 11};
 void drawGuitar(void){
@@ -111,10 +110,19 @@ void moveNotes(void) {
 int16_t updateNote(uint16_t strumChange, enum guitar_state_t currentState)
 {
     int16_t score = 0;
+    uint16_t noteColor;
+    
     // Cycle through possible positions
     for(uint8_t i = 0; i < 32; i++) {
         // Cycle through the four notes
         for(uint8_t j = 0; j < 4; j++) {
+            // Set color
+            if(currentState == STARPOWER) {
+                noteColor = WHITE;
+            }
+            else {
+                noteColor = noteProfiles[j].color;
+            }
             // Check if note is present
             if((noteStates[j] & (0x0001 << i)) != 0) {
                 // Clear previous note, except for position 0
@@ -137,18 +145,10 @@ int16_t updateNote(uint16_t strumChange, enum guitar_state_t currentState)
                 }
                 // Draw new note (white if in star power mode)
                 else if(i < 31) {
-                    if(currentState == STARPOWER) {
-                        ST7735_DrawCircle(
-                            noteProfiles[j].xPath[i],
-                            noteProfiles[j].yPath[i],
-                            COLOR_WHITE);
-                    }
-                    else {
-                        ST7735_DrawCircle(
-                            noteProfiles[j].xPath[i],
-                            noteProfiles[j].yPath[i],
-                            noteProfiles[j].color);
-                    }
+                    ST7735_DrawCircle(
+                        noteProfiles[j].xPath[i],
+                        noteProfiles[j].yPath[i],
+                        noteColor);
                 }
                 // Subtract points for missed note
                 if(i == 31) {
@@ -158,6 +158,7 @@ int16_t updateNote(uint16_t strumChange, enum guitar_state_t currentState)
             }
         }
     }
+    // Return score (Nerf drums by reducing score by factor of 2)
     if(playerState.instrument == DRUMS) {
         return(score / 2);
     }
@@ -167,8 +168,12 @@ int16_t updateNote(uint16_t strumChange, enum guitar_state_t currentState)
 }
 
 
+// --------updateScore--------
+// Display the score on the screen
+// Parameters:
+//      uint16_t score: score to display
 void updateScore(uint16_t score){
-	ST7735_DrawString(0, 0, "Score", COLOR_WHITE);
+	ST7735_DrawString(0, 0, "Score", WHITE);
 	ST7735_FillRect(0, 8, 29, 9, 0);
 	ST7735_SetCursor(0, 1);
 	ST7735_OutUDec(score);

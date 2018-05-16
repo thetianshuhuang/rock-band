@@ -86,7 +86,7 @@ int main()
 
     // Enter main loop
     while(1){
-        displayMenu(&mainMenu);	 
+        showMenuByIndex(MAIN_MENU);
         mainLoop();
     }
 }

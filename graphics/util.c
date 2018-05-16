@@ -5,6 +5,7 @@
  */
 
 #include <stdint.h>
+#include "util.h"
 #include "../display/ST7735.h"
 
 
@@ -53,4 +54,6 @@ void vLine(uint8_t x, uint8_t y_1, uint8_t y_2, uint16_t color) {
         ST7735_DrawPixel(x, coord, color);
     }
 }
+
+
 

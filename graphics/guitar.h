@@ -14,11 +14,6 @@
 #define COLOR_NORMAL 0xFFFF
 #define COLOR_STARPOWER 0x07FF
 #define resolution 32
-#define red 0x001F
-#define yellow 0x07FF
-#define blue 0xF800
-#define green 0x07E0
-
 
 extern uint32_t noteStates[4];
 

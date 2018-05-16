@@ -10,7 +10,8 @@
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
 
-#include "../tm4c123gh6pm.h"
+#include <stdint.h>
+
  
 // ----------controllerInit----------
 // Initialize controller

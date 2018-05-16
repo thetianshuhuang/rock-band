@@ -9,8 +9,8 @@
 #include "driver.h"
 #include "../display/ff.h"
 #include "../display/diskio.h"
-#include "../display/ST7735.h"
 #include "fifo.h"
+#include "../tm4c123gh6pm.h"
 
 
 // Set audio period

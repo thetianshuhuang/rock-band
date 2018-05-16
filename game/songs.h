@@ -9,15 +9,19 @@
 
 #include <stdint.h>
 
+
+// Song struct
 typedef struct song_t {
-    const char* byteWav;
-    const char* guitarTrack;
-    const char* bassTrack;
-    const char* drumsTrack;
-    const uint32_t length;
+    const char* byteWav;        // File name (*.bw)
+    const char* guitarTrack;    // Guitar track (*.rb)
+    const char* bassTrack;      // Bass track (*.rb)
+    const char* drumsTrack;     // Drum track (*.rb)
+    const uint32_t length;      // Length of song, in samples
 } SONG;
 
-extern SONG songs[6];
 
+// Included songs
+enum songs_t {RYLAH, MIAB, WWL, ZZZ, HWR, TF};
+extern SONG songs[6];
 
 #endif

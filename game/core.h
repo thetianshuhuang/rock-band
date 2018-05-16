@@ -36,8 +36,14 @@ extern GAME_STATE playerState;
 // ----------selectInstrument----------
 // Set the player's current instrument
 // Parameters:
-//      enum instrument_t instrument: instrument to choose; GUITAR, BASS, or DRUMS
-void selectInstrument(enum instrument_t instrument);
+//      uint8_t instrument: instrument to choose; GUITAR, BASS, or DRUMS
+//          (matches enum instrument_t)
+void selectInstrument(uint8_t instrument);
+
+
+// ----------toggleDemo----------
+// Toggle Demo Mode
+void toggleDemo(void);
 
 
 // ----------initGame----------
@@ -45,6 +51,13 @@ void selectInstrument(enum instrument_t instrument);
 // Parameters
 //      uint8_t song: index of song to play
 void initGame(uint8_t song);
+
+
+// ----------joinMultiplayer----------
+// Join multiplayer game via serial
+// Parameters
+//      uint8_t foo: argument to match function definition in Menu library
+void joinMultiplayer(uint8_t foo);
 
 
 // ----------mainLoop----------
