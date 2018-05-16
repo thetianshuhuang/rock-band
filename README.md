@@ -38,18 +38,24 @@ before the next note.
 
 ## Gameplay
 Navigate the menus using the four buttons or by hitting the drums.
+
 <img src="https://github.com/thetianshuhuang/rock-band/blob/master/images/instructions.JPG" width="100">
+
 At first, the Menu screen will have a black background. Navigate to 'select instrument', and choose the desired instrument. Then, the background will change to match the chosen instrument. Then, select 'Enable Full Mode' to disable the 2:30 time limit on song duration if desired.
 
-![Screenshot](https://github.com/thetianshuhuang/rock-band/blob/master/images/menu.JPG){:height="400", width="300"}
-![Screenshot](https://github.com/thetianshuhuang/rock-band/blob/master/images/songs1.JPG){:height="400", width="300"}
-![Screenshot](https://github.com/thetianshuhuang/rock-band/blob/master/images/songs2.JPG){:height="400", width="300"}
+<img src="https://github.com/thetianshuhuang/rock-band/blob/master/images/menu.JPG" width="300">
+<img src="https://github.com/thetianshuhuang/rock-band/blob/master/images/songs1.JPG" width="300">
+<img src="https://github.com/thetianshuhuang/rock-band/blob/master/images/songs2.JPG" width="300">
+
 All but one device should choose 'Join Lobby'. These devices will wait for the main ('Lobby Leader') device to choose a song, and join in.
-![Screenshot](https://github.com/thetianshuhuang/rock-band/blob/master/images/multiplayer.JPG)
+
+<img src="https://github.com/thetianshuhuang/rock-band/blob/master/images/multiplayer.JPG" width="300">
+
 All devices on the multiplayer "Waiting for Song Selection" screen will join the main device once a song is selected.
 After a song is started, notes will scroll down the screen. Play notes by holding down the appropriate buttons and strumming (guitar/bass) or by hitting the drum pads. Hit notes will increase the score; missed notes will decrease the score. Once enough notes are hit, Star Power is enabled, turning the frets yellow and the notes white, and provides a score multiplier. Poor performance increases the difficulty of obtaining Star Power. The duration of Star Power increases on successful note hits, and decreases greatly on missed notes. 
-![Screenshot](https://github.com/thetianshuhuang/rock-band/blob/master/images/normal.JPG)
-![Screenshot](https://github.com/thetianshuhuang/rock-band/blob/master/images/starpower.JPG)
+
+<img src="https://github.com/thetianshuhuang/rock-band/blob/master/images/normal.JPG" width="300">
+<img src="https://github.com/thetianshuhuang/rock-band/blob/master/images/starpower.JPG" width="300">
 
 
 ## Materials
