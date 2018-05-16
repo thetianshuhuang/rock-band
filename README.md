@@ -82,9 +82,7 @@ After a song is started, notes will scroll down the screen. Play notes by holdin
 
 ## PCBs
 ### Main Board
-<img src="https://github.com/thetianshuhuang/rock-band/blob/master/images/top.JPG" width="250">
-<img src="https://github.com/thetianshuhuang/rock-band/blob/master/images/top_bare.JPG" width="250">
-<img src="https://github.com/thetianshuhuang/rock-band/blob/master/images/bottom.JPG" width="250">
+<img src="https://github.com/thetianshuhuang/rock-band/blob/master/images/top.JPG" width="250"><img src="https://github.com/thetianshuhuang/rock-band/blob/master/images/top_bare.JPG" width="250"><img src="https://github.com/thetianshuhuang/rock-band/blob/master/images/bottom.JPG" width="250">
 
 - 1x Micro USB Breakout
 - 1x USB A Port
