@@ -33,7 +33,7 @@
  * - Byte wave file (.bw): raw audio file, bit-depth of 8, 44.1kHz
  * - Rock Band Track (.rb): 16-bit array.
  *      | R | Y | B | G | Reserved | Reserved | -- (10) Tick -- |
- *      R, Y, B, G indicated whether each drum should be hit (1) at that note
+ *      R, Y, B, G indicates whether each drum should be hit (1) at that note
  *      or not (0).
  *      Tick indicates the number of updates (441 updates/s or 100 audio ticks/update)
  *      before the next note.
