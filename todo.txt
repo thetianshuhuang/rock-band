@@ -1,6 +1,0 @@
-Todo:
-- move note tracking to sysTick
-- make main draw as fast as possible
-- improve alignment strategy
-- use saleae to improve refresh rate precision
-- get token ring working

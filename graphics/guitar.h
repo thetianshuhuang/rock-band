@@ -59,10 +59,10 @@ void moveNotes(void);
 int16_t updateNote(uint16_t strumChange, enum guitar_state_t currentState);
 
 
-// --------updateScore--------
+// --------showScore--------
 // Display the score on the screen
 // Parameters:
 //      uint16_t score: score to display
-void updateScore(uint16_t score);
+void showScore(uint16_t score);
 
 #endif

@@ -33,19 +33,6 @@ typedef struct game_state_t {
 extern GAME_STATE playerState;
 
 
-// ----------selectInstrument----------
-// Set the player's current instrument
-// Parameters:
-//      uint8_t instrument: instrument to choose; GUITAR, BASS, or DRUMS
-//          (matches enum instrument_t)
-void selectInstrument(uint8_t instrument);
-
-
-// ----------toggleDemo----------
-// Toggle Demo Mode
-void toggleDemo(void);
-
-
 // ----------initGame----------
 // initialize game (start song)
 // Parameters

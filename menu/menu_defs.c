@@ -7,6 +7,7 @@
 #include "menu_defs.h"
 #include "menu.h"
 #include "../game/core.h"
+#include "../game/settings.h"
 
 
 // ----------showMenuByIndex----------

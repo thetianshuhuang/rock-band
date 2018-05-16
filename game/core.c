@@ -12,34 +12,12 @@
 #include "../graphics/splash.h"
 #include "songs.h"
 #include "load_song.h"
-#include "../controller/dsp.h"
 #include "../network/uart.h"
-#include "../accel/accel.h"
 #include "../menu/menu_defs.h"
+#include "mechanics.h"
 
 
 GAME_STATE playerState;
-
-// ----------selectInstrument----------
-// Set the player's current instrument
-//      uint8_t instrument: instrument to choose; GUITAR, BASS, or DRUMS
-//          (matches enum instrument_t)
-void selectInstrument(uint8_t instrument) {
-    playerState.instrument = (enum instrument_t) instrument;
-}
-
-
-// ----------toggleDemo----------
-// Toggle Demo Mode
-void toggleDemo(void) {
-    if(playerState.runMode == DEMO) {
-        playerState.runMode = FULL;
-    }
-    else {
-        playerState.runMode = DEMO;
-    }
-}
-
 
 // Storage array for the current song
 uint16_t currentTrack[2048];
@@ -116,24 +94,6 @@ void joinMultiplayer(uint8_t foo) {
 }
 
 
-// ----------findId----------
-// Helper function to find the game state corresponding to an ID
-// Parameters:
-//      uint8_t id: id to find
-// Returns:
-//      uint8_t: index of found game states; 0xFF for error
-uint8_t findId(uint8_t id) {
-    for(uint8_t i = 0; i < 4; i++) {
-        if(playerState.id == id) {
-            return(i);
-        }
-    }
-    return(0xFF);
-}
-
-uint16_t change;
-uint16_t drawCtr;
-uint16_t previousScore;
 // ----------mainLoop----------
 // Main game loop
 void mainLoop(void) {
@@ -142,76 +102,33 @@ void mainLoop(void) {
     // Start at normal play
     int32_t starCounter = 0;
     playerState.guitarState = NORMAL;
-    drawCtr = 1000;
-    previousScore = 0;
-    updateScore(0);
+    uint16_t drawCtr = 1000;
+    showScore(0);
     
     // Clear note States
     for(uint8_t i = 0; i < 4; i++) {
         noteStates[i] = 0;
     }
     
+    int16_t scoreChange;
     // Play until tick overflows
     while(playerState.tick < 0x8FFFFFFF) {
+        
+        // Clear artefacts periodically
         if(drawCtr == 0) {
             drawCtr = 1000;
             drawGuitar();
-            updateScore(playerState.score);
+            showScore(playerState.score);
         }
         updatePickups(controllerRead());
         drawCtr --;
-        GPIO_PORTF_DATA_R ^= 0x80;
-        int16_t scoreChange;
-        // Exempt drums from strumming
-        if(playerState.instrument == DRUMS) {
-            scoreChange = updateNote(0x1000, playerState.guitarState);
-        }
-        else {
-            uint16_t change = derivative(controllerRead() & 0x0FFF);
-            scoreChange = updateNote(change, playerState.guitarState);
-        }
-        // Update starpower
-        if(playerState.guitarState == NORMAL) {
-            starCounter += scoreChange;
-            if(starCounter > 5000 && isStarpower()) {
-                starCounter = 800;
-                playerState.guitarState = STARPOWER;
-                // Draw starpower
-                drawGuitarLines(COLOR_STARPOWER);
-            }
-            playerState.score += scoreChange;
-        }
-        if(playerState.guitarState == STARPOWER) {
-            // Decrease star counter each cycle
-            starCounter --;
-            // Hits will extend the star counter; misses will decrease it
-            if(scoreChange < 0) {
-                starCounter += scoreChange;
-            }
-            else {
-                starCounter += scoreChange / 20;
-            }
-            if(starCounter < 0) {
-                playerState.guitarState = NORMAL;
-                // Clear guitar
-                drawGuitarLines(COLOR_NORMAL);
-            }
-            playerState.score += 2 * scoreChange;
-        }
         
-        // Update score
-        if(playerState.score > 60000) {
-            playerState.score = 0;
-        }
-        if(playerState.score != previousScore) {
-            updateScore(playerState.score);
-        }
-        previousScore = playerState.score;
-            
-        if(checkPause() != 0) {
-            playerState.tick = 0xEFFFFFFF;
-            break;
-        }
+        // Get score change
+        scoreChange = getScoreChange();
+        updateScore(scoreChange);
+        
+        // Update star power
+        starCounter = updateStarPower(starCounter, scoreChange);
     }
     
     // End song
@@ -220,12 +137,10 @@ void mainLoop(void) {
 }
 
 
-uint8_t ADCCounter;
 // ----------Timer0A_Handler----------
 // Timer handler for ADC sampling and SD read
 void Timer0A_Handler(void) {
-
-    GPIO_PORTF_DATA_R ^= 0x08;
+    static uint8_t ADCCounter;
 
     // Clear interrupt
     TIMER0_ICR_R = TIMER_ICR_TATOCINT;
@@ -237,7 +152,6 @@ void Timer0A_Handler(void) {
     // Read sector
     readSector();
 
-    GPIO_PORTF_DATA_R ^= 0x08;
     ADCCounter += 1;
 }
 

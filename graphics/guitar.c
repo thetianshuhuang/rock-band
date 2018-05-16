@@ -168,11 +168,11 @@ int16_t updateNote(uint16_t strumChange, enum guitar_state_t currentState)
 }
 
 
-// --------updateScore--------
+// --------showScore--------
 // Display the score on the screen
 // Parameters:
 //      uint16_t score: score to display
-void updateScore(uint16_t score){
+void showScore(uint16_t score){
 	ST7735_DrawString(0, 0, "Score", WHITE);
 	ST7735_FillRect(0, 8, 29, 9, 0);
 	ST7735_SetCursor(0, 1);
