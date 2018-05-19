@@ -58,12 +58,19 @@ After a song is started, notes will scroll down the screen. Play notes by holdin
 ## Setup instructions
 <img src="https://github.com/thetianshuhuang/rock-band/blob/master/images/guitar.JPG" width="300">
 1. Format the SD card as FAT32.
+
 2. Copy the contents of 'resources' to the SD card.
+
 3. Flash code to the TM4C.
+
 4. Plug the TM4C and ST7735R into the main board and insert the SD card in the ST7735R's SD card slot
+
 5. If playing with a guitar, use the 8 pin cable to connect one of the 8 pin connectors on the side of the main board to the 8 pin slot on the guitar. Ensure that the pin on the upper end of the main board (3.3v) is connected to the pin at the bottom of the guitar. Then, connect the male 6 pin connectors on the strummer board and button board. With both boards facing up, the 6 pin cable should be turned 180 degrees.
+
 6. If playing with the drums, plug the 8 pin cable into the top 8 pin connector, with the 3.3v pin connected to the pin closest to the power LED. Then, plug each piezo sensor into the bottom 8 pin connector, with each piezo connected to two adjacent pins.
+
 7. Connect the USB A port of each main board to the USB Micro B port of the next board. Note that the USB cable should not be plugged into either of the TM4C's USB ports. Connect the last board's USB A port to the USB Micro B port of the first board.
+
 8. Connect a 5v source to one of the launchpads, either through the 5v pin or the TM4C's onboard USB port.
 
 
